@@ -14,12 +14,14 @@ class CreateInventarisTable extends Migration
     public function up()
     {
         Schema::create('inventaris', function (Blueprint $table) {
-            $table->char('kode_barang', 15)->primary();
+            $table->id();
+            $table->char('kode_barang', 15);
             $table->string('nama_barang', 50);
             $table->string('satuan', 15);
-            $table->integer('jumlah')->nullable(0);
-            $table->string('kondisi', 15);
+            $table->integer('jumlah_baik');
+            $table->integer('jumlah_rusak');
             $table->string('keterangan', 255)->nullable();
+            $table->string('foto', 255)->nullable();
             $table->foreignId('admin_id')->constrained('admin');
             $table->timestamps();
             $table->softDeletesTz();

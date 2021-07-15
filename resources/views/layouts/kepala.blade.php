@@ -9,13 +9,15 @@
 
 	<!-- Google Font: Source Sans Pro -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Overlay Scrollbars -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/css/OverlayScrollbars.min.css" integrity="sha512-jN4O0AUkRmE6Jwc8la2I5iBmS+tCDcfUd1eq8nrZIBnDKTmCp5YxxNN1/aetnAH32qT+dDbk1aGhhoaw5cJNlw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- Font Awesome Icons -->
 	<script src="https://kit.fontawesome.com/b8cc568f15.js" crossorigin="anonymous"></script>
     @stack('link')
 	<!-- Theme style -->
 	<link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
 </head>
-<body class="sidebar-mini accent-maroon" style="height: auto;">
+<body class="sidebar-mini layout-fixed accent-maroon hold-transition" style="height: auto;">
     <!-- Site wrapper -->
     <div class="wrapper">
     <!-- Navbar -->
@@ -52,6 +54,7 @@
     <!-- /.navbar -->
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar elevation-4 sidebar-no-expand sidebar-light-maroon">
+
         <!-- Brand Logo -->
         <a href=" {{ route('kepala.dashboard') }}" class="brand-link navbar-light">
             <img src="{{ asset('logo.png') }}" alt="{{ env('APP_NAME') }}" class="brand-image">
@@ -128,7 +131,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('kepala.keuangan.kas') }}" class="nav-link {{ Route::is('kepala.keuangan.kas') ? 'active' : '' }}">
+                                <a href="{{ route('kepala.keuangan.kas.index') }}" class="nav-link {{ Route::is('kepala.keuangan.kas.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Kas</p>
                                 </a>
@@ -190,6 +193,7 @@
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
+
     </aside>
 
     @yield('body')
@@ -198,8 +202,9 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 1.0
         </div>
-        <strong>Copyright © {{ date('Y')=='2021' ? '2021' : '2021-'.date('Y') }} <a href="#">{{ env('APP_NAME') }}.</strong> All rights reserved.
+        <strong>Copyright © {{ date('Y')=='2021' ? '2021' : '2021-'.date('Y') }} <a href="#">{{ env('APP_NAME') }} </a> .</strong> All rights reserved.
     </footer>
+    </div>
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
@@ -213,10 +218,20 @@
             crossorigin="anonymous"></script>
     <!--Sweet alert 2-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!--Overlay Scrollbars-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/js/OverlayScrollbars.min.js"
+            integrity="sha512-B1xv1CqZlvaOobTbSiJWbRO2iM0iii3wQ/LWnXWJJxKfvIRRJa910sVmyZeOrvI854sLDsFCuFHh4urASj+qgw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
     @include('sweetalert::alert')
     @stack('script')
+    <script !src="">
+        $(function() {
+            //The passed argument has to be at least a empty object or a object with your desired options
+            $("body").overlayScrollbars({ });
+        });
+    </script>
     </body>
     </html>
 

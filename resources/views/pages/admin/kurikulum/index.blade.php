@@ -1,4 +1,4 @@
-@extends('layouts.kepala')
+@extends('layouts.admin')
 
 @section('body')
     <!-- Content Wrapper. Contains page content -->
@@ -8,13 +8,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Kelas</h1>
+                        <h1 class="m-0">Kurikulum</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <!-- <li class="breadcrumb-item"><a href="#">Administrator</a></li> -->
                             <!-- <li class="breadcrumb-item active">Dashboard v1</li> -->
-                            <li class="breadcrumb-item active">Kelas</li>
+                            <li class="breadcrumb-item active">Kurikulum</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -28,22 +28,15 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <a href="{{ route('kepala.kelas.create') }}" class="btn bg-maroon">Tingkatan Baru</a>
-                                </h3>
-                            </div>
-                            <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="datatable-bs" class="table table-bordered table-hover">
                                     <thead>
                                     <tr class="text-center">
                                         <th style="width: 25px">No</th>
-                                        <th style="width: 150px;">Kelas</th>
-                                        <th style="width: 100px">Jenis</th>
-                                        <th>Pengajar</th>
-                                        <th>Kurikulum</th>
-                                        <th style="width: 150px;">Aksi</th>
+                                        <th style="width: 150px;">Tingkat</th>
+                                        <th style="width: 100px">Jadwal</th>
+                                        <th>Target</th>
+                                        <th style="width: 75px;" class="text-center">Aksi</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -82,7 +75,7 @@
 
             //Initialize Datatables Elements
             $('#datatable-bs').DataTable({
-                ajax: "{!! route('kepala.kelas.index') !!}",
+                ajax: "{!! route('admin.kurikulum.index') !!}",
                 autoWidth: false,
                 responsive: true,
                 processing: true,
@@ -93,10 +86,9 @@
                 },
                 columns: [
                     { data: 'id', name: 'id' },
-                    { data: 'nama_kelas', name: 'nama_kelas' },
-                    { data: 'jenis_kelas', name: 'jenis_kelas' },
-                    { data: 'pengajar', name: 'pengajar' },
-                    { data: 'kurikulum', name: 'kurikulum' },
+                    { data: 'tingkat', name: 'tingkat' },
+                    { data: 'jadwal', name: 'jadwal' },
+                    { data: 'target', name: 'target' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ]
             });

@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('kepala.kelas.index') }}">Kelas</a></li>
-                            <li class="breadcrumb-item active">Baru</li>
+                            <li class="breadcrumb-item active">Edit</li>
                             <!-- <li class="breadcrumb-item active">Administrator</li> -->
                         </ol>
                     </div><!-- /.col -->
@@ -24,8 +24,9 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('kepala.kelas.store') }}" method="post">
+            <form action="{{ route('kepala.kelas.update', $kelas) }}" method="post">
                 @csrf
+                @method('PUT')
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <!-- Default box -->
@@ -42,15 +43,15 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Nama Kelas</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control @error('nama_kelas') is-invalid @enderror" name="nama_kelas" placeholder="Nama" value="{{ old('nama_kelas') }}">
+                                        <input type="text" class="form-control @error('nama_kelas') is-invalid @enderror" name="nama_kelas" placeholder="Nama" value="{{ old('nama_kelas', $kelas->nama_kelas) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelas</label>
                                     <div class="col-sm-8">
                                         <select name="jenis_kelas" id="jenis_kelas" class="form-control select2">
-                                            <option value="Ikhwan">Ikhwan</option>
-                                            <option value="Akhwat">Akhwat</option>
+                                            <option value="Ikhwan" {{ $kelas->jenis_kelas == 'Ikhwan' ? 'selected' : '' }}>Ikhwan</option>
+                                            <option value="Akhwat" {{ $kelas->jenis_kelas == 'Akhwat' ? 'selected' : '' }}>Akhwat</option>
                                         </select>
                                     </div>
                                 </div>
@@ -59,7 +60,7 @@
                                     <div class="col-sm-8">
                                         <select name="kurikulum_id" class="form-control select2">
                                             @foreach($kurikulum as $item)
-                                                <option value="{{ $item->id }}">{{ $item->tingkat }}</option>
+                                                <option value="{{ $item->id }}" {{ $kelas->kurikulum_id == $item->id ? 'selected' : '' }}>{{ $item->tingkat }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -91,7 +92,7 @@
                                     <div class="col-sm-8">
                                         <select name="pengajar_id" id="pengajar_id" class="form-control select2">
                                             @foreach($pengajar as $item)
-                                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                <option value="{{ $item->id }}" {{ $kelas->pengajar_id == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -178,3 +179,4 @@
 
     </script>
 @endpush
+

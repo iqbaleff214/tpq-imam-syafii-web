@@ -1,4 +1,4 @@
-@extends('layouts.kepala')
+@extends('layouts.admin')
 
 @section('body')
     <!-- Content Wrapper. Contains page content -->
@@ -12,7 +12,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('kepala.kelas.index') }}">Kelas</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.kelas.index') }}">Kelas</a></li>
                             <li class="breadcrumb-item active">Baru</li>
                             <!-- <li class="breadcrumb-item active">Administrator</li> -->
                         </ol>
@@ -24,7 +24,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('kepala.kelas.store') }}" method="post">
+            <form action="{{ route('admin.kelas.store') }}" method="post">
                 @csrf
                 <div class="row">
                     <div class="col-12 col-md-6">
@@ -32,7 +32,7 @@
                         <div class="card card-solid">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('kepala.kelas.index') }}" class="btn btn-outline-danger">
+                                    <a href="{{ route('admin.kelas.index') }}" class="btn btn-outline-danger">
                                         Kembali
                                     </a>
                                 </h3>
@@ -135,7 +135,7 @@
                 const pengajar = $('#pengajar_id');
                 const jenis_kelamin = $(this).val() == 'Akhwat' ? 'P' : 'L';
                 $.ajax({
-                    url: "{{ route('kepala.kelas.create') }}",
+                    url: "{{ route('admin.kelas.create') }}",
                     type: 'get',
                     data: {
                         jenis_kelamin: jenis_kelamin,
@@ -159,7 +159,7 @@
             const id = $('#pengajar_id').val();
             const img = $('.img-preview');
             $.ajax({
-                url: "{{ route('kepala.kelas.create') }}",
+                url: "{{ route('admin.kelas.create') }}",
                 type: "get",
                 data: {
                     type: 'ok',

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Kepala;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
@@ -26,9 +26,9 @@ class KelasController extends Controller
             return DataTables::of(Kelas::all())
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    return '<a href="' . route('kepala.kelas.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
-                            <a href="' . route('kepala.kelas.edit', $row) . '" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
-                            <form class="d-inline" method="POST" action="' . route('kepala.kelas.destroy', $row) . '">
+                    return '<a href="' . route('admin.kelas.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
+                            <a href="' . route('admin.kelas.edit', $row) . '" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
+                            <form class="d-inline" method="POST" action="' . route('admin.kelas.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
                                 <button type="submit" class="btn btn-danger btn-xs px-2" onclick="return confirm(\'Yakin ingin menghapus ' . $row->nama_kelas . '?\')"> Hapus </button>
@@ -43,7 +43,7 @@ class KelasController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        echo view('pages.kepala.kelas.index');
+        echo view('pages.admin.kelas.index');
     }
 
     /**
@@ -63,7 +63,7 @@ class KelasController extends Controller
         $pengajar = Pengajar::where('jenis_kelamin', 'L')->get();
         $kurikulum = Kurikulum::all();
 
-        echo view('pages.kepala.kelas.create', compact('pengajar', 'kurikulum'));
+        echo view('pages.admin.kelas.create', compact('pengajar', 'kurikulum'));
     }
 
     /**
@@ -88,9 +88,9 @@ class KelasController extends Controller
                 'jenis_kelas' => $request->jenis_kelas,
                 'pengajar_id' => $request->pengajar_id,
             ]);
-            return redirect()->route('kepala.kelas.index')->with('success', 'Data kelas berhasil ditambahkan!');
+            return redirect()->route('admin.kelas.index')->with('success', 'Data kelas berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            return redirect()->route('kepala.kelas.index')->with('error', 'Data kelas gagal ditambahkan!');
+            return redirect()->route('admin.kelas.index')->with('error', 'Data kelas gagal ditambahkan!');
         }
     }
 
@@ -103,7 +103,7 @@ class KelasController extends Controller
     public function show($id)
     {
         $kelas = Kelas::find($id);
-        echo view('pages.kepala.kelas.show', compact('kelas'));
+        echo view('pages.admin.kelas.show', compact('kelas'));
     }
 
     /**
@@ -117,7 +117,7 @@ class KelasController extends Controller
         $kelas = Kelas::find($id);
         $pengajar = Pengajar::where('jenis_kelamin', $kelas->pengajar->jenis_kelamin)->get();
         $kurikulum = Kurikulum::all();
-        echo view('pages.kepala.kelas.edit', compact('kelas', 'pengajar', 'kurikulum'));
+        echo view('pages.admin.kelas.edit', compact('kelas', 'pengajar', 'kurikulum'));
     }
 
     /**
@@ -145,10 +145,10 @@ class KelasController extends Controller
                 'pengajar_id' => $request->pengajar_id,
             ]);
 
-            return redirect()->route('kepala.kelas.index')->with('success', 'Data kelas berhasil diedit!');
+            return redirect()->route('admin.kelas.index')->with('success', 'Data kelas berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('kepala.kelas.index')->with('error', 'Data kelas gagal diedit!');
+            return redirect()->route('admin.kelas.index')->with('error', 'Data kelas gagal diedit!');
         }
     }
 
@@ -162,9 +162,9 @@ class KelasController extends Controller
     {
         try {
             Kelas::find($id)->delete();
-            return redirect()->route('kepala.kelas.index')->with('success', 'Data kelas berhasil dihapus!');
+            return redirect()->route('admin.kelas.index')->with('success', 'Data kelas berhasil dihapus!');
         } catch (\Throwable $e) {
-            return redirect()->route('kepala.kelas.index')->with('error', 'Data kelas gagal dihapus!');
+            return redirect()->route('admin.kelas.index')->with('error', 'Data kelas gagal dihapus!');
         }
     }
 }

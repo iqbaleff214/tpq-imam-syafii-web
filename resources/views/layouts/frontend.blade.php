@@ -16,6 +16,9 @@
     <!-- Web Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+    <!-- Overlay Scrollbars -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/css/OverlayScrollbars.min.css" integrity="sha512-jN4O0AUkRmE6Jwc8la2I5iBmS+tCDcfUd1eq8nrZIBnDKTmCp5YxxNN1/aetnAH32qT+dDbk1aGhhoaw5cJNlw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/b8cc568f15.js" crossorigin="anonymous"></script>
 
@@ -348,123 +351,134 @@
 <script src="{{ asset('bizfinity/js/imagesloaded.min.js') }}"></script>
 <script src="{{ asset('bizfinity/js/isotope.min.js') }}"></script>
 <script src="{{ asset('bizfinity/js/main.js') }}"></script>
+<!--Overlay Scrollbars-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/js/OverlayScrollbars.min.js"
+        integrity="sha512-B1xv1CqZlvaOobTbSiJWbRO2iM0iii3wQ/LWnXWJJxKfvIRRJa910sVmyZeOrvI854sLDsFCuFHh4urASj+qgw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @stack('script')
 <script type="text/javascript">
-    //========= glightbox
-    GLightbox({
-        href: "https://www.youtube.com/watch?v=3uUh5ywVEfQ",
-        type: "video",
-        source: "youtube", //vimeo, youtube or local
-        width: 900,
-        autoplayVideos: true,
-    });
+    document.addEventListener("DOMContentLoaded", function() {
 
-    //====== Clients Logo Slider
-    tns({
-        container: ".client-logo-carousel",
-        slideBy: "page",
-        autoplay: true,
-        autoplayButtonOutput: false,
-        mouseDrag: true,
-        gutter: 15,
-        nav: false,
-        controls: false,
-        responsive: {
-            0: {
-                items: 1,
-            },
-            540: {
-                items: 2,
-            },
-            768: {
-                items: 3,
-            },
-            992: {
-                items: 4,
-            },
-            1170: {
-                items: 6,
-            },
-        },
-    });
+        //========= glightbox
+        GLightbox({
+            href: "https://www.youtube.com/watch?v=3uUh5ywVEfQ",
+            type: "video",
+            source: "youtube", //vimeo, youtube or local
+            width: 900,
+            autoplayVideos: true,
+        });
 
-    //======== Home Slider
-    var slider = new tns({
-        container: ".home-slider",
-        slideBy: "page",
-        autoplay: false,
-        mouseDrag: true,
-        gutter: 0,
-        items: 1,
-        nav: true,
-        controls: false,
-        controlsText: [
-            '<i class="lni lni-arrow-left prev"></i>',
-            '<i class="lni lni-arrow-right next"></i>',
-        ],
-        responsive: {
-            1200: {
-                items: 1,
-            },
-            992: {
-                items: 1,
-            },
-            0: {
-                items: 1,
-            },
-        },
-    });
-
-    //======== Testimonial Slider
-    var slider = new tns({
-        container: ".testimonial-slider",
-        slideBy: "page",
-        autoplay: false,
-        mouseDrag: true,
-        gutter: 0,
-        items: 1,
-        nav: true,
-        controls: false,
-        controlsText: [
-            '<i class="lni lni-arrow-left prev"></i>',
-            '<i class="lni lni-arrow-right next"></i>',
-        ],
-        responsive: {
-            1200: {
-                items: 2,
-            },
-            992: {
-                items: 1,
-            },
-            0: {
-                items: 1,
-            },
-        },
-    });
-
-    //============== isotope masonry js with imagesloaded
-    imagesLoaded("#container", function () {
-        var elem = document.querySelector(".grid");
-        var iso = new Isotope(elem, {
-            // options
-            itemSelector: ".grid-item",
-            masonry: {
-                // use outer width of grid-sizer for columnWidth
-                columnWidth: ".grid-item",
+        //====== Clients Logo Slider
+        tns({
+            container: ".client-logo-carousel",
+            slideBy: "page",
+            autoplay: true,
+            autoplayButtonOutput: false,
+            mouseDrag: true,
+            gutter: 15,
+            nav: false,
+            controls: false,
+            responsive: {
+                0: {
+                    items: 1,
+                },
+                540: {
+                    items: 2,
+                },
+                768: {
+                    items: 3,
+                },
+                992: {
+                    items: 4,
+                },
+                1170: {
+                    items: 6,
+                },
             },
         });
 
-        let filterButtons = document.querySelectorAll(
-            ".portfolio-btn-wrapper button"
-        );
-        filterButtons.forEach((e) =>
-            e.addEventListener("click", () => {
-                let filterValue = event.target.getAttribute("data-filter");
-                iso.arrange({
-                    filter: filterValue,
-                });
-            })
-        );
+        //======== Home Slider
+        var slider = new tns({
+            container: ".home-slider",
+            slideBy: "page",
+            autoplay: false,
+            mouseDrag: true,
+            gutter: 0,
+            items: 1,
+            nav: true,
+            controls: false,
+            controlsText: [
+                '<i class="lni lni-arrow-left prev"></i>',
+                '<i class="lni lni-arrow-right next"></i>',
+            ],
+            responsive: {
+                1200: {
+                    items: 1,
+                },
+                992: {
+                    items: 1,
+                },
+                0: {
+                    items: 1,
+                },
+            },
+        });
+
+        //======== Testimonial Slider
+        var slider = new tns({
+            container: ".testimonial-slider",
+            slideBy: "page",
+            autoplay: false,
+            mouseDrag: true,
+            gutter: 0,
+            items: 1,
+            nav: true,
+            controls: false,
+            controlsText: [
+                '<i class="lni lni-arrow-left prev"></i>',
+                '<i class="lni lni-arrow-right next"></i>',
+            ],
+            responsive: {
+                1200: {
+                    items: 2,
+                },
+                992: {
+                    items: 1,
+                },
+                0: {
+                    items: 1,
+                },
+            },
+        });
+
+        //============== isotope masonry js with imagesloaded
+        imagesLoaded("#container", function () {
+            var elem = document.querySelector(".grid");
+            var iso = new Isotope(elem, {
+                // options
+                itemSelector: ".grid-item",
+                masonry: {
+                    // use outer width of grid-sizer for columnWidth
+                    columnWidth: ".grid-item",
+                },
+            });
+
+            let filterButtons = document.querySelectorAll(
+                ".portfolio-btn-wrapper button"
+            );
+            filterButtons.forEach((e) =>
+                e.addEventListener("click", () => {
+                    let filterValue = event.target.getAttribute("data-filter");
+                    iso.arrange({
+                        filter: filterValue,
+                    });
+                })
+            );
+        });
+
+        //The first argument are the elements to which the plugin shall be initialized
+        //The second argument has to be at least a empty object or a object with your desired options
+        // OverlayScrollbars(document.querySelectorAll("body"), { });
     });
 </script>
 </body>

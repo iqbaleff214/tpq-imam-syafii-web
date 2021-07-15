@@ -18,8 +18,7 @@ class CreateSantriWaliTable extends Migration
             $table->string('nama_wali', 50);
             $table->string('hubungan', 50)->nullable();
             $table->string('no_telp', 15)->nullable();
-            $table->char('nis', 21);
-            $table->foreign('nis')->references('nis')->on('santri');
+            $table->foreignId('santri_id')->constrained('santri');
             $table->timestamps();
             $table->softDeletesTz();
         });

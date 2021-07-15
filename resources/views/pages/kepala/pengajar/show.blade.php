@@ -24,8 +24,8 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="row">        
-            <div class="col-12 col-sm-6 col-md-8">        
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-8">
                 <!-- Default box -->
                 <div class="card card-solid">
                     <div class="card-header">
@@ -38,6 +38,10 @@
                     <div class="card-body mb-3 p-0">
                         <table class="table">
                             <tr>
+                                <th style="width: 25%;">Ditambahkan</th>
+                                <td>{{ $pengajar->created_at->diffForHumans() }}</td>
+                            </tr>
+                            <tr>
                                 <th style="width: 25%;">Nama</th>
                                 <td>{{ $pengajar->nama }}</td>
                             </tr>
@@ -47,7 +51,7 @@
                             </tr>
                             <tr>
                                 <th>Kelahiran</th>
-                                <td>{{ $pengajar->tempat_lahir }}, {{ date('d F Y', strtotime($pengajar->tanggal_lahir)) }}</td>
+                                <td>{{ $pengajar->tempat_lahir }}, {{ \Carbon\Carbon::parse($pengajar->tanggal_lahir)->isoFormat('DD MMMM Y') }}</td>
                             </tr>
                             <tr>
                                 <th>Jenis Kelamin</th>

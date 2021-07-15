@@ -24,7 +24,7 @@ class AdministratorController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $admin = Administrator::where('jabatan', '!=', 'Kepala TPQ');
+            $admin = Administrator::where('jabatan', '!=', 'Kepala Sekolah');
             return DataTables::of($admin)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){

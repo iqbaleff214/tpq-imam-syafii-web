@@ -1,4 +1,4 @@
-@extends('layouts.kepala')
+@extends('layouts.admin')
 
 @section('body')
     <!-- Content Wrapper. Contains page content -->
@@ -12,7 +12,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('kepala.kurikulum.index') }}">Kurikulum</a>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.kurikulum.index') }}">Kurikulum</a>
                             </li>
                             <li class="breadcrumb-item active">Detail</li>
                             <!-- <li class="breadcrumb-item active">Administrator</li> -->
@@ -31,7 +31,7 @@
                     <div class="card card-solid">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <a href="{{ route('kepala.kurikulum.index') }}" class="btn btn-outline-danger">
+                                <a href="{{ route('admin.kurikulum.index') }}" class="btn btn-outline-danger">
                                     Kembali
                                 </a>
                             </h3>
@@ -125,3 +125,4 @@
         <!-- /.content -->
     </div>
 @endsection
+

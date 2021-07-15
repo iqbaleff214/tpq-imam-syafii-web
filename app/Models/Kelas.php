@@ -15,11 +15,11 @@ class Kelas extends Model
 
     public function kurikulum()
     {
-        return $this->hasOne(Kurikulum::class);
+        return $this->belongsTo(Kurikulum::class);
     }
 
     public function pengajar()
     {
-        return $this->hasOne(Pengajar::class);
+        return $this->belongsTo(Pengajar::class);
     }
 }

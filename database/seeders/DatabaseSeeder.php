@@ -17,32 +17,34 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $kepala = User::create([
-            'username' => 'kepala',
-            'email' => 'kepala@tpq.com',
+            'username' => 'rizki',
+            'email' => 'rizkikhairani26@gmail.com',
+            'email_verified_at' => now(),
             'password' => Hash::make('admin'),
             'peran' => 'Kepala'
         ]);
 
         Administrator::create([
-            'nama' => 'Kepala TPQ',
+            'nama' => 'Akhmad Rizki Khairani',
             'tempat_lahir' => 'Banjarmasin',
             'tanggal_lahir' => date('Y-m-d'),
             'jenis_kelamin' => 'L',
             'no_telp' => '082159142175',
             'alamat' => 'Jl. Kepala TPQ',
-            'jabatan' => 'Kepala TPQ',
+            'jabatan' => 'Kepala Sekolah',
             'user_id' => $kepala->id,
         ]);
 
         $admin = User::create([
-            'username' => 'admin',
-            'email' => 'admin@tpq.com',
+            'username' => 'abdullah',
+            'email' => 'abdullahaminnakir@gmail.com',
+            'email_verified_at' => now(),
             'password' => Hash::make('admin'),
             'peran' => 'Admin'
         ]);
 
         Administrator::create([
-            'nama' => 'Admin TPQ',
+            'nama' => 'Abdullah',
             'tempat_lahir' => 'Banjarmasin',
             'tanggal_lahir' => date('Y-m-d'),
             'jenis_kelamin' => 'L',

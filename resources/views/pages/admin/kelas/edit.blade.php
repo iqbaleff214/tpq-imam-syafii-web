@@ -1,4 +1,4 @@
-@extends('layouts.kepala')
+@extends('layouts.admin')
 
 @section('body')
     <!-- Content Wrapper. Contains page content -->
@@ -12,8 +12,8 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('kepala.kelas.index') }}">Kelas</a></li>
-                            <li class="breadcrumb-item active">Baru</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.kelas.index') }}">Kelas</a></li>
+                            <li class="breadcrumb-item active">Edit</li>
                             <!-- <li class="breadcrumb-item active">Administrator</li> -->
                         </ol>
                     </div><!-- /.col -->
@@ -24,15 +24,16 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('kepala.kelas.store') }}" method="post">
+            <form action="{{ route('admin.kelas.update', $kelas) }}" method="post">
                 @csrf
+                @method('PUT')
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <!-- Default box -->
                         <div class="card card-solid">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('kepala.kelas.index') }}" class="btn btn-outline-danger">
+                                    <a href="{{ route('admin.kelas.index') }}" class="btn btn-outline-danger">
                                         Kembali
                                     </a>
                                 </h3>
@@ -42,15 +43,15 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Nama Kelas</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control @error('nama_kelas') is-invalid @enderror" name="nama_kelas" placeholder="Nama" value="{{ old('nama_kelas') }}">
+                                        <input type="text" class="form-control @error('nama_kelas') is-invalid @enderror" name="nama_kelas" placeholder="Nama" value="{{ old('nama_kelas', $kelas->nama_kelas) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelas</label>
                                     <div class="col-sm-8">
                                         <select name="jenis_kelas" id="jenis_kelas" class="form-control select2">
-                                            <option value="Ikhwan">Ikhwan</option>
-                                            <option value="Akhwat">Akhwat</option>
+                                            <option value="Ikhwan" {{ $kelas->jenis_kelas == 'Ikhwan' ? 'selected' : '' }}>Ikhwan</option>
+                                            <option value="Akhwat" {{ $kelas->jenis_kelas == 'Akhwat' ? 'selected' : '' }}>Akhwat</option>
                                         </select>
                                     </div>
                                 </div>
@@ -59,7 +60,7 @@
                                     <div class="col-sm-8">
                                         <select name="kurikulum_id" class="form-control select2">
                                             @foreach($kurikulum as $item)
-                                                <option value="{{ $item->id }}">{{ $item->tingkat }}</option>
+                                                <option value="{{ $item->id }}" {{ $kelas->kurikulum_id == $item->id ? 'selected' : '' }}>{{ $item->tingkat }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -91,7 +92,7 @@
                                     <div class="col-sm-8">
                                         <select name="pengajar_id" id="pengajar_id" class="form-control select2">
                                             @foreach($pengajar as $item)
-                                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                <option value="{{ $item->id }}" {{ $kelas->pengajar_id == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -135,7 +136,7 @@
                 const pengajar = $('#pengajar_id');
                 const jenis_kelamin = $(this).val() == 'Akhwat' ? 'P' : 'L';
                 $.ajax({
-                    url: "{{ route('kepala.kelas.create') }}",
+                    url: "{{ route('admin.kelas.create') }}",
                     type: 'get',
                     data: {
                         jenis_kelamin: jenis_kelamin,
@@ -159,7 +160,7 @@
             const id = $('#pengajar_id').val();
             const img = $('.img-preview');
             $.ajax({
-                url: "{{ route('kepala.kelas.create') }}",
+                url: "{{ route('admin.kelas.create') }}",
                 type: "get",
                 data: {
                     type: 'ok',
@@ -178,3 +179,4 @@
 
     </script>
 @endpush
+

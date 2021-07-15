@@ -1,4 +1,4 @@
-@extends('layouts.kepala')
+@extends('layouts.admin')
 
 @section('body')
     <!-- Content Wrapper. Contains page content -->
@@ -30,7 +30,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('kepala.kelas.create') }}" class="btn bg-maroon">Tingkatan Baru</a>
+                                    <a href="{{ route('admin.kelas.create') }}" class="btn bg-maroon">Tingkatan Baru</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -82,7 +82,7 @@
 
             //Initialize Datatables Elements
             $('#datatable-bs').DataTable({
-                ajax: "{!! route('kepala.kelas.index') !!}",
+                ajax: "{!! route('admin.kelas.index') !!}",
                 autoWidth: false,
                 responsive: true,
                 processing: true,

@@ -1,4 +1,4 @@
-@extends('layouts.kepala')
+@extends('layouts.admin')
 
 @section('body')
     <!-- Content Wrapper. Contains page content -->
@@ -8,13 +8,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Kelas</h1>
+                        <h1 class="m-0">Inventaris</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <!-- <li class="breadcrumb-item"><a href="#">Administrator</a></li> -->
                             <!-- <li class="breadcrumb-item active">Dashboard v1</li> -->
-                            <li class="breadcrumb-item active">Kelas</li>
+                            <li class="breadcrumb-item active">Inventaris</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -30,7 +30,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('kepala.kelas.create') }}" class="btn bg-maroon">Tingkatan Baru</a>
+                                    <a href="{{ route('admin.inventaris.create') }}" class="btn bg-maroon">Barang Baru</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -38,12 +38,16 @@
                                 <table id="datatable-bs" class="table table-bordered table-hover">
                                     <thead>
                                     <tr class="text-center">
-                                        <th style="width: 25px">No</th>
-                                        <th style="width: 150px;">Kelas</th>
-                                        <th style="width: 100px">Jenis</th>
-                                        <th>Pengajar</th>
-                                        <th>Kurikulum</th>
-                                        <th style="width: 150px;">Aksi</th>
+                                        <th rowspan="2" style="vertical-align: middle; width: 25px">Kode</th>
+                                        <th rowspan="2" style="vertical-align: middle; width: 150px;">Barang</th>
+                                        <th rowspan="2" style="vertical-align: middle; width: 100px">Satuan</th>
+                                        <th colspan="2">Kondisi</th>
+                                        <th rowspan="2" style="vertical-align: middle;">Total</th>
+                                        <th rowspan="2" style="vertical-align: middle; width: 150px;">Aksi</th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th>Baik</th>
+                                        <th>Rusak</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -82,7 +86,7 @@
 
             //Initialize Datatables Elements
             $('#datatable-bs').DataTable({
-                ajax: "{!! route('kepala.kelas.index') !!}",
+                ajax: "{!! route('admin.inventaris.index') !!}",
                 autoWidth: false,
                 responsive: true,
                 processing: true,
@@ -92,11 +96,12 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
                 columns: [
-                    { data: 'id', name: 'id' },
-                    { data: 'nama_kelas', name: 'nama_kelas' },
-                    { data: 'jenis_kelas', name: 'jenis_kelas' },
-                    { data: 'pengajar', name: 'pengajar' },
-                    { data: 'kurikulum', name: 'kurikulum' },
+                    { data: 'kode_barang', name: 'kode_barang' },
+                    { data: 'nama_barang', name: 'nama_barang' },
+                    { data: 'satuan', name: 'satuan' },
+                    { data: 'jumlah_baik', name: 'jumlah_baik' },
+                    { data: 'jumlah_rusak', name: 'jumlah_rusak' },
+                    { data: 'total', name: 'total' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ]
             });

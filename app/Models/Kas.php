@@ -11,5 +11,5 @@ class Kas extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'kas';
-    protected $guard = [];
+    protected $guarded = [];
 }

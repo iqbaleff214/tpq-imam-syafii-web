@@ -20,9 +20,8 @@ class CreatePembelajaranTable extends Migration
             $table->string('selesai', 15);
             $table->string('nilai', 15);
             $table->string('keterangan', 255)->nullable();
-            $table->char('nis', 21);
+            $table->foreignId('santri_id')->constrained('santri');
             $table->foreignId('pengajar_id')->constrained('pengajar');
-            $table->foreign('nis')->references('nis')->on('santri');
             $table->timestamps();
             $table->softDeletesTz();
         });

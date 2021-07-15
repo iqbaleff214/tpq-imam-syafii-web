@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKasTable extends Migration
+class CreateSppOpsiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateKasTable extends Migration
      */
     public function up()
     {
-        Schema::create('kas', function (Blueprint $table) {
+        Schema::create('spp_opsi', function (Blueprint $table) {
             $table->id();
-            $table->string('uraian', 255);
-            $table->unsignedInteger('pemasukan')->default(0);
-            $table->unsignedInteger('pengeluaran')->default(0);
-            $table->string('bukti', 255)->nullable();
+            $table->string('opsi', 50);
+            $table->integer('jumlah');
             $table->string('keterangan', 255)->nullable();
             $table->timestamps();
             $table->softDeletesTz();
@@ -32,6 +30,6 @@ class CreateKasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kas');
+        Schema::dropIfExists('spp_opsi');
     }
 }

@@ -92,6 +92,9 @@
             processing: true,
             serverSide: true,
             lengthChange: false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+            },
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'nama', name: 'nama' },

@@ -58,7 +58,11 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
 
     /*=== LAPORAN ===*/
     Route::prefix('keuangan')->as('keuangan.')->group(function() {
-        Route::get('kas', [LaporanController::class, 'kas'])->name('kas');
+
+        /*=== KAS ===*/
+        Route::get('kas', [\App\Http\Controllers\Kepala\KasController::class, 'index'])->name('kas.index');
+        Route::get('kas/{kas}', [\App\Http\Controllers\Kepala\KasController::class, 'show'])->name('kas.show');
+
         Route::get('honor', [LaporanController::class, 'honor'])->name('honor');
         Route::get('spp', [LaporanController::class, 'spp'])->name('spp');
     });
@@ -79,6 +83,21 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
     Route::resource('pengajar', \App\Http\Controllers\Admin\PengajarController::class);
 
     Route::get('/tesi', [\App\Http\Controllers\Admin\PageController::class, 'index'])->name('santri.index');
+
+    /*=== KELAS ===*/
+
+    /*=== KURIKULUM ===*/
+    Route::get('kurikulum', [\App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('kurikulum.index');
+    Route::get('kurikulum/{kurikulum}', [\App\Http\Controllers\Admin\KurikulumController::class, 'show'])->name('kurikulum.show');
+    Route::resource('kelas', \App\Http\Controllers\Admin\KelasController::class);
+
+    /*=== KEUANGAN ===*/
+    Route::prefix('keuangan')->as('keuangan.')->group(function() {
+        Route::resource('kas', \App\Http\Controllers\Admin\KasController::class);
+    });
+
+    /*=== INVENTARIS ===*/
+    Route::resource('inventaris', \App\Http\Controllers\Admin\InventarisController::class);
 
     /*=== PENGATURAN ===*/
     Route::get('profil', [\App\Http\Controllers\Admin\PageController::class, 'profil'])->name('profil');
