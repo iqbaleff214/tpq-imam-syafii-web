@@ -30,7 +30,7 @@ class KurikulumController extends Controller
                             <form class="d-inline" method="POST" action="'.route('kepala.kurikulum.destroy', $row).'">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="'.csrf_token().'" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2" onclick="return confirm(\'Yakin ingin menghapus '.$row->tingkat.'?\')"> Hapus </button>
+                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
                 ->addColumn('jadwal', function($row) {

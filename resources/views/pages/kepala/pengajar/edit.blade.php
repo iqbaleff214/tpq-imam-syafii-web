@@ -27,8 +27,8 @@
         <form action="{{ route('kepala.pengajar.update', $pengajar) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <div class="row">        
-            <div class="col-12 col-md-8">        
+        <div class="row">
+            <div class="col-12 col-md-8">
                 <!-- Default box -->
                 <div class="card card-solid">
                     <div class="card-header">
@@ -39,20 +39,11 @@
                         </h3>
                     </div>
                     <div class="card-body mb-3">
-                        
+
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Nama</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama" value="{{ old('nama', $pengajar->nama) }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">Status</label>
-                            <div class="col-sm-8">
-                                <select name="status" id="" class="form-control select2">
-                                    <option {{ $pengajar->status=='Aktif' ? 'selected' : '' }} value="Aktif">Aktif</option>
-                                    <option {{ $pengajar->status=='Berhenti' ? 'selected' : '' }} value="Berhenti">Berhenti</option>
-                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -88,6 +79,15 @@
                                 <textarea name="alamat" id="" cols="30" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', $pengajar->alamat) }}</textarea>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Status</label>
+                            <div class="col-sm-8">
+                                <select name="status" id="" class="form-control select2">
+                                    <option {{ $pengajar->status == 'Aktif' ? 'selected' : '' }} value="Aktif">Aktif</option>
+                                    <option {{ $pengajar->status == 'Berhenti' ? 'selected' : '' }} value="Berhenti">Berhenti</option>
+                                </select>
+                            </div>
+                        </div>
 
                     </div>
                     <!-- /.card-body -->
@@ -119,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="{{ $pengajar->foto ? asset("storage/$pengajar->foto") : asset($pengajar->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Pengajar">
+                        <img src="{{ \App\Helpers\UserHelpers::getUserImage($pengajar->foto, $pengajar->jenis_kelamin) }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Pengajar">
                     </div>
                 </div>
             </div>

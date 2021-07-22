@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Alkoumi\LaravelHijriDate\LaravelHijriDateServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -235,6 +236,8 @@ return [
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         // Datatable
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        // Helper
+        'UserHelpers' => \App\Helpers\UserHelpers::class,
     ],
 
 ];

@@ -38,16 +38,13 @@
                                 <table id="datatable-bs" class="table table-bordered table-hover">
                                     <thead>
                                     <tr class="text-center">
-                                        <th rowspan="2" style="vertical-align: middle; width: 25px">Kode</th>
-                                        <th rowspan="2" style="vertical-align: middle; width: 150px;">Barang</th>
-                                        <th rowspan="2" style="vertical-align: middle; width: 100px">Satuan</th>
-                                        <th colspan="2">Kondisi</th>
-                                        <th rowspan="2" style="vertical-align: middle;">Total</th>
-                                        <th rowspan="2" style="vertical-align: middle; width: 150px;">Aksi</th>
-                                    </tr>
-                                    <tr class="text-center">
-                                        <th>Baik</th>
-                                        <th>Rusak</th>
+                                        <th>Kode</th>
+                                        <th>Barang</th>
+                                        <th>Satuan</th>
+                                        <th>Jumlah Baik</th>
+                                        <th>Jumlah Rusak</th>
+                                        <th>Total</th>
+                                        <th style="width: 150px;">Aksi</th>
                                     </tr>
                                     </thead>
                                     <tbody>

@@ -13,6 +13,8 @@ use Yajra\DataTables\DataTables;
 
 class KasController extends Controller
 {
+    private $title = 'Kas';
+
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +39,7 @@ class KasController extends Controller
                             <form class="d-inline" method="POST" action="' . route('admin.keuangan.kas.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2" onclick="return confirm(\'Yakin ingin menghapus ' . $row->nama_kelas . '?\')"> Hapus </button>
+                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
                 ->editColumn('pemasukan', function($row) {
@@ -62,7 +64,8 @@ class KasController extends Controller
             'latest' => Kas::latest()->first(),
             'oldest' => Kas::oldest()->first(),
         ];
-        echo view('pages.admin.kas.index', compact('sekarang', 'total'));
+        $title = $this->title;
+        echo view('pages.admin.kas.index', compact('sekarang', 'total', 'title'));
     }
 
     /**
@@ -72,14 +75,14 @@ class KasController extends Controller
      */
     public function create()
     {
-        echo view('pages.admin.kas.create');
+        echo view('pages.admin.kas.create', ['title' => $this->title]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -115,8 +118,9 @@ class KasController extends Controller
      */
     public function show($id)
     {
-        $kas = Kas::find($id);
-        echo view('pages.admin.kas.show', compact('kas'));
+        $kas = Kas::findOrFail($id);
+        $title = $this->title;
+        echo view('pages.admin.kas.show', compact('kas', 'title'));
     }
 
     /**
@@ -127,8 +131,9 @@ class KasController extends Controller
      */
     public function edit($id)
     {
-        $kas = Kas::find($id);
-        echo view('pages.admin.kas.edit', compact('kas'));
+        $kas = Kas::findOrFail($id);
+        $title = $this->title;
+        echo view('pages.admin.kas.edit', compact('kas', 'title'));
     }
 
     /**
@@ -140,7 +145,7 @@ class KasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kas = Kas::find($id);
+        $kas = Kas::findOrFail($id);
         $request->validate([
             'uraian' => 'required',
         ]);
@@ -178,7 +183,7 @@ class KasController extends Controller
      */
     public function destroy($id)
     {
-        $kas = Kas::find($id);
+        $kas = Kas::findOrFail($id);
         try {
             if ($kas->bukti) Storage::delete("public/$kas->bukti");
             $kas->update(['bukti' => null]);

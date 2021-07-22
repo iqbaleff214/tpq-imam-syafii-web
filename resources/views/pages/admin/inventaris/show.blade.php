@@ -83,7 +83,7 @@
                                 </h3>
                             </div>
                             <div class="card-body">
-                                <img src="{{ $inventaris->foto ? asset("storage/$inventaris->foto") : asset('images/note.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                <img src="{{ $inventaris->foto ? asset("storage/$inventaris->foto") : asset('images/inventory.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                             </div>
                         </div>
                     </div>

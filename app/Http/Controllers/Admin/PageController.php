@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
+
     public function index(Request $request)
     {
         $count = [
@@ -19,13 +20,14 @@ class PageController extends Controller
             'pengajar' => Pengajar::count(),
             'saldo' => Kas::sum('pemasukan') - Kas::sum('pengeluaran')
         ];
+        $title = 'Dasbor';
 
-        return view('pages.admin.dashboard', compact('count'));
+        return view('pages.admin.dashboard', compact('count', 'title'));
     }
 
     public function profil()
     {
-        return view('pages.admin.pengaturan.profil');
+        return view('pages.admin.pengaturan.profil', ['title' => 'Profil']);
     }
 
     public function update(Request $request)

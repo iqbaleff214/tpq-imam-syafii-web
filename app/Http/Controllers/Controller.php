@@ -22,6 +22,10 @@ class Controller extends BaseController
                 Alert::error(session('error'));
             }
 
+            if (session('info')) {
+                Alert::info(session('info'));
+            }
+
             return $next($request);
         });
     }

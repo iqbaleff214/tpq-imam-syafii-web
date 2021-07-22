@@ -59,12 +59,6 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button class="btn bg-maroon" type="submit">
-                                Simpan
-                            </button>
-                            <button class="btn btn-outline-danger float-right" type="reset">
-                                Reset
-                            </button>
                         </div>
                         <!-- /.card-footer-->
                     </div>
@@ -78,7 +72,7 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <img src="{{ $kas->bukti ? asset("storage/$kas->bukti") : asset('images/note.jpg') }}" class="img-thumbnail" alt="pengajaristrator">
+                            <img src="{{ $kas->bukti ? asset("storage/$kas->bukti") : asset('images/cash.jpg') }}" class="img-thumbnail" alt="pengajaristrator">
                         </div>
                     </div>
                 </div>

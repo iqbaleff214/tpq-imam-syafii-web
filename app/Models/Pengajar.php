@@ -12,4 +12,9 @@ class Pengajar extends Model
 
     protected $table = 'pengajar';
     protected $guarded = [];
+
+    public function kelas()
+    {
+        return $this->hasOne(Kelas::class);
+    }
 }

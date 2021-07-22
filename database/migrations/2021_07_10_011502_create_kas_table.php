@@ -16,8 +16,8 @@ class CreateKasTable extends Migration
         Schema::create('kas', function (Blueprint $table) {
             $table->id();
             $table->string('uraian', 255);
-            $table->unsignedInteger('pemasukan')->default(0);
-            $table->unsignedInteger('pengeluaran')->default(0);
+            $table->unsignedInteger('pemasukan')->nullable()->default(0);
+            $table->unsignedInteger('pengeluaran')->nullable()->default(0);
             $table->string('bukti', 255)->nullable();
             $table->string('keterangan', 255)->nullable();
             $table->timestamps();

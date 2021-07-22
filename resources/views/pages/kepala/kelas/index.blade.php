@@ -30,7 +30,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('kepala.kelas.create') }}" class="btn bg-maroon">Tingkatan Baru</a>
+                                    <a href="{{ route('kepala.kelas.create') }}" class="btn bg-maroon">Kelas Baru</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->

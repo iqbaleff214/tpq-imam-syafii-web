@@ -74,7 +74,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Keterangan</label>
                             <div class="col-sm-8">
-                                <textarea name="keterangan" id="" cols="30" rows="3" class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan') }}</textarea>
+                                <textarea placeholder="Keterangan (Opsional)" name="keterangan" id="" cols="30" rows="3" class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -103,11 +103,11 @@
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="foto" id="image">
-                                    <label class="custom-file-label" for="image">Pilih foto</label>
+                                    <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                 </div>
                             </div>
                         </div>
-                        <img src="<?= asset('images/note.jpg') ?>" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                        <img src="<?= asset('images/inventory.jpg') ?>" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                     </div>
                 </div>
             </div>

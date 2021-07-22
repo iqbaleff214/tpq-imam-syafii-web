@@ -65,6 +65,12 @@
                                 <th>Alamat</th>
                                 <td>{{ $pengajar->alamat }}</td>
                             </tr>
+                            @isset($pengajar->kelas->nama_kelas)
+                                <tr>
+                                    <th>Kelas</th>
+                                    <td>{{ $pengajar->kelas->nama_kelas }}</td>
+                                </tr>
+                            @endisset
                         </table>
                     </div>
                     <!-- /.card-body -->
@@ -82,7 +88,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <img src="{{ $pengajar->foto ? asset("storage/$pengajar->foto") : asset($pengajar->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail" alt="pengajaristrator">
+                        <img src="{{ UserHelpers::getUserImage($pengajar->foto, $pengajar->jenis_kelamin) }}" class="img-thumbnail" alt="pengajaristrator">
                     </div>
                 </div>
             </div>

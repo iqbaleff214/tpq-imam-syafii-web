@@ -1,29 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Beranda | TPQ Imam Syafi'i Banjarmasin</title>
+@extends('layouts.backend-admin')
 
-    <link rel="shortcut icon" type="image/x-icon" href=""/>
-
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Overlay Scrollbars -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/css/OverlayScrollbars.min.css"
-          integrity="sha512-jN4O0AUkRmE6Jwc8la2I5iBmS+tCDcfUd1eq8nrZIBnDKTmCp5YxxNN1/aetnAH32qT+dDbk1aGhhoaw5cJNlw=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/b8cc568f15.js" crossorigin="anonymous"></script>
-@stack('link')
-<!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
-</head>
-<body class="sidebar-mini layout-fixed accent-maroon hold-transition" style="height: auto;">
-<!-- Site wrapper -->
-<div class="wrapper">
+@section('sidebar')
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand border-bottom-0 navbar-dark navbar-maroon">
         <!-- Left navbar links -->
@@ -47,9 +24,8 @@
                             class="fas fa-chevron-down ml-2"></i></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                    <a href="{{ route('kepala.profil') }}" class="dropdown-item">Profil</a>
-                    <a href="{{ route('logout') }}" class="dropdown-item"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>
+                    <a href="{{ route('admin.profil') }}" class="dropdown-item">Profil</a>
+                    <a href="{{ route('logout') }}" class="dropdown-item" id="logout-button">Keluar</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
@@ -58,8 +34,9 @@
         </ul>
     </nav>
     <!-- /.navbar -->
+
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar main-sidebar-custom elevation-4 sidebar-no-expand sidebar-light-maroon">
+    <aside class="main-sidebar elevation-4 sidebar-no-expand sidebar-light-maroon">
         <!-- Brand Logo -->
         <a href=" {{ route('admin.dashboard') }}" class="brand-link navbar-light">
             <img src="{{ asset('logo.png') }}" alt="{{ env('APP_NAME') }}" class="brand-image">
@@ -73,7 +50,7 @@
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
                     <div class="img-circle"
-                         style="width: 35px; height: 35px; background-repeat: no-repeat;background-size: 35px; background-position: center; background-image: url('{{ Auth::user()->administrator->foto ? asset('storage/'.Auth::user()->administrator->foto) : asset('images/ikhwan.jpg') }}') ;"></div>
+                         style="width: 35px; height: 35px; background-repeat: no-repeat;background-size: 35px; background-position: center; background-image: url('{{ \App\Helpers\UserHelpers::getAuthImage() }}') ;"></div>
                 </div>
                 <div class="info">
                     <a href="{{ route('admin.profil') }}" class="d-block">{{ Auth::user()->administrator->nama  }}</a>
@@ -155,10 +132,26 @@
                                     <p>Honor Pengajar</p>
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item {{ Route::is('admin.spp.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('admin.spp.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                            <p> SPP <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('admin.spp.opsi.index') }}"
+                                   class="nav-link {{ Route::is('admin.spp.opsi.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>SPP Santri</p>
+                                    <p>Opsi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('kepala.keuangan.honor') }}"
+                                   class="nav-link {{ Route::is('kepala.keuangan.honor') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Pembayaran</p>
                                 </a>
                             </li>
                         </ul>
@@ -190,7 +183,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('admin.inventaris.index') }}" class="nav-link {{ Route::is('admin.inventaris.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.inventaris.index') }}"
+                           class="nav-link {{ Route::is('admin.inventaris.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-boxes"></i>
                             <p>Inventaris Barang</p>
                         </a>
@@ -201,51 +195,53 @@
                             <p>Rapat</p>
                         </a>
                     </li>
+
+                    <li class="nav-header">HALAMAN WEB</li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.pengumuman.index') }}" class="nav-link {{ Route::is('admin.pengumuman.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-info"></i>
+                            <p>Pengumuman</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ Route::is('admin.galeri.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('admin.galeri.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-images"></i>
+                            <p> Galeri Kegiatan <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.galeri.kategori.index') }}" class="nav-link {{ Route::is('admin.galeri.kategori.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Kategori</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.galeri.index') }}" class="nav-link {{ Route::is('admin.galeri.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Galeri</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-header">PENGATURAN</li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.profil') }}" class="nav-link {{ Route::is('admin.profil') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-cog"></i>
+                            <p>Profil</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.profil') }}" class="nav-link {{ Route::is('admin.profil') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-building"></i>
+                            <p>Lembaga</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
     </aside>
-
-    @yield('body')
-
-    <footer class="main-footer text-sm">
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 1.0
-        </div>
-        <strong>Copyright © {{ date('Y')=='2021' ? '2021' : '2021-'.date('Y') }} <a href="#">{{ env('APP_NAME') }} </a>
-            .</strong> All rights reserved.
-    </footer>
-</div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<!-- Bootstrap 4 -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
-<!--Overlay Scrollbars-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/js/OverlayScrollbars.min.js"
-        integrity="sha512-B1xv1CqZlvaOobTbSiJWbRO2iM0iii3wQ/LWnXWJJxKfvIRRJa910sVmyZeOrvI854sLDsFCuFHh4urASj+qgw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!--Sweet alert 2-->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
-@include('sweetalert::alert')
-@stack('script')
-<script !src="">
-    $(function () {
-        //The passed argument has to be at least a empty object or a object with your desired options
-        $("body").overlayScrollbars({});
-    });
-</script>
-</body>
-</html>
-
+@endsection
 

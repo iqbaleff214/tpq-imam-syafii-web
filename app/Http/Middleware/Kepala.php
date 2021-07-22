@@ -18,7 +18,7 @@ class Kepala
     public function handle(Request $request, Closure $next)
     {
         if (Auth::user()->peran != 'Kepala') {
-            return redirect()->to('/');
+            return redirect()->route('home');
         }
         return $next($request);
     }

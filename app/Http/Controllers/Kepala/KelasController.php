@@ -31,7 +31,7 @@ class KelasController extends Controller
                             <form class="d-inline" method="POST" action="' . route('kepala.kelas.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2" onclick="return confirm(\'Yakin ingin menghapus ' . $row->nama_kelas . '?\')"> Hapus </button>
+                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
                 ->addColumn('pengajar', function ($row) {
@@ -53,11 +53,19 @@ class KelasController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Pengajar::count()) {
+            return redirect()->route('kepala.pengajar.create')->with('info', 'Isi data pengajar terlebih dahulu!');
+        }
+
+        if (!Kurikulum::count()) {
+            return redirect()->route('kepala.kurikulum.create')->with('info', 'Isi data kurikulum terlebih dahulu!');
+        }
+
         if ($request->ajax()) {
             if ($request->type == 'jk') {
                 return \response()->json(Pengajar::where('jenis_kelamin', $request->jenis_kelamin)->get());
             } else {
-                return \response()->json(Pengajar::find($request->id));
+                return \response()->json(Pengajar::findOrFail($request->id));
             }
         }
         $pengajar = Pengajar::where('jenis_kelamin', 'L')->get();
@@ -102,7 +110,7 @@ class KelasController extends Controller
      */
     public function show($id)
     {
-        $kelas = Kelas::find($id);
+        $kelas = Kelas::findOrFail($id);
         echo view('pages.kepala.kelas.show', compact('kelas'));
     }
 
@@ -114,7 +122,7 @@ class KelasController extends Controller
      */
     public function edit($id)
     {
-        $kelas = Kelas::find($id);
+        $kelas = Kelas::findOrFail($id);
         $pengajar = Pengajar::where('jenis_kelamin', $kelas->pengajar->jenis_kelamin)->get();
         $kurikulum = Kurikulum::all();
         echo view('pages.kepala.kelas.edit', compact('kelas', 'pengajar', 'kurikulum'));
@@ -129,7 +137,7 @@ class KelasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kelas = Kelas::find($id);
+        $kelas = Kelas::findOrFail($id);
         $request->validate([
             'nama_kelas' => 'required',
             'jenis_kelas' => 'required',
@@ -161,7 +169,7 @@ class KelasController extends Controller
     public function destroy($id)
     {
         try {
-            Kelas::find($id)->delete();
+            Kelas::findOrFail($id)->delete();
             return redirect()->route('kepala.kelas.index')->with('success', 'Data kelas berhasil dihapus!');
         } catch (\Throwable $e) {
             return redirect()->route('kepala.kelas.index')->with('error', 'Data kelas gagal dihapus!');

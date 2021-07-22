@@ -6,54 +6,57 @@ use App\Http\Controllers\Controller;
 use App\Models\Pengajar;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
 class PengajarController extends Controller
-{/**
- * Display a listing of the resource.
- *
- * @return \Illuminate\Http\Response
- */
+{
+    private $title = 'Pengajar';
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
     public function index(Request $request)
     {
         if ($request->ajax()) {
             return DataTables::of(Pengajar::all())
                 ->addIndexColumn()
-                ->addColumn('action', function($row){
-                    return '<a href="'.route('admin.pengajar.show', $row).'" class="btn btn-success btn-xs px-2"> Lihat </a>
-                            <a href="'.route('admin.pengajar.edit', $row).'" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
-                            <form class="d-inline" method="POST" action="'.route('admin.pengajar.destroy', $row).'">
+                ->addColumn('action', function ($row) {
+                    return '<a href="' . route('admin.pengajar.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
+                            <a href="' . route('admin.pengajar.edit', $row) . '" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
+                            <form class="d-inline" method="POST" action="' . route('admin.pengajar.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="'.csrf_token().'" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2" onclick="return confirm(\'Yakin ingin menghapus '.$row->nama.'?\')"> Hapus </button>
+                                <input type="hidden" name="_token" value="' . csrf_token() . '" />
+                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
-                ->editColumn('jenis_kelamin', function($row) {
+                ->editColumn('jenis_kelamin', function ($row) {
                     return $row->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        echo view('pages.admin.pengajar.index');
+        echo view('pages.admin.pengajar.index', ['title' => $this->title]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        echo view('pages.admin.pengajar.create');
+        echo view('pages.admin.pengajar.create', ['title' => $this->title]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -106,31 +109,33 @@ class PengajarController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pengajar  $pengajar
-     * @return \Illuminate\Http\Response
+     * @param Pengajar $pengajar
+     * @return Response
      */
     public function show(Pengajar $pengajar)
     {
-        echo view('pages.admin.pengajar.show', compact('pengajar'));
+        $title = $this->title;
+        echo view('pages.admin.pengajar.show', compact('pengajar', 'title'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pengajar  $pengajar
-     * @return \Illuminate\Http\Response
+     * @param Pengajar $pengajar
+     * @return Response
      */
     public function edit(Pengajar $pengajar)
     {
-        echo view('pages.admin.pengajar.edit', compact('pengajar'));
+        $title = $this->title;
+        echo view('pages.admin.pengajar.edit', compact('pengajar', 'title'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pengajar  $pengajar
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Pengajar $pengajar
+     * @return Response
      */
     public function update(Request $request, Pengajar $pengajar)
     {
@@ -174,8 +179,8 @@ class PengajarController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pengajar  $pengajar
-     * @return \Illuminate\Http\Response
+     * @param Pengajar $pengajar
+     * @return Response
      */
     public function destroy(Pengajar $pengajar)
     {

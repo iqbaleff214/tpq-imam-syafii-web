@@ -27,8 +27,8 @@
         <form action="{{ route('kepala.admin.update', $admin) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <div class="row">        
-            <div class="col-12 col-md-8">        
+        <div class="row">
+            <div class="col-12 col-md-8">
                 <!-- Default box -->
                 <div class="card card-solid">
                     <div class="card-header">
@@ -39,7 +39,7 @@
                         </h3>
                     </div>
                     <div class="card-body mb-3">
-                        
+
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Nama</label>
                             <div class="col-sm-8">
@@ -119,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="{{ $admin->foto ? asset("storage/$admin->foto") : asset($admin->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                        <img src="{{ UserHelpers::getUserImage($admin->foto, $admin->jenis_kelamin) }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                     </div>
                 </div>
             </div>

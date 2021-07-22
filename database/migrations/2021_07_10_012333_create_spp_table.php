@@ -18,10 +18,9 @@ class CreateSppTable extends Migration
             $table->string('bulan', 50);
             $table->unsignedInteger('jumlah');
             $table->string('bukti', 255)->nullable();
-            $table->string('status', 15);
+            $table->tinyInteger('status')->nullable()->default(0);
             $table->string('keterangan', 255)->nullable();
-            $table->char('nis', 21);
-            $table->foreign('nis')->references('nis')->on('santri');
+            $table->foreignId('santri_id')->constrained('santri');
             $table->timestamps();
             $table->softDeletesTz();
         });

@@ -18,7 +18,7 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         if (Auth::user()->peran != 'Admin') {
-            return redirect()->to('/');
+            return redirect()->route('home');
         }
         return $next($request);
     }

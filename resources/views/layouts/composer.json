@@ -1,0 +1,14 @@
+{
+    "name": "vendor_name/layouts",
+    "description": "description",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "iqbaleff214",
+            "email": "email@example.com"
+        }
+    ],
+    "require": {
+    }
+}

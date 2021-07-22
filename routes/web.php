@@ -18,10 +18,11 @@ use Illuminate\Support\Facades\Route;
 /*=== LANDING PAGE ===*/
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'beranda'])->name('beranda');
 Route::get('/pengumuman', [\App\Http\Controllers\HomeController::class, 'pengumuman'])->name('pengumuman');
+Route::get('/pengumuman/{slug}', [\App\Http\Controllers\HomeController::class, 'pengumuman_lihat'])->name('pengumuman.detail');
 Route::get('/galeri', [\App\Http\Controllers\HomeController::class, 'galeri'])->name('galeri');
 Route::get('/donasi', [\App\Http\Controllers\HomeController::class, 'donasi'])->name('donasi');
 Route::get('/pendaftaran', [\App\Http\Controllers\HomeController::class, 'pendaftaran'])->name('pendaftaran');
-Route::get('/pengelola', [\App\Http\Controllers\HomeController::class, 'pengelola'])->name('pengelola');
+Route::get('/struktur', [\App\Http\Controllers\HomeController::class, 'struktur'])->name('struktur');
 Route::get('/hubungi-kami', [\App\Http\Controllers\HomeController::class, 'hubungi'])->name('hubungi');
 
 
@@ -56,7 +57,7 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
     Route::post('kurikulum.mod', [\App\Http\Controllers\Kepala\KurikulumController::class, 'add'])->name('kurikulum.mod');
     Route::put('kurikulum.mod', [\App\Http\Controllers\Kepala\KurikulumController::class, 'mod'])->name('kurikulum.mod');
 
-    /*=== LAPORAN ===*/
+    /*=== KEUANGAN ===*/
     Route::prefix('keuangan')->as('keuangan.')->group(function() {
 
         /*=== KAS ===*/
@@ -66,6 +67,10 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
         Route::get('honor', [LaporanController::class, 'honor'])->name('honor');
         Route::get('spp', [LaporanController::class, 'spp'])->name('spp');
     });
+
+    /*=== INVENTARIS ===*/
+    Route::get('inventaris', [\App\Http\Controllers\Kepala\InventarisController::class, 'index'])->name('inventaris.index');
+    Route::get('inventaris/{inventaris}', [\App\Http\Controllers\Kepala\InventarisController::class, 'show'])->name('inventaris.show');
 
     /*=== PENGATURAN ===*/
     Route::get('profil', [\App\Http\Controllers\Kepala\PageController::class, 'profil'])->name('profil');
@@ -82,7 +87,9 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
     /*=== PENGAJAR ===*/
     Route::resource('pengajar', \App\Http\Controllers\Admin\PengajarController::class);
 
-    Route::get('/tesi', [\App\Http\Controllers\Admin\PageController::class, 'index'])->name('santri.index');
+    /*=== SANTRI ===*/
+    Route::resource('santri', \App\Http\Controllers\Admin\SantriController::class);
+    Route::post('wali', [\App\Http\Controllers\Admin\SantriController::class, 'wali'])->name('santri.wali');
 
     /*=== KELAS ===*/
 
@@ -96,11 +103,33 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
         Route::resource('kas', \App\Http\Controllers\Admin\KasController::class);
     });
 
+    /*=== SPP ===*/
+    Route::prefix('spp')->as('spp.')->group(function() {
+        /*=== OPSO ===*/
+        Route::resource('opsi', \App\Http\Controllers\Admin\SppOpsiController::class);
+    });
+
     /*=== INVENTARIS ===*/
     Route::resource('inventaris', \App\Http\Controllers\Admin\InventarisController::class);
 
-    /*=== PENGATURAN ===*/
+    /*=== PENGUMUMAN ===*/
+    Route::resource('pengumuman', \App\Http\Controllers\Admin\PengumumanController::class);
+
+    /*=== GALERI KEGIATAN ===*/
+    Route::prefix('galeri')->as('galeri.')->group(function() {
+        /*=== KATEGORI ===*/
+        Route::resource('kategori', \App\Http\Controllers\Admin\KategoriGaleriController::class);
+    });
+
+    /*=== GALERI ===*/
+    Route::resource('galeri', \App\Http\Controllers\Admin\GaleriController::class);
+
+    /*=== PROFIL ===*/
     Route::get('profil', [\App\Http\Controllers\Admin\PageController::class, 'profil'])->name('profil');
     Route::put('profil', [\App\Http\Controllers\Admin\PageController::class, 'update'])->name('profil.update');
+
+    /*=== LEMBAGA ===*/
+    Route::resource('lembaga', \App\Http\Controllers\Admin\LembagaController::class);
+
 });
 

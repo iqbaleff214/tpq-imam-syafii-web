@@ -82,7 +82,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <img src="{{ $admin->foto ? asset("storage/$admin->foto") : asset($admin->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail" alt="Administrator">
+                        <img src="{{ \App\Helpers\UserHelpers::getUserImage($admin->foto, $admin->jenis_kelamin) }}" class="img-thumbnail" alt="Administrator">
                     </div>
                 </div>
             </div>

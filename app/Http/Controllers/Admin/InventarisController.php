@@ -13,6 +13,7 @@ use Yajra\DataTables\DataTables;
 
 class InventarisController extends Controller
 {
+    private $title = 'Invetaris Barang';
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +30,7 @@ class InventarisController extends Controller
                             <form class="d-inline" method="POST" action="'.route('admin.inventaris.destroy', $row).'">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="'.csrf_token().'" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2" onclick="return confirm(\'Yakin ingin menghapus '.$row->nama_barang.'?\')"> Hapus </button>
+                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
                 ->addColumn('total', function($row) {
@@ -38,7 +39,8 @@ class InventarisController extends Controller
                 ->rawColumns(['action', 'total'])
                 ->make(true);
         }
-        echo view('pages.admin.inventaris.index');
+
+        echo view('pages.admin.inventaris.index', ['title' => $this->title]);
     }
 
     /**
@@ -48,7 +50,9 @@ class InventarisController extends Controller
      */
     public function create()
     {
-        echo view('pages.admin.inventaris.create');
+        $title = 'Inventaris Barang';
+
+        echo view('pages.admin.inventaris.create', ['title' => $this->title]);
     }
 
     /**
@@ -100,8 +104,9 @@ class InventarisController extends Controller
      */
     public function show($id)
     {
-        $inventaris = Inventaris::find($id);
-        echo view('pages.admin.inventaris.show', compact('inventaris'));
+        $inventaris = Inventaris::findOrFail($id);
+        $title = $this->title;
+        echo view('pages.admin.inventaris.show', compact('inventaris', 'title'));
     }
 
     /**
@@ -112,8 +117,9 @@ class InventarisController extends Controller
      */
     public function edit($id)
     {
-        $inventaris = Inventaris::find($id);
-        echo view('pages.admin.inventaris.edit', compact('inventaris'));
+        $inventaris = Inventaris::findOrFail($id);
+        $title = $this->title;
+        echo view('pages.admin.inventaris.edit', compact('inventaris', 'title'));
     }
 
     /**
@@ -125,7 +131,7 @@ class InventarisController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $inventaris = Inventaris::find($id);
+        $inventaris = Inventaris::findOrFail($id);
         $request->validate([
             'nama_barang'   => 'required',
             'satuan'        => 'required',
@@ -168,7 +174,7 @@ class InventarisController extends Controller
     public function destroy($id)
     {
         try {
-            $inventaris = Inventaris::find($id);
+            $inventaris = Inventaris::findOrFail($id);
             if ($inventaris->foto) Storage::delete("public/$inventaris->foto");
             $inventaris->update(['foto' => null]);
             $inventaris->delete();

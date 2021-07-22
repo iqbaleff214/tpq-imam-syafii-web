@@ -47,15 +47,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">Status</label>
-                            <div class="col-sm-8">
-                                <select name="status" id="" class="form-control select2">
-                                    <option {{ $pengajar->status=='Aktif' ? 'selected' : '' }} value="Aktif">Aktif</option>
-                                    <option {{ $pengajar->status=='Berhenti' ? 'selected' : '' }} value="Berhenti">Berhenti</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Tempat Lahir</label>
                             <div class="col-sm-8">
                                 <input type="text" name="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror" placeholder="Tempat Lahir" value="{{ old('tempat_lahir', $pengajar->tempat_lahir) }}">
@@ -88,6 +79,15 @@
                                 <textarea name="alamat" id="" cols="30" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', $pengajar->alamat) }}</textarea>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Status</label>
+                            <div class="col-sm-8">
+                                <select name="status" id="" class="form-control select2">
+                                    <option {{ $pengajar->status == 'Aktif' ? 'selected' : '' }} value="Aktif">Aktif</option>
+                                    <option {{ $pengajar->status == 'Berhenti' ? 'selected' : '' }} value="Berhenti">Berhenti</option>
+                                </select>
+                            </div>
+                        </div>
 
                     </div>
                     <!-- /.card-body -->
@@ -115,11 +115,11 @@
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="foto" id="image">
-                                    <label class="custom-file-label" for="image">Pilih foto</label>
+                                    <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                 </div>
                             </div>
                         </div>
-                        <img src="{{ $pengajar->foto ? asset("storage/$pengajar->foto") : asset($pengajar->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Pengajar">
+                        <img src="{{ \App\Helpers\UserHelpers::getUserImage($pengajar->foto, $pengajar->jenis_kelamin) }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Pengajar">
                     </div>
                 </div>
             </div>

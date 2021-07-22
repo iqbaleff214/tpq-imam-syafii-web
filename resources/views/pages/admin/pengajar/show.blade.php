@@ -65,6 +65,12 @@
                                 <th>Alamat</th>
                                 <td>{{ $pengajar->alamat }}</td>
                             </tr>
+                            @isset($pengajar->kelas->nama_kelas)
+                            <tr>
+                                <th>Kelas</th>
+                                <td>{{ $pengajar->kelas->nama_kelas }}</td>
+                            </tr>
+                            @endisset
                         </table>
                     </div>
                     <!-- /.card-body -->

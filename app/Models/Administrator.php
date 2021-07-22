@@ -12,4 +12,9 @@ class Administrator extends Model
 
     protected $table = 'admin';
     protected $guarded = [];
+
+    public function menulis()
+    {
+        return $this->hasMany(Pengumuman::class, 'admin_id');
+    }
 }

@@ -13,6 +13,7 @@ use Yajra\DataTables\DataTables;
 
 class KelasController extends Controller
 {
+    private $title = 'Kelas';
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +32,7 @@ class KelasController extends Controller
                             <form class="d-inline" method="POST" action="' . route('admin.kelas.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2" onclick="return confirm(\'Yakin ingin menghapus ' . $row->nama_kelas . '?\')"> Hapus </button>
+                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
                 ->addColumn('pengajar', function ($row) {
@@ -43,7 +44,7 @@ class KelasController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        echo view('pages.admin.kelas.index');
+        echo view('pages.admin.kelas.index', ['title' => $this->title]);
     }
 
     /**
@@ -53,17 +54,26 @@ class KelasController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Pengajar::count()) {
+            return redirect()->route('admin.pengajar.create')->with('info', 'Isi data pengajar terlebih dahulu!');
+        }
+
+        if (!Kurikulum::count()) {
+            return redirect()->route('admin.kurikulum.index')->with('info', 'Data kurikulum diperlukan!');
+        }
+
         if ($request->ajax()) {
             if ($request->type == 'jk') {
                 return \response()->json(Pengajar::where('jenis_kelamin', $request->jenis_kelamin)->get());
             } else {
-                return \response()->json(Pengajar::find($request->id));
+                return \response()->json(Pengajar::findOrFail($request->id));
             }
         }
         $pengajar = Pengajar::where('jenis_kelamin', 'L')->get();
         $kurikulum = Kurikulum::all();
+        $title = $this->title;
 
-        echo view('pages.admin.kelas.create', compact('pengajar', 'kurikulum'));
+        echo view('pages.admin.kelas.create', compact('pengajar', 'kurikulum', 'title'));
     }
 
     /**
@@ -102,8 +112,9 @@ class KelasController extends Controller
      */
     public function show($id)
     {
-        $kelas = Kelas::find($id);
-        echo view('pages.admin.kelas.show', compact('kelas'));
+        $kelas = Kelas::findOrFail($id);
+        $title = $this->title;
+        echo view('pages.admin.kelas.show', compact('kelas', 'title'));
     }
 
     /**
@@ -114,10 +125,11 @@ class KelasController extends Controller
      */
     public function edit($id)
     {
-        $kelas = Kelas::find($id);
+        $kelas = Kelas::findOrFail($id);
         $pengajar = Pengajar::where('jenis_kelamin', $kelas->pengajar->jenis_kelamin)->get();
         $kurikulum = Kurikulum::all();
-        echo view('pages.admin.kelas.edit', compact('kelas', 'pengajar', 'kurikulum'));
+        $title = $this->title;
+        echo view('pages.admin.kelas.edit', compact('kelas', 'pengajar', 'kurikulum', 'title'));
     }
 
     /**
@@ -129,7 +141,7 @@ class KelasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kelas = Kelas::find($id);
+        $kelas = Kelas::findOrFail($id);
         $request->validate([
             'nama_kelas' => 'required',
             'jenis_kelas' => 'required',
@@ -161,7 +173,7 @@ class KelasController extends Controller
     public function destroy($id)
     {
         try {
-            Kelas::find($id)->delete();
+            Kelas::findOrFail($id)->delete();
             return redirect()->route('admin.kelas.index')->with('success', 'Data kelas berhasil dihapus!');
         } catch (\Throwable $e) {
             return redirect()->route('admin.kelas.index')->with('error', 'Data kelas gagal dihapus!');

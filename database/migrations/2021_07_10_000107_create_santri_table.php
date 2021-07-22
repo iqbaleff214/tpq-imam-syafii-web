@@ -22,9 +22,9 @@ class CreateSantriTable extends Migration
             $table->date('tanggal_lahir');
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->string('alamat', 255);
-            $table->tinyInteger('anak_ke')->default(1);
-            $table->tinyInteger('jumlah_saudara')->default(0);
-            $table->string('status', 15)->default('Calon');
+            $table->tinyInteger('anak_ke')->nullable()->default(1);
+            $table->tinyInteger('jumlah_saudara')->nullable()->default(1);
+            $table->string('status', 15)->nullable()->default('Calon');
             $table->string('foto', 255)->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('kelas_id')->nullable()->constrained('kelas');

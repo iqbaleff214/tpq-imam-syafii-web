@@ -11,6 +11,7 @@ use Yajra\DataTables\DataTables;
 
 class KurikulumController extends Controller
 {
+    private $title = 'Kelas';
     /**
      * Display a listing of the resource.
      *
@@ -32,7 +33,7 @@ class KurikulumController extends Controller
                 ->rawColumns(['action', 'jadwal'])
                 ->make(true);
         }
-        echo view('pages.admin.kurikulum.index');
+        echo view('pages.admin.kurikulum.index', ['title' => $this->title]);
     }
 
     /**
@@ -43,6 +44,7 @@ class KurikulumController extends Controller
      */
     public function show(Kurikulum $kurikulum)
     {
-        echo view('pages.admin.kurikulum.show', compact('kurikulum'));
+        $title = $this->title;
+        echo view('pages.admin.kurikulum.show', compact('kurikulum', 'title'));
     }
 }

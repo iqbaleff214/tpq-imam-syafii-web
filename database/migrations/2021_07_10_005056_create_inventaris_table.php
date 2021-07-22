@@ -15,7 +15,7 @@ class CreateInventarisTable extends Migration
     {
         Schema::create('inventaris', function (Blueprint $table) {
             $table->id();
-            $table->char('kode_barang', 15);
+            $table->char('kode_barang', 15)->unique();
             $table->string('nama_barang', 50);
             $table->string('satuan', 15);
             $table->integer('jumlah_baik');
