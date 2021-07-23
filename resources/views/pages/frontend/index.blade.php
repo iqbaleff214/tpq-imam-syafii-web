@@ -1,5 +1,9 @@
 @extends('layouts.frontend')
 
+@section('meta')
+    <meta name="description" content="{{ $profil->deskripsi }}"/>
+@endsection
+
 @section('body')
     <section class="hero-slider">
 

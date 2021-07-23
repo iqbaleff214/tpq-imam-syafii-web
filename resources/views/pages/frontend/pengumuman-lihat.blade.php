@@ -1,5 +1,11 @@
 @extends('layouts.frontend')
 
+@section('meta')
+    <meta name="keywords" content="pengumuman" />
+    <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags($pengumuman->konten), 255) }}..."/>
+    <meta name="author" content="{{ $pengumuman->penulis->nama }}" >
+@endsection
+
 @section('body')
     <div class="breadcrumbs">
         <div class="container">

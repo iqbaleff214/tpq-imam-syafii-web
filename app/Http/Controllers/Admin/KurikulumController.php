@@ -11,7 +11,7 @@ use Yajra\DataTables\DataTables;
 
 class KurikulumController extends Controller
 {
-    private $title = 'Kelas';
+    private $title = 'Kurikulum';
     /**
      * Display a listing of the resource.
      *

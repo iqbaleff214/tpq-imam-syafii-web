@@ -27,7 +27,10 @@ Route::get('/hubungi-kami', [\App\Http\Controllers\HomeController::class, 'hubun
 
 
 /*=== AUTH ===*/
-Auth::routes(['verify' => true]);
+Auth::routes([
+    'verify' => true,
+    'register' => false
+]);
 
 /*=== ROLE ROUTING ===*/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -79,7 +82,7 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
 });
 
 /*=== ROLE: ADMIN ===*/
-Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(function() {
+Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')->group(function() {
 
     /*=== DASHBOARD ===*/
     Route::get('/', [\App\Http\Controllers\Admin\PageController::class, 'index'])->name('dashboard');

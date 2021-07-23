@@ -14,9 +14,9 @@ return [
     */
 
     'reset' => 'Password berhasil direset!',
-    'sent' => 'We have emailed your password reset link!',
-    'throttled' => 'Please wait before retrying.',
-    'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that email address.",
+    'sent' => 'Tautan setel ulang Anda telah dikirim, perika surel/email!',
+    'throttled' => 'Tunggu sebentar ya',
+    'token' => 'Token untuk setel ulang kata sandi tidak valid',
+    'user' => "Surel atau email tidak terdaftar!",
 
 ];

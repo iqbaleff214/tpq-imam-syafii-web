@@ -1,5 +1,10 @@
 @extends('layouts.frontend')
 
+@section('meta')
+    <meta name="keywords" content="pengumuman" />
+    <meta name="description" content="Berisi tentang pengumuman dan informasi seputar {{ $profil->nama }}"/>
+@endsection
+
 @section('body')
     <div class="breadcrumbs">
         <div class="container">

@@ -17,8 +17,8 @@ class LembagaSeeder extends Seeder
     {
         Lembaga::create([
             'nama' => "TPQ Imam Syafi'i Banjarmasin",
-            'email' => 'tpqimamsyafiibanjarmasin@gmail.com',
-            'alamat' => "Jl. AMD XII Manunggal Banjarmasin, Kalimantan Selatan",
+            'email' => 'tpq@tpqmis.com',
+            'alamat' => "Jl. AMD XII Manunggal Banjarmasin",
             'no_telp' => '082159142175',
             'foto' => null,
             'visi' => "Membina dan mencetak generasi yang shalih dan shalihah, berakhlak mulia, pandai membaca Al-Qur’an dan mempunyai akidah berdasarkan Al-Qur’an dan as-Sunnah.",

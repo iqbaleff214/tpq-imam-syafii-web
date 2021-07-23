@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-{{--    <title>{{ $title }} | {{ config('app.name') }}</title>--}}
-    <title>Page | {{ config('app.name') }}</title>
+    <title>{{ $title }} | {{ config('app.name') }}</title>
+    {{--    <title>Page | {{ config('app.name') }}</title>--}}
 
     <link rel="shortcut icon" type="image/x-icon" href=""/>
 
@@ -50,13 +50,13 @@
         crossorigin="anonymous"></script>
 <!--Sweet alert 2-->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+@include('sweetalert::alert')
 <!--Overlay Scrollbars-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/js/OverlayScrollbars.min.js"
         integrity="sha512-B1xv1CqZlvaOobTbSiJWbRO2iM0iii3wQ/LWnXWJJxKfvIRRJa910sVmyZeOrvI854sLDsFCuFHh4urASj+qgw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
-@include('sweetalert::alert')
 @stack('script')
 <script !src="">
     $(function () {
@@ -81,7 +81,7 @@
             return false;
         });
 
-        $(document).on('click', '#logout-button', function(e) {
+        $(document).on('click', '#logout-button', function (e) {
             e.preventDefault();
             Swal.fire({
                 title: 'Anda yakin ingin keluar?',
