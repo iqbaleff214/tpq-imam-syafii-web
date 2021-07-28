@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Alkoumi\LaravelHijriDate\Hijri;
+use GeniusTS\HijriDate\Hijri as TSHijri;
 use App\Http\Controllers\Controller;
+use App\Models\Kalender;
 use App\Models\Kas;
 use App\Models\Pengajar;
 use App\Models\Santri;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\DataTables;
 
 class PageController extends Controller
 {
 
     public function index(Request $request)
     {
+//        dd(TSHijri::convertToHijri(Date::now()));
+//        dd(Hijri::Date('f m MM F Y'));
         $count = [
             'santri' => Santri::count(),
             'pengajar' => Pengajar::count(),
@@ -67,5 +75,26 @@ class PageController extends Controller
 
             return redirect()->route('admin.profil')->with('error', 'Profil gagal diperbarui!');
         }
+    }
+
+    public function kalender()
+    {
+
+        $data = Kalender::all();
+        $title = 'Kelender';
+        $kalender = [];
+        foreach ($data as $item) {
+            $color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            $kalender[] = [
+                'title' => $item->keterangan,
+                'start' => $item->mulai,
+                'end' => $item->selesai,
+                'backgroundColor' => $color,
+                'borderColor' => $color,
+            ];
+        }
+
+        $kalender = json_encode($kalender);
+        echo view('pages.admin.kalender.index', compact('title', 'kalender'));
     }
 }

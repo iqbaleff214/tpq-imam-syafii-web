@@ -17,6 +17,7 @@ class CreateKehadiranPengajarTable extends Migration
             $table->id();
             $table->time('datang');
             $table->time('pulang');
+            $table->string('bulan');
             $table->string('keterangan', 255)->nullable();
             $table->foreignId('pengajar_id')->constrained('pengajar');
             $table->timestamps();

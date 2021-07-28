@@ -21,12 +21,15 @@ class PageController extends Controller
             'saldo' => Kas::sum('pemasukan') - Kas::sum('pengeluaran')
         ];
 
-        return view('pages.kepala.dashboard', compact('count'));
+        $title = 'Dasbor';
+
+        return view('pages.kepala.dashboard', compact('count', 'title'));
     }
 
     public function profil()
     {
-        return view('pages.kepala.pengaturan.profil');
+        $title = 'Profil';
+        return view('pages.kepala.pengaturan.profil', compact('title'));
     }
 
     public function update(Request $request)

@@ -11,6 +11,7 @@ use Yajra\DataTables\DataTables;
 
 class KasController extends Controller
 {
+    private $title = 'Kas';
     /**
      * Display a listing of the resource.
      *
@@ -44,6 +45,7 @@ class KasController extends Controller
                 ->make(true);
         }
         $bulan = Kas::whereMonth('created_at', Carbon::now()->month)->get();
+        $title = $this->title;
         $kas = Kas::all();
 
         $sekarang = [
@@ -56,7 +58,7 @@ class KasController extends Controller
             'latest' => Kas::latest()->first(),
             'oldest' => Kas::oldest()->first(),
         ];
-        echo view('pages.kepala.kas.index', compact('sekarang', 'total'));
+        echo view('pages.kepala.kas.index', compact('sekarang', 'total', 'title'));
     }
 
     /**
@@ -67,6 +69,7 @@ class KasController extends Controller
      */
     public function show(Kas $kas)
     {
-        echo view('pages.kepala.kas.show', compact('kas'));
+        $title = $this->title;
+        echo view('pages.kepala.kas.show', compact('kas', 'title'));
     }
 }

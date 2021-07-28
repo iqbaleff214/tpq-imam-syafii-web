@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Alkoumi\LaravelHijriDate\LaravelHijriDateServiceProvider::class,
+        GeniusTS\LaravelHijri\HijriDatesServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -179,7 +180,8 @@ return [
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         // Datatable
         Yajra\DataTables\DataTablesServiceProvider::class,
-
+        // Image
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -238,6 +240,8 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         // Helper
         'UserHelpers' => \App\Helpers\UserHelpers::class,
+        // Image
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];

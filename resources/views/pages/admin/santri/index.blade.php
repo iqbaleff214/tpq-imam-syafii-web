@@ -99,7 +99,7 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
                 columns: [
-                    { data: 'id', name: 'id' },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'nis', name: 'nis' },
                     { data: 'nama_lengkap', name: 'nama_lengkap' },
                     { data: 'nama_panggilan', name: 'nama_panggilan' },

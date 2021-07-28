@@ -47,9 +47,14 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
     /*=== PENGAJAR ===*/
     Route::resource('pengajar', \App\Http\Controllers\Kepala\PengajarController::class);
 
+    /*=== PENGAJAR ===*/
+    Route::get('santri', [\App\Http\Controllers\Kepala\SantriController::class, 'index'])->name('santri.index');
+    Route::get('santri/{santri}', [\App\Http\Controllers\Kepala\SantriController::class, 'show'])->name('santri.show');
+
     /*=== KALENDER PENDIDIKAN ===*/
     Route::get('kalender', [\App\Http\Controllers\Kepala\KalenderController::class, 'index'])->name('kalender.index');
-    Route::post('kalender', [\App\Http\Controllers\Kepala\KalenderController::class, 'event'])->name('kalender.event');
+    Route::post('kalender', [\App\Http\Controllers\Kepala\KalenderController::class, 'store'])->name('kalender.store');
+    Route::delete('kelender/{kalender}', [\App\Http\Controllers\Kepala\KalenderController::class, 'destroy'])->name('kalender.destroy');
 
     /*=== KELAS ===*/
     Route::resource('kelas', \App\Http\Controllers\Kepala\KelasController::class);
@@ -94,11 +99,14 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     Route::resource('santri', \App\Http\Controllers\Admin\SantriController::class);
     Route::post('wali', [\App\Http\Controllers\Admin\SantriController::class, 'wali'])->name('santri.wali');
 
-    /*=== KELAS ===*/
+    /*=== KALENDER ===*/
+    Route::get('kalender', [\App\Http\Controllers\Admin\PageController::class, 'kalender'])->name('kalender.index');
 
     /*=== KURIKULUM ===*/
     Route::get('kurikulum', [\App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('kurikulum.index');
     Route::get('kurikulum/{kurikulum}', [\App\Http\Controllers\Admin\KurikulumController::class, 'show'])->name('kurikulum.show');
+
+    /*=== KELAS ===*/
     Route::resource('kelas', \App\Http\Controllers\Admin\KelasController::class);
 
     /*=== KEUANGAN ===*/
@@ -114,6 +122,9 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
 
     /*=== INVENTARIS ===*/
     Route::resource('inventaris', \App\Http\Controllers\Admin\InventarisController::class);
+
+    /*=== FASILITAS ===*/
+    Route::resource('fasilitas', \App\Http\Controllers\Admin\FasilitasController::class);
 
     /*=== PENGUMUMAN ===*/
     Route::resource('pengumuman', \App\Http\Controllers\Admin\PengumumanController::class);
@@ -134,5 +145,18 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     /*=== LEMBAGA ===*/
     Route::resource('lembaga', \App\Http\Controllers\Admin\LembagaController::class);
 
+});
+
+/*=== ROLE: PENGAJAR ===*/
+Route::middleware(['pengajar', 'auth', 'verified'])->prefix('pengajar')->as('pengajar.')->group(function() {
+
+    /*=== DASHBOARD ===*/
+    Route::get('/', [\App\Http\Controllers\Pengajar\PageController::class, 'index'])->name('dashboard');
+
+    /*=== SANTRI ===*/
+    Route::get('santri', [\App\Http\Controllers\Pengajar\SantriController::class, 'index'])->name('santri.index');
+
+    /*=== KURIKULUM ===*/
+    Route::get('kurikulum', [\App\Http\Controllers\Pengajar\PageController::class, 'kurikulum'])->name('kurikulum');
 });
 

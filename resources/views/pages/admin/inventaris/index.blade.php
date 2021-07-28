@@ -38,6 +38,7 @@
                                 <table id="datatable-bs" class="table table-bordered table-hover">
                                     <thead>
                                     <tr class="text-center">
+                                        <th>No</th>
                                         <th>Kode</th>
                                         <th>Barang</th>
                                         <th>Satuan</th>
@@ -93,6 +94,7 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
                 columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'kode_barang', name: 'kode_barang' },
                     { data: 'nama_barang', name: 'nama_barang' },
                     { data: 'satuan', name: 'satuan' },

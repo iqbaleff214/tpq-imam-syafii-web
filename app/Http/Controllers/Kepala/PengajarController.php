@@ -11,6 +11,7 @@ use Yajra\DataTables\DataTables;
 
 class PengajarController extends Controller
 {
+    private $title = 'Pengajar';
     /**
      * Display a listing of the resource.
      *
@@ -36,8 +37,9 @@ class PengajarController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+        $title = $this->title;
 
-        echo view('pages.kepala.pengajar.index');
+        echo view('pages.kepala.pengajar.index', compact('title'));
     }
 
     /**
@@ -47,7 +49,8 @@ class PengajarController extends Controller
      */
     public function create()
     {
-        echo view('pages.kepala.pengajar.create');
+        $title = $this->title;
+        echo view('pages.kepala.pengajar.create', compact('title'));
     }
 
     /**
@@ -112,7 +115,8 @@ class PengajarController extends Controller
      */
     public function show(Pengajar $pengajar)
     {
-        echo view('pages.kepala.pengajar.show', compact('pengajar'));
+        $title = $this->title;
+        echo view('pages.kepala.pengajar.show', compact('pengajar', 'title'));
     }
 
     /**
@@ -123,6 +127,7 @@ class PengajarController extends Controller
      */
     public function edit(Pengajar $pengajar)
     {
+        $title = $this->title;
         echo view('pages.kepala.pengajar.edit', compact('pengajar'));
     }
 

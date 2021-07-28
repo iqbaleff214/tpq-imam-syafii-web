@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Administrator;
+use App\Models\Fasilitas;
 use App\Models\Galeri;
 use App\Models\KategoriGaleri;
 use App\Models\Kelas;
@@ -32,6 +33,9 @@ class HomeController extends Controller
             case 'Admin':
                 return redirect()->to('/admin');
                 break;
+            case 'Pengajar':
+                return redirect()->to('/pengajar');
+                break;
         }
     }
 
@@ -48,8 +52,9 @@ class HomeController extends Controller
         ];
 
         $pengumuman = Pengumuman::limit(3)->get();
+        $fasilitas = Fasilitas::all();
 
-        echo view('pages.frontend.index', compact('count', 'pengumuman', 'profil', 'title'));
+        echo view('pages.frontend.index', compact('count', 'pengumuman', 'profil', 'title', 'fasilitas'));
     }
 
     public function pengumuman(Request $request)

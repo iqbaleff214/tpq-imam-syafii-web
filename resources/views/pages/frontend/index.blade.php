@@ -182,26 +182,27 @@
         </div>
     </section>
 
+    @if($fasilitas->count())
     <section class="services section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 col-12">
                     <div class="section-title">
                         <span class="wow fadeInDown" data-wow-delay=".2s">Fasilitas</span>
-                        <h2 class="wow fadeInUp" data-wow-delay=".4s">Fasilitas Pendukung</h2>
+                        <h2 class="wow fadeInUp" data-wow-delay=".4s">Sarana dan Prasarana</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
+                @foreach($fasilitas as $item)
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-service wow fadeInUp" data-wow-delay=".2s">
                         <div class="serial">
-                            <span><i class="fas fa-chalkboard-teacher"></i></span>
+                            <span><i class="{{ $item->icon }}"></i></span>
                         </div>
-                        <h3><a href="service-single.html">Ruang Pembelajaran</a></h3>
+                        <h3><a>{{ $item->fasilitas }}</a></h3>
                         <p>
-                            Ruang Utama pembelajaran berada di teras Masjid untuk santri dan pengajar laki–laki dan di
-                            dalam masjid tempat salat jamaah wanita pembelajaran untuk santri dan pengajar perempuan.
+                            {{ $item->keterangan ?: '' }}
                         </p>
                         <div class="circles-wrap">
                             <div class="circles">
@@ -213,108 +214,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="single-service wow fadeInUp" data-wow-delay=".3s">
-                        <div class="serial">
-                            <span><i class="fas fa-book"></i></span>
-                        </div>
-                        <h3><a href="service-single.html">Perpustakaan Masjid</a></h3>
-                        <p>
-                            Yang tersedia saat ini baru berupa sarana pembelajaran.
-                        </p>
-                        <div class="circles-wrap">
-                            <div class="circles">
-                                <span class="circle circle-1"></span>
-                                <span class="circle circle-2"></span>
-                                <span class="circle circle-3"></span>
-                                <span class="circle circle-4"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="single-service wow fadeInUp" data-wow-delay=".4s">
-                        <div class="serial">
-                            <span><i class="fas fa-chalkboard"></i></span>
-                        </div>
-                        <h3><a href="service-single.html">Peralatan Pembelajaran</a></h3>
-                        <p>
-                            Tersedia meja belajar, papan tulis, Al-Qur'an dan Buku Iqro, buku modul pembelajaran dan
-                            buku pendukung pembelajaran lainnya.
-                        </p>
-                        <div class="circles-wrap">
-                            <div class="circles">
-                                <span class="circle circle-1"></span>
-                                <span class="circle circle-2"></span>
-                                <span class="circle circle-3"></span>
-                                <span class="circle circle-4"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="single-service wow fadeInUp" data-wow-delay=".2s">
-                        <div class="serial">
-                            <span><i class="fas fa-chalkboard-teacher"></i></span>
-                        </div>
-                        <h3><a href="service-single.html">Ruang Pembelajaran</a></h3>
-                        <p>
-                            Ruang Utama pembelajaran berada di teras Masjid untuk santri dan pengajar laki–laki dan di
-                            dalam masjid tempat salat jamaah wanita pembelajaran untuk santri dan pengajar perempuan.
-                        </p>
-                        <div class="circles-wrap">
-                            <div class="circles">
-                                <span class="circle circle-1"></span>
-                                <span class="circle circle-2"></span>
-                                <span class="circle circle-3"></span>
-                                <span class="circle circle-4"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="single-service wow fadeInUp" data-wow-delay=".3s">
-                        <div class="serial">
-                            <span><i class="fas fa-book"></i></span>
-                        </div>
-                        <h3><a href="service-single.html">Perpustakaan Masjid</a></h3>
-                        <p>
-                            Yang tersedia saat ini baru berupa sarana pembelajaran.
-                        </p>
-                        <div class="circles-wrap">
-                            <div class="circles">
-                                <span class="circle circle-1"></span>
-                                <span class="circle circle-2"></span>
-                                <span class="circle circle-3"></span>
-                                <span class="circle circle-4"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="single-service wow fadeInUp" data-wow-delay=".4s">
-                        <div class="serial">
-                            <span><i class="fas fa-chalkboard"></i></span>
-                        </div>
-                        <h3><a href="service-single.html">Peralatan Pembelajaran</a></h3>
-                        <p>
-                            Tersedia meja belajar, papan tulis, Al-Qur'an dan Buku Iqro, buku modul pembelajaran dan
-                            buku pendukung pembelajaran lainnya.
-                        </p>
-                        <div class="circles-wrap">
-                            <div class="circles">
-                                <span class="circle circle-1"></span>
-                                <span class="circle circle-2"></span>
-                                <span class="circle circle-3"></span>
-                                <span class="circle circle-4"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
-
+    @endif
 
     <section id="testimonials" class="section testimonials">
         <div class="container">

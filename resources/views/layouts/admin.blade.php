@@ -71,7 +71,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-header">PENGAJAR DAN SANTRI</li>
+                    <li class="nav-header">ENTITAS PENGGUNA</li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.pengajar.index') }}"
@@ -89,9 +89,8 @@
                     </li>
 
                     <li class="nav-header">PENDIDIKAN DAN KURIKULUM</li>
-
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('admin.kalender.index') }}" class="nav-link {{ Route::is('admin.kalender.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-calendar-alt"></i>
                             <p>Kalender Pendidikan</p>
                         </a>
@@ -177,12 +176,6 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>Santri</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('admin.inventaris.index') }}"
                            class="nav-link {{ Route::is('admin.inventaris.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-boxes"></i>
@@ -197,6 +190,12 @@
                     </li>
 
                     <li class="nav-header">HALAMAN WEB</li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.fasilitas.index') }}" class="nav-link {{ Route::is('admin.fasilitas.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-elementor"></i>
+                            <p>Fasilitas</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.pengumuman.index') }}" class="nav-link {{ Route::is('admin.pengumuman.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-info"></i>
@@ -232,7 +231,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('admin.profil') }}" class="nav-link {{ Route::is('admin.profil') ? 'active' : '' }}">
+                        <a href="{{ route('admin.lembaga.index') }}" class="nav-link {{ Route::is('admin.lembaga.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-building"></i>
                             <p>Lembaga</p>
                         </a>

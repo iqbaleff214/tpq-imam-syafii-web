@@ -41,6 +41,9 @@ class KelasController extends Controller
                 ->addColumn('kurikulum', function ($row) {
                     return $row->kurikulum->tingkat;
                 })
+                ->addColumn('santri', function ($row) {
+                    return $row->santri->count();
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }

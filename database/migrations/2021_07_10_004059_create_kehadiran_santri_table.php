@@ -17,6 +17,7 @@ class CreateKehadiranSantriTable extends Migration
             $table->id();
             $table->string('nilai_adab', 15)->nullable();
             $table->string('keterangan', 255)->nullable();
+            $table->string('bulan');
             $table->text('catatan')->nullable();
             $table->foreignId('santri_id')->constrained('santri');
             $table->timestamps();

@@ -13,6 +13,7 @@ use Yajra\DataTables\DataTables;
 
 class KelasController extends Controller
 {
+    private $title = 'Kelas';
     /**
      * Display a listing of the resource.
      *
@@ -40,10 +41,14 @@ class KelasController extends Controller
                 ->addColumn('kurikulum', function ($row) {
                     return $row->kurikulum->tingkat;
                 })
+                ->addColumn('santri', function ($row) {
+                    return $row->santri->count();
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        echo view('pages.kepala.kelas.index');
+        $title = $this->title;
+        echo view('pages.kepala.kelas.index', compact('title'));
     }
 
     /**
@@ -70,8 +75,9 @@ class KelasController extends Controller
         }
         $pengajar = Pengajar::where('jenis_kelamin', 'L')->get();
         $kurikulum = Kurikulum::all();
+        $title = $this->title;
 
-        echo view('pages.kepala.kelas.create', compact('pengajar', 'kurikulum'));
+        echo view('pages.kepala.kelas.create', compact('pengajar', 'kurikulum', 'title'));
     }
 
     /**
@@ -111,7 +117,8 @@ class KelasController extends Controller
     public function show($id)
     {
         $kelas = Kelas::findOrFail($id);
-        echo view('pages.kepala.kelas.show', compact('kelas'));
+        $title = $this->title;
+        echo view('pages.kepala.kelas.show', compact('kelas', 'title'));
     }
 
     /**
@@ -125,7 +132,8 @@ class KelasController extends Controller
         $kelas = Kelas::findOrFail($id);
         $pengajar = Pengajar::where('jenis_kelamin', $kelas->pengajar->jenis_kelamin)->get();
         $kurikulum = Kurikulum::all();
-        echo view('pages.kepala.kelas.edit', compact('kelas', 'pengajar', 'kurikulum'));
+        $title = $this->title;
+        echo view('pages.kepala.kelas.edit', compact('kelas', 'pengajar', 'kurikulum', 'title'));
     }
 
     /**

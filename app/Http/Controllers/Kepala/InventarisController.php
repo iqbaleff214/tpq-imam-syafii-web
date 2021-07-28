@@ -31,7 +31,6 @@ class InventarisController extends Controller
 
     public function show(Inventaris $inventaris)
     {
-//        $inventaris = Inventaris::find($id);
         $title = $this->title;
         echo view('pages.kepala.inventaris.show', compact('inventaris', 'title'));
     }

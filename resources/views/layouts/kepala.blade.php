@@ -70,7 +70,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-header">PENGELOLA DAN PENGAJAR</li>
+                    <li class="nav-header">ENTITAS PENGGUNA</li>
 
                     <li class="nav-item">
                         <a href="{{ route('kepala.admin.index') }}"
@@ -84,6 +84,12 @@
                            class="nav-link {{ Route::is('kepala.pengajar.*') ? 'active': '' }}">
                             <i class="nav-icon fas fa-chalkboard-teacher"></i>
                             <p>Pengajar</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('kepala.santri.index') }}" class="nav-link {{ Route::is('kepala.santri.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Santri</p>
                         </a>
                     </li>
 
@@ -161,12 +167,6 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>Santri</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('kepala.inventaris.index') }}"
                            class="nav-link {{ Route::is('kepala.inventaris.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-boxes"></i>
@@ -182,8 +182,14 @@
 
                     <li class="nav-header">PENGATURAN</li>
                     <li class="nav-item">
+                        <a href="{{ route('kepala.profil') }}" class="nav-link {{ Route::is('kepala.profil') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-cog"></i>
+                            <p>Profil</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
+                            <i class="nav-icon fas fa-building"></i>
                             <p>Lembaga</p>
                         </a>
                     </li>

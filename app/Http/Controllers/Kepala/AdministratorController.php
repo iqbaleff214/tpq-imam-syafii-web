@@ -15,6 +15,7 @@ use Yajra\DataTables\DataTables;
 
 class AdministratorController extends Controller
 {
+    private $title = 'Administrator';
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +25,7 @@ class AdministratorController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $admin = Administrator::where('jabatan', '!=', 'Kepala Sekolah');
+            $admin = Administrator::where('jabatan', '!=', 'Kepala Sekolah')->get();
             return DataTables::of($admin)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
@@ -42,8 +43,9 @@ class AdministratorController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+        $title = $this->title;
 
-        echo view('pages.kepala.administrator.index');
+        echo view('pages.kepala.administrator.index', compact('title'));
     }
 
     /**
@@ -53,7 +55,8 @@ class AdministratorController extends Controller
      */
     public function create()
     {
-        echo view('pages.kepala.administrator.create');
+        $title = $this->title;
+        echo view('pages.kepala.administrator.create', compact('title'));
     }
 
     /**
@@ -119,7 +122,8 @@ class AdministratorController extends Controller
      */
     public function show(Administrator $admin)
     {
-        echo view('pages.kepala.administrator.show', compact('admin'));
+        $title = $this->title;
+        echo view('pages.kepala.administrator.show', compact('admin', 'title'));
     }
 
     /**
@@ -130,7 +134,8 @@ class AdministratorController extends Controller
      */
     public function edit(Administrator $admin)
     {
-        echo view('pages.kepala.administrator.edit', compact('admin'));
+        $title = $this->title;
+        echo view('pages.kepala.administrator.edit', compact('admin', 'title'));
     }
 
     /**

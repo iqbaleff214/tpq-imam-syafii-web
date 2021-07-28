@@ -92,7 +92,7 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
                 columns: [
-                    { data: 'id', name: 'id' },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'tanggal', name: 'tanggal' },
                     { data: 'judul', name: 'judul' },
                     { data: 'konten', name: 'konten' },

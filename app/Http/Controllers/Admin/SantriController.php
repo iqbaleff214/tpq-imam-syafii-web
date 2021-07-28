@@ -102,7 +102,7 @@ class SantriController extends Controller
                 $newNis = $request->jenis_kelamin == 'L' ? 'I' : 'A';
                 # $newNis .= '-';
                 $newNis .= Hijri::Date('ym');
-                $no = Santri::where('nis', 'like', '%' . $newNis . '%')->count() + 1;
+                $no = Santri::withTrashed()->where('nis', 'like', '%' . $newNis . '%')->count() + 1;
                 $nis = sprintf("$newNis%02d", $no);
             }
 

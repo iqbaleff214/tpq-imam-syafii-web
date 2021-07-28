@@ -22,4 +22,9 @@ class Kelas extends Model
     {
         return $this->belongsTo(Pengajar::class);
     }
+
+    public function santri()
+    {
+        return $this->hasMany(Santri::class);
+    }
 }

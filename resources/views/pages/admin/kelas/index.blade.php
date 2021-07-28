@@ -41,8 +41,9 @@
                                         <th style="width: 25px">No</th>
                                         <th style="width: 150px;">Kelas</th>
                                         <th style="width: 100px">Jenis</th>
-                                        <th>Pengajar</th>
                                         <th>Kurikulum</th>
+                                        <th>Pengajar</th>
+                                        <th>Santri</th>
                                         <th style="width: 150px;">Aksi</th>
                                     </tr>
                                     </thead>
@@ -92,11 +93,12 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
                 columns: [
-                    { data: 'id', name: 'id' },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'nama_kelas', name: 'nama_kelas' },
                     { data: 'jenis_kelas', name: 'jenis_kelas' },
-                    { data: 'pengajar', name: 'pengajar' },
                     { data: 'kurikulum', name: 'kurikulum' },
+                    { data: 'pengajar', name: 'pengajar' },
+                    { data: 'santri', name: 'santri' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ]
             });

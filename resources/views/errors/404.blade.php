@@ -30,7 +30,7 @@
                     <div class="col-lg-6 col-12">
 
                         <div class="error-image">
-                            <img src="{{ asset('images/404.jpg') }}" alt="Not Found">
+                            <img src="{{ asset('images/errors/404.jpg') }}" alt="Not Found">
                         </div>
 
                     </div>

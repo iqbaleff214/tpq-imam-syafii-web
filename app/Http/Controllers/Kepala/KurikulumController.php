@@ -13,6 +13,7 @@ use Yajra\DataTables\DataTables;
 
 class KurikulumController extends Controller
 {
+    private $title = 'Kurikulum';
     /**
      * Display a listing of the resource.
      *
@@ -39,7 +40,8 @@ class KurikulumController extends Controller
                 ->rawColumns(['action', 'jadwal'])
                 ->make(true);
         }
-        echo view('pages.kepala.kurikulum.index');
+        $title = $this->title;
+        echo view('pages.kepala.kurikulum.index', compact('title'));
     }
 
     /**
@@ -49,8 +51,9 @@ class KurikulumController extends Controller
      */
     public function create()
     {
+        $title = $this->title;
         $days = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        echo view('pages.kepala.kurikulum.create', compact('days'));
+        echo view('pages.kepala.kurikulum.create', compact('days', 'title'));
     }
 
     /**
@@ -113,7 +116,8 @@ class KurikulumController extends Controller
      */
     public function show(Kurikulum $kurikulum)
     {
-        echo view('pages.kepala.kurikulum.show', compact('kurikulum'));
+        $title = $this->title;
+        echo view('pages.kepala.kurikulum.show', compact('kurikulum', 'title'));
     }
 
     /**
@@ -124,8 +128,9 @@ class KurikulumController extends Controller
      */
     public function edit(Kurikulum $kurikulum)
     {
+        $title = $this->title;
         $days = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        echo view('pages.kepala.kurikulum.edit', compact('days', 'kurikulum'));
+        echo view('pages.kepala.kurikulum.edit', compact('days', 'kurikulum', 'title'));
     }
 
     /**

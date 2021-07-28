@@ -96,7 +96,7 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
                 columns: [
-                    { data: 'id', name: 'id' },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'nama', name: 'nama' },
                     { data: 'jenis_kelamin', name: 'jenis_kelamin' },
                     { data: 'no_telp', name: 'no_telp' },
