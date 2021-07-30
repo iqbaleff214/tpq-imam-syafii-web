@@ -22,12 +22,14 @@
                     <li class="nav-item">
                         <a href="{{ route('pengajar.dashboard') }}" class="nav-link {{ Route::is('pengajar.dashboard') ? 'active' : '' }}">Beranda</a>
                     </li>
+                    @if(Auth::user()->pengajar->kelas)
                     <li class="nav-item">
                         <a href="{{ route('pengajar.santri.index') }}" class="nav-link {{ Route::is('pengajar.santri.*') ? 'active' : '' }}">Santri</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('pengajar.kurikulum') }}" class="nav-link {{ Route::is('pengajar.kurikulum') ? 'active' : '' }}">Kurikulum</a>
                     </li>
+                    @endif
                     <li class="nav-item dropdown">
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>

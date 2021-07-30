@@ -155,20 +155,20 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item {{ Route::is('admin.kehadiran.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('admin.kehadiran.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-table"></i>
                             <p> Kehadiran <i class="fas fa-angle-left right"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="pages/tables/simple.html" class="nav-link">
+                                <a href="{{ route('admin.kehadiran.pengajar.index') }}" class="nav-link {{ Route::is('admin.kehadiran.pengajar.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Pengajar</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/tables/data.html" class="nav-link">
+                                <a href="{{ route('admin.kehadiran.santri.index') }}" class="nav-link {{ Route::is('admin.kehadiran.santri.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Santri</p>
                                 </a>

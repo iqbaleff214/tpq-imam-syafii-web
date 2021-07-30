@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\KehadiranPengajar;
 use App\Models\Pengajar;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -109,13 +110,15 @@ class PengajarController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Pengajar $pengajar
      * @return Response
      */
-    public function show(Pengajar $pengajar)
+    public function show(Request $request,Pengajar $pengajar)
     {
         $title = $this->title;
-        echo view('pages.admin.pengajar.show', compact('pengajar', 'title'));
+        $bulan = KehadiranPengajar::selectRaw('bulan')->where('pengajar_id', $pengajar->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
+        echo view('pages.admin.pengajar.show', compact('pengajar', 'title', 'bulan'));
     }
 
     /**

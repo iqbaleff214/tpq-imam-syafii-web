@@ -43,9 +43,14 @@
 
                         <div class="error-text">
                             <h2>Halaman Sudah Tidak Berlaku!</h2>
-                            <p>Wah, Anda kayaknya telah deh. Coba lagi ya</p>
+                            <p>Wah, Anda kayaknya telat deh. Ke Beranda aja dulu</p>
                         </div>
 
+                        <div class="button">
+                            <a href="{{ route('beranda') }}" class="btn mouse-dir white-bg">
+                                Beranda <span class="dir-part"></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

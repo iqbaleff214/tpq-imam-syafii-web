@@ -19,7 +19,8 @@ class SantriController extends Controller
     public function index()
     {
         $title = $this->title;
-        $kelas = Auth::user()->pengajar->kelas;
+        $kelas = Auth::user()->pengajar->kelas ?? null;
+        if (!$kelas) return redirect()->route('pengajar.dashboard');
         $santri = Santri::where('kelas_id', $kelas->id)->get();
         echo view('pages.pengajar.santri.index', compact('title', 'kelas', 'santri'));
     }

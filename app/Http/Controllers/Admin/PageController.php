@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Alkoumi\LaravelHijriDate\Hijri;
-use GeniusTS\HijriDate\Hijri as TSHijri;
+use GeniusTS\HijriDate as TSHijri;
 use App\Http\Controllers\Controller;
 use App\Models\Kalender;
 use App\Models\Kas;
@@ -21,8 +21,6 @@ class PageController extends Controller
 
     public function index(Request $request)
     {
-//        dd(TSHijri::convertToHijri(Date::now()));
-//        dd(Hijri::Date('f m MM F Y'));
         $count = [
             'santri' => Santri::count(),
             'pengajar' => Pengajar::count(),

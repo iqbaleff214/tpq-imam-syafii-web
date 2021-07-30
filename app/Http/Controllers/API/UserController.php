@@ -66,7 +66,6 @@ class UserController extends Controller
                 break;
             default:
                 return ResponseFormatter::error(['message' => 'Gagal'], 'Gagal mengambil, 500');
-                break;
         }
         return ResponseFormatter::success($user, 'Data profil user berhasil diambil');
     }

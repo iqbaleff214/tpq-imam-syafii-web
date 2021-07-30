@@ -116,8 +116,21 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
 
     /*=== SPP ===*/
     Route::prefix('spp')->as('spp.')->group(function() {
-        /*=== OPSO ===*/
+
+        /*=== OPSI ===*/
         Route::resource('opsi', \App\Http\Controllers\Admin\SppOpsiController::class);
+
+    });
+
+    /*=== KEHADIRAN ===*/
+    Route::prefix('kehadiran')->as('kehadiran.')->group(function() {
+
+        /*=== KEHADIRAN PENGAJAR ===*/
+        Route::resource('pengajar', \App\Http\Controllers\Admin\KehadiranPengajarController::class);
+
+        /*=== KEHADIRAN SANTRI ===*/
+        Route::resource('santri', \App\Http\Controllers\Admin\KehadiranPengajarController::class);
+
     });
 
     /*=== INVENTARIS ===*/
@@ -131,8 +144,10 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
 
     /*=== GALERI KEGIATAN ===*/
     Route::prefix('galeri')->as('galeri.')->group(function() {
+
         /*=== KATEGORI ===*/
         Route::resource('kategori', \App\Http\Controllers\Admin\KategoriGaleriController::class);
+
     });
 
     /*=== GALERI ===*/
@@ -148,10 +163,13 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
 });
 
 /*=== ROLE: PENGAJAR ===*/
-Route::middleware(['pengajar', 'auth', 'verified'])->prefix('pengajar')->as('pengajar.')->group(function() {
+Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->group(function() {
 
     /*=== DASHBOARD ===*/
     Route::get('/', [\App\Http\Controllers\Pengajar\PageController::class, 'index'])->name('dashboard');
+
+    /*=== KEHADIRAN ===*/
+    Route::resource('kehadiran', \App\Http\Controllers\Pengajar\KehadiranPengajarController::class);
 
     /*=== SANTRI ===*/
     Route::get('santri', [\App\Http\Controllers\Pengajar\SantriController::class, 'index'])->name('santri.index');
