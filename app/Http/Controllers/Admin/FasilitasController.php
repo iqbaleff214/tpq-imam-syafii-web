@@ -77,7 +77,7 @@ class FasilitasController extends Controller
             return redirect()->route('admin.fasilitas.index')->with('success', 'Data fasilitas berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.fasilitas.index')->with('error', 'Data fasilitas gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data fasilitas gagal ditambahkan!');
         }
     }
 
@@ -128,10 +128,10 @@ class FasilitasController extends Controller
                 'icon' => $request->icon,
                 'keterangan' => $request->keterangan,
             ]);
-            return redirect()->route('admin.fasilitas.index')->with('success', 'Data fasilitas berhasil diedit!');
+            return redirect()->back()->with('success', 'Data fasilitas berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.fasilitas.index')->with('error', 'Data fasilitas gagal diedit!');
+            return redirect()->back()->with('error', 'Data fasilitas gagal diedit!');
         }
     }
 
@@ -145,9 +145,9 @@ class FasilitasController extends Controller
     {
         try {
             Fasilitas::findOrFail($id)->delete();
-            return redirect()->route('admin.fasilitas.index')->with('success', 'Data fasilitas berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data fasilitas berhasil dihapus!');
         } catch (\Throwable $e) {
-            return redirect()->route('admin.fasilitas.index')->with('error', 'Data fasilitas gagal dihapus!');
+            return redirect()->back()->with('error', 'Data fasilitas gagal dihapus!');
         }
     }
 }

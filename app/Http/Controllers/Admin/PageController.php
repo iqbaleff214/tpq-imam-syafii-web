@@ -68,10 +68,24 @@ class PageController extends Controller
                 'foto' => $foto,
             ]);
 
-            return redirect()->route('admin.profil')->with('success', 'Profil berhasil diperbarui!');
+            return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.profil')->with('error', 'Profil gagal diperbarui!');
+            return redirect()->back()->with('error', 'Profil gagal diperbarui!');
+        }
+    }
+
+    public function unlink()
+    {
+        try {
+            $profil = Auth::user()->administrator;
+            if ($profil->foto) Storage::delete("public/$profil->foto");
+            $profil->update(['foto' => null]);
+
+            return redirect()->back()->with('success', 'Foto profil berhasil dihapus!');
+        } catch (\Throwable $th) {
+
+            return redirect()->back()->with('error', 'Foto profil gagal dihapus!');
         }
     }
 

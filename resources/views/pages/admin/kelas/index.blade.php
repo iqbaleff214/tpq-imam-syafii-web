@@ -79,7 +79,7 @@
     <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
 
     <script>
-        $(function() {
+        $(function () {
 
             //Initialize Datatables Elements
             $('#datatable-bs').DataTable({
@@ -93,13 +93,13 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'nama_kelas', name: 'nama_kelas' },
-                    { data: 'jenis_kelas', name: 'jenis_kelas' },
-                    { data: 'kurikulum', name: 'kurikulum' },
-                    { data: 'pengajar', name: 'pengajar' },
-                    { data: 'santri', name: 'santri' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'nama_kelas', name: 'nama_kelas'},
+                    {data: 'jenis_kelas', name: 'jenis_kelas'},
+                    {data: 'kurikulum', name: 'kurikulum'},
+                    {data: 'pengajar', name: 'pengajar'},
+                    {data: 'santri', name: 'santri'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
         });

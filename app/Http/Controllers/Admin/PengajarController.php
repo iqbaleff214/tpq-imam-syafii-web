@@ -14,6 +14,7 @@ use Yajra\DataTables\DataTables;
 class PengajarController extends Controller
 {
     private $title = 'Pengajar';
+
     /**
      * Display a listing of the resource.
      *
@@ -103,7 +104,7 @@ class PengajarController extends Controller
             return redirect()->route('admin.pengajar.index')->with('success', 'Data pengajar berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.pengajar.index')->with('error', 'Data pengajar gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data pengajar gagal ditambahkan!');
         }
     }
 
@@ -114,7 +115,7 @@ class PengajarController extends Controller
      * @param Pengajar $pengajar
      * @return Response
      */
-    public function show(Request $request,Pengajar $pengajar)
+    public function show(Request $request, Pengajar $pengajar)
     {
         $title = $this->title;
         $bulan = KehadiranPengajar::selectRaw('bulan')->where('pengajar_id', $pengajar->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
@@ -172,10 +173,10 @@ class PengajarController extends Controller
                 'foto' => $foto,
             ]);
 
-            return redirect()->route('admin.pengajar.index')->with('success', 'Data pengajar berhasil diedit!');
+            return redirect()->back()->with('success', 'Data pengajar berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.pengajar.index')->with('error', 'Data pengajar gagal diedit!');
+            return redirect()->back()->with('error', 'Data pengajar gagal diedit!');
         }
     }
 
@@ -193,10 +194,23 @@ class PengajarController extends Controller
             User::find($pengajar->user_id)->delete();
             $pengajar->delete();
 
-            return redirect()->route('admin.pengajar.index')->with('success', 'Data pengajar berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data pengajar berhasil dihapus!');
         } catch (\Throwable $th) {
 
-            return redirect()->route('admin.pengajar.index')->with('error', 'Data pengajar gagal dihapus!');
+            return redirect()->back()->with('error', 'Data pengajar gagal dihapus!');
+        }
+    }
+
+    public function unlink(Pengajar $pengajar)
+    {
+        try {
+            if ($pengajar->foto) Storage::delete("public/$pengajar->foto");
+            $pengajar->update(['foto' => null]);
+
+            return redirect()->back()->with('success', 'Foto pengajar berhasil dihapus!');
+        } catch (\Throwable $th) {
+
+            return redirect()->back()->with('error', 'Foto pengajar gagal dihapus!');
         }
     }
 }

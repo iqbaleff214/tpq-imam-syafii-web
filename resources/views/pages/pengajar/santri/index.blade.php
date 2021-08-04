@@ -23,7 +23,7 @@
                 <div class="card-columns">
 
                     @foreach($santri as $item)
-                        <div class="card mb-3">
+                        <div class="card mb-3 card-maroon card-outline">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
                                     <img

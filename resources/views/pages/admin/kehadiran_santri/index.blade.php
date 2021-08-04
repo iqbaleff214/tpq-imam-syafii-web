@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Kehadiran Pengajar</h1>
+                        <h1 class="m-0">Kehadiran Santri</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item active">Kehadiran</li>
-                            <li class="breadcrumb-item active">Pengajar</li>
+                            <li class="breadcrumb-item active">Santri</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -29,7 +29,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('admin.kehadiran.pengajar.create') }}" class="btn bg-maroon">Presensi
+                                    <a href="{{ route('admin.kehadiran.santri.create') }}" class="btn bg-maroon">Presensi
                                         Baru</a>
                                 </h3>
                                 @if($bulan->count())
@@ -71,12 +71,12 @@
 
                                             <div class="row">
                                                 <div class="col-12 col-md-4">
-                                                    <label for="select-pengajar">Pengajar</label>
-                                                    <select class="custom-select" id="select-pengajar">
+                                                    <label for="select-santri">Santri</label>
+                                                    <select class="custom-select" id="select-santri">
                                                         <option value="" selected>Semua</option>
-                                                        @foreach($pengajar as $item)
+                                                        @foreach($santri as $item)
                                                             <option
-                                                                value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                                value="{{ $item->id }}">{{ $item->nama_lengkap }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -97,6 +97,7 @@
                                                         <option value="Hadir">Hadir</option>
                                                         <option value="Sakit">Sakit</option>
                                                         <option value="Izin">Izin</option>
+                                                        <option value="Absen">Absen</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -119,7 +120,7 @@
                                         <th style="width: 50px">Hari</th>
                                         <th style="width: 75px">Tanggal</th>
                                         <th style="width: 75px">Hijriah</th>
-                                        <th>Nama Pengajar</th>
+                                        <th>Nama Santri</th>
                                         <th style="width: 100px">Status</th>
                                         <th style="width: 150px;" class="notexport">Aksi</th>
                                     </tr>
@@ -176,16 +177,16 @@
             $('.select2').select2();
 
             let bulan = $('#select-bulan').val();
-            let pengajar_id = null;
+            let santri_id = null;
             let hari = null;
             let keterangan = null;
 
             var table = $('#datatable-bs').DataTable({
                 ajax: {
-                    url: "{!! route('admin.kehadiran.pengajar.index') !!}",
+                    url: "{!! route('admin.kehadiran.santri.index') !!}",
                     data: function (d) {
                         d.bulan = bulan;
-                        d.pengajar_id = pengajar_id;
+                        d.santri_id = santri_id;
                         d.hari = hari;
                         d.keterangan = keterangan;
                     }
@@ -238,18 +239,18 @@
                     {data: 'hari', name: 'hari'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'hijriah', name: 'hijriah'},
-                    {data: 'pengajar', name: 'pengajar'},
+                    {data: 'santri', name: 'santri'},
                     {data: 'keterangan', name: 'keterangan'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
 
             $(document).on('click', '#filter-submit', function () {
-                const selected_pengajar = $('#select-pengajar').val();
+                const selected_santri = $('#select-santri').val();
                 const selected_hari = $('#select-hari').val();
                 const selected_status = $('#select-status').val();
 
-                pengajar_id = selected_pengajar !== '' ? selected_pengajar : null;
+                santri_id = selected_santri !== '' ? selected_santri : null;
                 hari = selected_hari !== '' ? selected_hari : null;
                 keterangan = selected_status !== '' ? selected_status : null;
 
@@ -257,7 +258,7 @@
             });
 
             $(document).on('click', '#filter-reset', function () {
-                pengajar_id = null;
+                santri_id = null;
                 hari = null;
                 keterangan = null;
                 table.draw();

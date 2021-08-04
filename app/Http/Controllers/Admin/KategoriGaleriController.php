@@ -77,7 +77,7 @@ class KategoriGaleriController extends Controller
             return redirect()->route('admin.galeri.kategori.index')->with('success', 'Data kategori berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.galeri.kategori.index')->with('error', 'Data kategori gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data kategori gagal ditambahkan!');
         }
     }
 
@@ -121,10 +121,10 @@ class KategoriGaleriController extends Controller
                 'kategori' => $request->kategori,
                 'keterangan' => $request->keterangan,
             ]);
-            return redirect()->route('admin.galeri.kategori.index')->with('success', 'Data kategori berhasil diedit!');
+            return redirect()->back()->with('success', 'Data kategori berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.galeri.kategori.index')->with('error', 'Data kategori gagal diedit!');
+            return redirect()->back()->with('error', 'Data kategori gagal diedit!');
         }
     }
 
@@ -138,9 +138,9 @@ class KategoriGaleriController extends Controller
     {
         try {
             KategoriGaleri::findOrFail($id)->delete();
-            return redirect()->route('admin.galeri.kategori.index')->with('success', 'Data kategori berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data kategori berhasil dihapus!');
         } catch (\Throwable $e) {
-            return redirect()->route('admin.galeri.kategori.index')->with('error', 'Data kategori gagal dihapus!');
+            return redirect()->back()->with('error', 'Data kategori gagal dihapus!');
         }
     }
 }

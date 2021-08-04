@@ -27,4 +27,9 @@ class Santri extends Model
     {
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
+
+    public function kehadiran()
+    {
+        return $this->hasMany(KehadiranSantri::class);
+    }
 }

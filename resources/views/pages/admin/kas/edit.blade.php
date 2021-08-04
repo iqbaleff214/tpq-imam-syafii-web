@@ -99,10 +99,17 @@
                                     </div>
                                 </div>
                                 <img src="{{ $kas->bukti ? asset("storage/$kas->bukti") : asset('images/cash.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Pengajar">
+                                @if($kas->bukti)
+                                    <button type="submit" form="unlink" class="btn btn-outline-danger btn-sm position-absolute mt-3 ml-n5"><i class="fas fa-times"></i></button>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
+            </form>
+            <form action="{{ route('admin.keuangan.kas.unlink', $kas) }}" id="unlink" method="post">
+                @csrf
+                @method('DELETE')
             </form>
         </section>
         <!-- /.content -->
@@ -114,6 +121,25 @@
 
     <script>
         $(function() {
+            $(document).on("click", "button[type=submit].position-absolute", function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Anda yakin ingin menghapus?',
+                    text: "Tindakan tidak dapat dibatalkan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Iya, saya yakin!',
+                    cancelButtonText: 'Batalkan',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#unlink').submit();
+                    }
+                });
+                return false;
+            });
+
 
             $('#image').on('change', function() {
                 previewImage();

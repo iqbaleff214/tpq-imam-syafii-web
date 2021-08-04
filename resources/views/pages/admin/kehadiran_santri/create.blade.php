@@ -8,14 +8,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Kehadiran Pengajar</h1>
+                        <h1 class="m-0">Kehadiran Santri</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item active">Kehadiran</li>
-                            <li class="breadcrumb-item"><a
-                                    href="{{ route('admin.kehadiran.pengajar.index') }}">Pengajar</a></li>
-                            <li class="breadcrumb-item active">Edit</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.kehadiran.santri.index') }}">Santri</a></li>
+                            <li class="breadcrumb-item active">Baru</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -25,17 +24,15 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('admin.kehadiran.pengajar.update', $presensi) }}" method="post">
+            <form action="{{ route('admin.kehadiran.santri.store') }}" method="post">
                 @csrf
-                @method('PUT')
                 <div class="row">
                     <div class="col-12">
                         <!-- Default box -->
                         <div class="card card-solid">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('admin.kehadiran.pengajar.index') }}"
-                                       class="btn btn-outline-danger">
+                                    <a href="{{ route('admin.kehadiran.santri.index') }}" class="btn btn-outline-danger">
                                         Kembali
                                     </a>
                                 </h3>
@@ -45,19 +42,16 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Tanggal</label>
                                     <div class="col-sm-10">
-                                        <input type="date"
-                                               class="form-control @error('created_at') is-invalid @enderror"
-                                               name="created_at"
-                                               value="{{ old('created_at', $presensi->created_at->isoFormat('Y-MM-DD')) }}">
+                                        <input type="date" class="form-control @error('created_at') is-invalid @enderror"
+                                               name="created_at" value="{{ old('created_at', date('Y-m-d')) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Nama</label>
                                     <div class="col-sm-10">
-                                        <select name="pengajar_id" id="pengajar_id" class="form-control select2" disabled>
-                                            @foreach($pengajar as $item)
-                                                <option
-                                                    value="{{ $item->id }}" {{ $item->id == $presensi->pengajar_id ? 'selected' : '' }}>{{ $item->nama }}</option>
+                                        <select name="santri_id" id="santri_id" class="form-control select2">
+                                            @foreach($santri as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama_lengkap }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -66,24 +60,17 @@
                                     <label class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
                                         <select class="custom-select select2" id="keterangan" name="keterangan">
-                                            <?php $status = ['Hadir', 'Sakit', 'Izin'] ?>
-                                            @foreach($status as $item)
-                                                <option value="{{ $item }}" {{ $presensi->keterangan == $item ? 'selected' : '' }}>{{ $item }}</option>
-                                            @endforeach
+                                            <option value="Hadir">Hadir</option>
+                                            <option value="Sakit">Sakit</option>
+                                            <option value="Izin">Izin</option>
+                                            <option value="Absen">Absen</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row form-waktu">
-                                    <label class="col-sm-2 col-form-label">Waktu</label>
+                                    <label class="col-sm-2 col-form-label">Nilai Adab</label>
                                     <div class="col-sm-10">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <input type="time" name="datang" class="form-control" value="{{ old('datang', $presensi->datang) }}">
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="time" name="pulang" class="form-control" value="{{ old('pulang', $presensi->pulang) }}">
-                                            </div>
-                                        </div>
+                                        <input type="text" class="form-control" name="nilai_adab" placeholder="Nilai Adab">
                                     </div>
                                 </div>
                             </div>
@@ -126,13 +113,7 @@
             //Initialize Select2 Elements
             $('.select2').select2();
 
-            if ($('#keterangan').val() == 'Hadir') {
-                $('.form-waktu').show();
-            } else {
-                $('.form-waktu').hide();
-            }
-
-            $(document).on('change', '#keterangan', function () {
+            $(document).on('change', '#keterangan', function() {
                 let keterangan = $(this).val();
                 if (keterangan == 'Hadir') {
                     $('.form-waktu').show();

@@ -96,7 +96,7 @@ class PengumumanController extends Controller
             return redirect()->route('admin.pengumuman.index')->with('success', 'Data pengumuman berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.pengumuman.index')->with('error', 'Data pengumuman gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data pengumuman gagal ditambahkan!');
         }
     }
 
@@ -154,10 +154,10 @@ class PengumumanController extends Controller
                 'foto' => $foto,
             ]);
 
-            return redirect()->route('admin.pengumuman.index')->with('success', 'Data pengumuman berhasil diedit!');
+            return redirect()->back()->with('success', 'Data pengumuman berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.pengumuman.index')->with('error', 'Data pengumuman gagal diedit!');
+            return redirect()->back()->with('error', 'Data pengumuman gagal diedit!');
         }
     }
 
@@ -174,10 +174,10 @@ class PengumumanController extends Controller
             $pengumuman->update(['foto' => null]);
             $pengumuman->delete();
 
-            return redirect()->route('admin.pengumuman.index')->with('success', 'Data pengumuman berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data pengumuman berhasil dihapus!');
         } catch (\Throwable $th) {
 
-            return redirect()->route('admin.pengumuman.index')->with('error', 'Data pengumuman gagal dihapus!');
+            return redirect()->back()->with('error', 'Data pengumuman gagal dihapus!');
         }
     }
 }

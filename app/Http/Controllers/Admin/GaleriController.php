@@ -92,7 +92,7 @@ class GaleriController extends Controller
             return redirect()->route('admin.galeri.index')->with('success', 'Data galeri berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.galeri.index')->with('error', 'Data galeri gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data galeri gagal ditambahkan!');
         }
     }
 
@@ -149,10 +149,10 @@ class GaleriController extends Controller
                 'foto' => $foto,
             ]);
 
-            return redirect()->route('admin.galeri.index')->with('success', 'Data galeri berhasil diedit!');
+            return redirect()->back()->with('success', 'Data galeri berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.galeri.index')->with('error', 'Data galeri gagal diedit!');
+            return redirect()->back()->with('error', 'Data galeri gagal diedit!');
         }
     }
 
@@ -168,10 +168,10 @@ class GaleriController extends Controller
             if ($galeri->foto) Storage::delete("public/$galeri->foto");
             $galeri->delete();
 
-            return redirect()->route('admin.galeri.index')->with('success', 'Data galeri berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data galeri berhasil dihapus!');
         } catch (\Throwable $th) {
 
-            return redirect()->route('admin.galeri.index')->with('error', 'Data galeri gagal dihapus!');
+            return redirect()->back()->with('error', 'Data galeri gagal dihapus!');
         }
     }
 }

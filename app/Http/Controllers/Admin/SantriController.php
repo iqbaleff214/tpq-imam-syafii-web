@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Alkoumi\LaravelHijriDate\Hijri;
 use App\Http\Controllers\Controller;
+use App\Models\KehadiranSantri;
 use App\Models\Kelas;
 use App\Models\Santri;
 use App\Models\SantriWali;
@@ -150,7 +151,7 @@ class SantriController extends Controller
             return redirect()->route('admin.santri.index')->with('success', 'Data santri berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.santri.index')->with('error', 'Data santri gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data santri gagal ditambahkan!');
         }
     }
 
@@ -162,7 +163,8 @@ class SantriController extends Controller
      */
     public function show(Santri $santri)
     {
-        echo view('pages.admin.santri.show', ['title' => $this->title, 'santri' => $santri]);
+        $bulan = KehadiranSantri::selectRaw('bulan')->where('santri_id', $santri->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
+        echo view('pages.admin.santri.show', ['title' => $this->title, 'santri' => $santri, 'bulan' => $bulan]);
     }
 
     /**
@@ -224,10 +226,10 @@ class SantriController extends Controller
             ]);
 
 
-            return redirect()->route('admin.santri.index')->with('success', 'Data santri berhasil diedit!');
+            return redirect()->back()->with('success', 'Data santri berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.santri.index')->with('error', 'Data santri gagal diedit!');
+            return redirect()->back()->with('error', 'Data santri gagal diedit!');
         }
     }
 
@@ -245,15 +247,23 @@ class SantriController extends Controller
             User::findOrFail($santri->user_id)->delete();
             $santri->delete();
 
-            return redirect()->route('admin.santri.index')->with('success', 'Data santri berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data santri berhasil dihapus!');
         } catch (\Throwable $th) {
 
-            return redirect()->route('admin.santri.index')->with('error', 'Data santri gagal dihapus!');
+            return redirect()->back()->with('error', 'Data santri gagal dihapus!');
         }
     }
 
-    public function wali(Request $request)
+    public function unlink(Santri $santri)
     {
+        try {
+            if ($santri->foto) Storage::delete("public/$santri->foto");
+            $santri->update(['foto' => null]);
 
+            return redirect()->back()->with('success', 'Foto santri berhasil dihapus!');
+        } catch (\Throwable $th) {
+
+            return redirect()->back()->with('error', 'Foto santri gagal dihapus!');
+        }
     }
 }

@@ -94,9 +94,11 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
 
     /*=== PENGAJAR ===*/
     Route::resource('pengajar', \App\Http\Controllers\Admin\PengajarController::class);
+    Route::delete('pengajar/{pengajar}/foto', [\App\Http\Controllers\Admin\PengajarController::class, 'unlink'])->name('pengajar.unlink');
 
     /*=== SANTRI ===*/
     Route::resource('santri', \App\Http\Controllers\Admin\SantriController::class);
+    Route::delete('santri/{santri}/foto', [\App\Http\Controllers\Admin\SantriController::class, 'unlink'])->name('santri.unlink');
     Route::post('wali', [\App\Http\Controllers\Admin\SantriController::class, 'wali'])->name('santri.wali');
 
     /*=== KALENDER ===*/
@@ -112,6 +114,7 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     /*=== KEUANGAN ===*/
     Route::prefix('keuangan')->as('keuangan.')->group(function() {
         Route::resource('kas', \App\Http\Controllers\Admin\KasController::class);
+        Route::delete('kas/{kas}/foto', [\App\Http\Controllers\Admin\KasController::class, 'unlink'])->name('kas.unlink');
     });
 
     /*=== SPP ===*/
@@ -129,12 +132,13 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
         Route::resource('pengajar', \App\Http\Controllers\Admin\KehadiranPengajarController::class);
 
         /*=== KEHADIRAN SANTRI ===*/
-        Route::resource('santri', \App\Http\Controllers\Admin\KehadiranPengajarController::class);
+        Route::resource('santri', \App\Http\Controllers\Admin\KehadiranSantriController::class);
 
     });
 
     /*=== INVENTARIS ===*/
     Route::resource('inventaris', \App\Http\Controllers\Admin\InventarisController::class);
+    Route::delete('inventasi/{inventasi}/foto', [\App\Http\Controllers\Admin\InventarisController::class, 'unlink'])->name('inventaris.unlink');
 
     /*=== FASILITAS ===*/
     Route::resource('fasilitas', \App\Http\Controllers\Admin\FasilitasController::class);
@@ -156,6 +160,7 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     /*=== PROFIL ===*/
     Route::get('profil', [\App\Http\Controllers\Admin\PageController::class, 'profil'])->name('profil');
     Route::put('profil', [\App\Http\Controllers\Admin\PageController::class, 'update'])->name('profil.update');
+    Route::delete('profil', [\App\Http\Controllers\Admin\PageController::class, 'unlink'])->name('profil.unlink');
 
     /*=== LEMBAGA ===*/
     Route::resource('lembaga', \App\Http\Controllers\Admin\LembagaController::class);
@@ -170,6 +175,9 @@ Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->gr
 
     /*=== KEHADIRAN ===*/
     Route::resource('kehadiran', \App\Http\Controllers\Pengajar\KehadiranPengajarController::class);
+
+    /*=== KEHADIRAN SANTRI ===*/
+    Route::resource('kehadiran-santri', \App\Http\Controllers\Pengajar\KehadiranSantriController::class);
 
     /*=== SANTRI ===*/
     Route::get('santri', [\App\Http\Controllers\Pengajar\SantriController::class, 'index'])->name('santri.index');

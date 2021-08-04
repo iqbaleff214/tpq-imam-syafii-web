@@ -12,7 +12,8 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.inventaris.index') }}">Inventaris</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.inventaris.index') }}">Inventaris</a>
+                            </li>
                             <li class="breadcrumb-item active">Baru</li>
                             <!-- <li class="breadcrumb-item active">Administrator</li> -->
                         </ol>
@@ -24,7 +25,8 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('admin.inventaris.update', $inventaris) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('admin.inventaris.update', $inventaris) }}" method="post"
+                  enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -42,19 +44,27 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Kode</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control @error('kode_barang') is-invalid @enderror" name="kode_barang" placeholder="Kode Barang" value="{{ old('kode_barang', $inventaris->kode_barang) }}" readonly>
+                                        <input type="text"
+                                               class="form-control @error('kode_barang') is-invalid @enderror"
+                                               name="kode_barang" placeholder="Kode Barang"
+                                               value="{{ old('kode_barang', $inventaris->kode_barang) }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Barang</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control @error('nama_barang') is-invalid @enderror" name="nama_barang" placeholder="Nama" value="{{ old('nama_barang', $inventaris->nama_barang) }}">
+                                        <input type="text"
+                                               class="form-control @error('nama_barang') is-invalid @enderror"
+                                               name="nama_barang" placeholder="Nama"
+                                               value="{{ old('nama_barang', $inventaris->nama_barang) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Satuan</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="satuan" class="form-control @error('satuan') is-invalid @enderror" placeholder="Satuan" value="{{ old('satuan', $inventaris->satuan) }}">
+                                        <input type="text" name="satuan"
+                                               class="form-control @error('satuan') is-invalid @enderror"
+                                               placeholder="Satuan" value="{{ old('satuan', $inventaris->satuan) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -62,11 +72,17 @@
                                     <div class="col-sm-8">
                                         <div class="row">
                                             <div class="col-6">
-                                                <input type="number" class="form-control @error('jumlah_baik') is-invalid @enderror" placeholder="Kondisi Baik" name="jumlah_baik" value="{{ old('jumlah_baik', $inventaris->jumlah_baik) }}">
+                                                <input type="number"
+                                                       class="form-control @error('jumlah_baik') is-invalid @enderror"
+                                                       placeholder="Kondisi Baik" name="jumlah_baik"
+                                                       value="{{ old('jumlah_baik', $inventaris->jumlah_baik) }}">
                                                 <div class="text-sm ml-2">Jumlah baik</div>
                                             </div>
                                             <div class="col-6">
-                                                <input type="number" class="form-control @error('jumlah_rusak') is-invalid @enderror" placeholder="Kondisi Rusak" name="jumlah_rusak" value="{{ old('jumlah_rusak', $inventaris->jumlah_rusak) }}">
+                                                <input type="number"
+                                                       class="form-control @error('jumlah_rusak') is-invalid @enderror"
+                                                       placeholder="Kondisi Rusak" name="jumlah_rusak"
+                                                       value="{{ old('jumlah_rusak', $inventaris->jumlah_rusak) }}">
                                                 <div class="text-sm ml-2">Jumlah rusak</div>
                                             </div>
                                         </div>
@@ -75,7 +91,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Keterangan</label>
                                     <div class="col-sm-8">
-                                        <textarea name="keterangan" placeholder="Keterangan (Opsional)" id="" cols="30" rows="3" class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan', $inventaris->keterangan) }}</textarea>
+                                        <textarea name="keterangan" placeholder="Keterangan (Opsional)" id="" cols="30"
+                                                  rows="3"
+                                                  class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan', $inventaris->keterangan) }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -108,11 +126,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="{{ $inventaris->foto ? asset("storage/$inventaris->foto") : asset('images/inventory.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                <img
+                                    src="{{ $inventaris->foto ? asset("storage/$inventaris->foto") : asset('images/inventory.jpg') }}"
+                                    class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                @if($inventaris->foto)
+                                    <button type="submit" form="unlink"
+                                            class="btn btn-outline-danger btn-sm position-absolute mt-3 ml-n5"><i
+                                            class="fas fa-times"></i></button>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
+            </form>
+            <form action="{{ route('admin.inventaris.unlink', $inventaris) }}" id="unlink" method="post">
+                @csrf
+                @method('DELETE')
             </form>
         </section>
         <!-- /.content -->
@@ -122,8 +151,11 @@
 
 @push('link')
     <!-- Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css"
+          integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 @endpush
 
 @push('script')
@@ -131,11 +163,30 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        $(function() {
+        $(function () {
+            $(document).on("click", "button[type=submit].position-absolute", function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Anda yakin ingin menghapus?',
+                    text: "Tindakan tidak dapat dibatalkan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Iya, saya yakin!',
+                    cancelButtonText: 'Batalkan',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#unlink').submit();
+                    }
+                });
+                return false;
+            });
+
             //Initialize Select2 Elements
             $('.select2').select2();
 
-            $('#image').on('change', function() {
+            $('#image').on('change', function () {
                 previewImage();
             });
         });

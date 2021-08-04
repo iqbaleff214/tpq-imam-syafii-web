@@ -8,13 +8,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Kehadiran Pengajar</h1>
+                        <h1 class="m-0">Kehadiran Santri</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item active">Kehadiran</li>
                             <li class="breadcrumb-item"><a
-                                    href="{{ route('admin.kehadiran.pengajar.index') }}">Pengajar</a></li>
+                                    href="{{ route('admin.kehadiran.santri.index') }}">Santri</a></li>
                             <li class="breadcrumb-item active">Edit</li>
                         </ol>
                     </div><!-- /.col -->
@@ -25,7 +25,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('admin.kehadiran.pengajar.update', $presensi) }}" method="post">
+            <form action="{{ route('admin.kehadiran.santri.update', $presensi) }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -34,7 +34,7 @@
                         <div class="card card-solid">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('admin.kehadiran.pengajar.index') }}"
+                                    <a href="{{ route('admin.kehadiran.santri.index') }}"
                                        class="btn btn-outline-danger">
                                         Kembali
                                     </a>
@@ -54,10 +54,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Nama</label>
                                     <div class="col-sm-10">
-                                        <select name="pengajar_id" id="pengajar_id" class="form-control select2" disabled>
-                                            @foreach($pengajar as $item)
+                                        <select name="santri_id" id="santri_id" class="form-control select2" disabled>
+                                            @foreach($santri as $item)
                                                 <option
-                                                    value="{{ $item->id }}" {{ $item->id == $presensi->pengajar_id ? 'selected' : '' }}>{{ $item->nama }}</option>
+                                                    value="{{ $item->id }}" {{ $item->id == $presensi->santri_id ? 'selected' : '' }}>{{ $item->nama_lengkap }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -66,7 +66,7 @@
                                     <label class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
                                         <select class="custom-select select2" id="keterangan" name="keterangan">
-                                            <?php $status = ['Hadir', 'Sakit', 'Izin'] ?>
+                                            <?php $status = ['Hadir', 'Sakit', 'Izin', 'Absen'] ?>
                                             @foreach($status as $item)
                                                 <option value="{{ $item }}" {{ $presensi->keterangan == $item ? 'selected' : '' }}>{{ $item }}</option>
                                             @endforeach
@@ -74,16 +74,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row form-waktu">
-                                    <label class="col-sm-2 col-form-label">Waktu</label>
+                                    <label class="col-sm-2 col-form-label">Nilai Adab</label>
                                     <div class="col-sm-10">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <input type="time" name="datang" class="form-control" value="{{ old('datang', $presensi->datang) }}">
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="time" name="pulang" class="form-control" value="{{ old('pulang', $presensi->pulang) }}">
-                                            </div>
-                                        </div>
+                                        <input type="text" name="nilai_adab" class="form-control" value="{{ old('nilai_adab', $presensi->nilai_adab) }}">
                                     </div>
                                 </div>
                             </div>

@@ -115,10 +115,17 @@
                                     </div>
                                 </div>
                                 <img src="{{ Auth::user()->administrator->foto ? asset("storage/".Auth::user()->administrator->foto) : asset(Auth::user()->administrator->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                @if(Auth::user()->administrator->foto)
+                                    <button type="submit" form="unlink" class="btn btn-outline-danger btn-sm position-absolute mt-3 ml-n5"><i class="fas fa-times"></i></button>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
+            </form>
+            <form action="{{ route('admin.profil.unlink') }}" id="unlink" method="post">
+                @csrf
+                @method('DELETE')
             </form>
         </section>
         <!-- /.content -->
@@ -138,6 +145,25 @@
 
     <script>
         $(function() {
+            $(document).on("click", "button[type=submit].position-absolute", function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Anda yakin ingin menghapus?',
+                    text: "Tindakan tidak dapat dibatalkan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Iya, saya yakin!',
+                    cancelButtonText: 'Batalkan',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#unlink').submit();
+                    }
+                });
+                return false;
+            });
+
             //Initialize Select2 Elements
             $('.select2').select2();
 

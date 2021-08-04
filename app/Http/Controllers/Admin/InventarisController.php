@@ -78,7 +78,7 @@ class InventarisController extends Controller
                 Storage::putFileAs('public', $request->file('foto'), $foto);
             }
 
-            $inventaris = Inventaris::create([
+            Inventaris::create([
                 'kode_barang'   => $request->kode_barang,
                 'nama_barang'   => $request->nama_barang,
                 'satuan'        => $request->satuan,
@@ -92,7 +92,7 @@ class InventarisController extends Controller
             return redirect()->route('admin.inventaris.index')->with('success', 'Data inventaris berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.inventaris.index')->with('error', 'Data inventaris gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data inventaris gagal ditambahkan!');
         }
     }
 
@@ -158,10 +158,10 @@ class InventarisController extends Controller
                 'admin_id'      => Auth::user()->administrator->id,
             ]);
 
-            return redirect()->route('admin.inventaris.index')->with('success', 'Data inventaris berhasil diedit!');
+            return redirect()->back()->with('success', 'Data inventaris berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.inventaris.index')->with('error', 'Data inventaris gagal diedit!');
+            return redirect()->back()->with('error', 'Data inventaris gagal diedit!');
         }
     }
 
@@ -179,10 +179,24 @@ class InventarisController extends Controller
             $inventaris->update(['foto' => null]);
             $inventaris->delete();
 
-            return redirect()->route('admin.inventaris.index')->with('success', 'Data inventaris berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data inventaris berhasil dihapus!');
         } catch (\Throwable $th) {
 
-            return redirect()->route('admin.inventaris.index')->with('error', 'Data inventaris gagal dihapus!');
+            return redirect()->back()->with('error', 'Data inventaris gagal dihapus!');
+        }
+    }
+
+    public function unlink($id)
+    {
+        try {
+            $inventaris = Inventaris::findOrFail($id);
+            if ($inventaris->foto) Storage::delete("public/$inventaris->foto");
+            $inventaris->update(['foto' => null]);
+
+            return redirect()->back()->with('success', 'Foto inventaris berhasil dihapus!');
+        } catch (\Throwable $th) {
+
+            return redirect()->back()->with('error', 'Foto inventaris gagal dihapus!');
         }
     }
 }

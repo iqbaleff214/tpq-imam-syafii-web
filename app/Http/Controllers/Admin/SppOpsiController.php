@@ -76,7 +76,7 @@ class SppOpsiController extends Controller
             ]);
             return redirect()->route('admin.spp.opsi.index')->with('success', 'Data opsi berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            return redirect()->route('admin.spp.opsi.index')->with('error', 'Data opsi gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data opsi gagal ditambahkan!');
         }
     }
 
@@ -122,9 +122,9 @@ class SppOpsiController extends Controller
                 'jumlah' => $request->jumlah,
                 'keterangan' => $request->keterangan,
             ]);
-            return redirect()->route('admin.spp.opsi.index')->with('success', 'Data opsi berhasil diedit!');
+            return redirect()->back()->with('success', 'Data opsi berhasil diedit!');
         } catch (\Throwable $e) {
-            return redirect()->route('admin.spp.opsi.index')->with('error', 'Data opsi gagal diedit!');
+            return redirect()->back()->with('error', 'Data opsi gagal diedit!');
         }
     }
 
@@ -138,9 +138,9 @@ class SppOpsiController extends Controller
     {
         try {
             SppOpsi::findOrFail($id)->delete();
-            return redirect()->route('admin.spp.opsi.index')->with('success', 'Data opsi berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data opsi berhasil dihapus!');
         } catch (\Throwable $e) {
-            return redirect()->route('admin.spp.opsi.index')->with('error', 'Data opsi gagal dihapus!');
+            return redirect()->back()->with('error', 'Data opsi gagal dihapus!');
         }
     }
 }

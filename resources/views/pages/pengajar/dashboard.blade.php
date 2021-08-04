@@ -21,7 +21,7 @@
         <div class="content">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="{{ Auth::user()->pengajar->kelas ? 'col-12 col-lg-6' : 'col-12' }}">
 
                         <div class="card card-maroon card-outline">
                             <div class="card-body">
@@ -133,22 +133,29 @@
                     </div>
                     <!-- /.col-md-6 -->
 
-                    <div class="col-lg-6">
-
-                        <div class="card card-maroon card-outline">
-                            <div class="card-header">
-                                <h5 class="card-title m-0">Featured</h5>
-                            </div>
-                            <div class="card-body">
-                                <h6 class="card-title">Special title treatment</h6>
-
-                                <p class="card-text">With supporting text below as a natural lead-in to additional
-                                    content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                    @if(Auth::user()->pengajar->kelas)
+                        <div class="col-lg-6 col-12">
+                            <div class="card card-maroon card-outline">
+                                <div class="card-header">
+                                    <h5 class="card-title">Kehadiran Santri Hari Ini</h5>
+                                </div>
+                                <div class="card-body p-0 m-0">
+                                    <table class="table table-hover table-striped p-0 m-0" id="tabel-kehadiran-santri">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th style="width: 25px">No</th>
+                                            <th>Nama</th>
+                                            <th style="width: 200px;">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.col-md-6 -->
+                        <!-- /.col-md-6 -->
+                    @endif
+
                 </div>
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -195,17 +202,57 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'hari', name: 'hari' },
-                    { data: 'created_at', name: 'created_at' },
-                    { data: 'hijriah', name: 'hijriah' },
-                    { data: 'keterangan', name: 'keterangan' },
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'hari', name: 'hari'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'hijriah', name: 'hijriah'},
+                    {data: 'keterangan', name: 'keterangan'},
                 ]
             });
 
             $(document).on('click', '.opsi-bulan-kehadiran', function () {
                 bulan_kehadiran = $(this).text();
                 tb_kehadiran.draw();
+            });
+
+            //Initialize Datatables Elements
+            $('#tabel-kehadiran-santri').DataTable({
+                ajax: "{!! url()->current() !!}",
+                autoWidth: false,
+                responsive: true,
+                processing: true,
+                searching: false,
+                paging: false,
+                serverSide: true,
+                info: false,
+                lengthChange: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                    {data: 'nama_panggilan', name: 'nama_panggilan'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                createdRow: function (row, data, index) {
+                    $('td', row).eq(2).addClass('text-center'); // 6 is index of column
+                },
+            });
+
+
+            $(document).on("click", "button[type=submit].confirm-attendance", async function (e) {
+                e.preventDefault();
+                const {value: nilai} = await Swal.fire({
+                    title: 'Nilai Adab',
+                    input: 'text',
+                    inputLabel: 'Silakan masukkan nilai adab santri!',
+                    inputPlaceholder: 'Nilai adab santri'
+                })
+                if (nilai) {
+                    $(this).closest('td').find('input[name=nilai_adab]').val(nilai);
+                    $(this).closest('form.d-inline').submit();
+                }
+                return false;
             });
         });
     </script>

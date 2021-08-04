@@ -103,7 +103,7 @@ class KelasController extends Controller
             ]);
             return redirect()->route('admin.kelas.index')->with('success', 'Data kelas berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            return redirect()->route('admin.kelas.index')->with('error', 'Data kelas gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data kelas gagal ditambahkan!');
         }
     }
 
@@ -160,10 +160,10 @@ class KelasController extends Controller
                 'pengajar_id' => $request->pengajar_id,
             ]);
 
-            return redirect()->route('admin.kelas.index')->with('success', 'Data kelas berhasil diedit!');
+            return redirect()->back()->with('success', 'Data kelas berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.kelas.index')->with('error', 'Data kelas gagal diedit!');
+            return redirect()->back()->with('error', 'Data kelas gagal diedit!');
         }
     }
 
@@ -177,9 +177,9 @@ class KelasController extends Controller
     {
         try {
             Kelas::findOrFail($id)->delete();
-            return redirect()->route('admin.kelas.index')->with('success', 'Data kelas berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data kelas berhasil dihapus!');
         } catch (\Throwable $e) {
-            return redirect()->route('admin.kelas.index')->with('error', 'Data kelas gagal dihapus!');
+            return redirect()->back()->with('error', 'Data kelas gagal dihapus!');
         }
     }
 }

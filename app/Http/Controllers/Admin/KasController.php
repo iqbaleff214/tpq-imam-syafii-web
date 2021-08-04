@@ -24,7 +24,15 @@ class KasController extends Controller
     {
         if ($request->ajax()) {
             $saldo = 0;
-            return DataTables::of(Kas::orderBy('created_at'))
+            $data = Kas::orderBy('created_at', 'asc');
+            $jenis = $request->get('jenis');
+
+            if ($jenis) {
+                $data = $data->where($jenis, '>', 0);
+            }
+
+            return DataTables::of($data->get())
+                ->addIndexColumn()
                 ->addColumn('saldo', function($row) {
                     global $saldo;
                     $saldo += ($row->pemasukan - $row->pengeluaran);
@@ -106,7 +114,7 @@ class KasController extends Controller
             ]);
             return redirect()->route('admin.keuangan.kas.index')->with('success', 'Data kas berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            return redirect()->route('admin.keuangan.kas.index')->with('error', 'Data kas gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data kas gagal ditambahkan!');
         }
     }
 
@@ -168,10 +176,10 @@ class KasController extends Controller
                 'bukti' => $foto,
             ]);
 
-            return redirect()->route('admin.keuangan.kas.index')->with('success', 'Data kas berhasil diedit!');
+            return redirect()->back()->with('success', 'Data kas berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('admin.keuangan.kas.index')->with('error', 'Data kas gagal diedit!');
+            return redirect()->back()->with('error', 'Data kas gagal diedit!');
         }
     }
 
@@ -189,10 +197,23 @@ class KasController extends Controller
             $kas->update(['bukti' => null]);
             $kas->delete();
 
-            return redirect()->route('admin.keuangan.kas.index')->with('success', 'Data kas berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data kas berhasil dihapus!');
         } catch (\Throwable $th) {
 
-            return redirect()->route('admin.keuangan.kas.index')->with('error', 'Data kas gagal dihapus!');
+            return redirect()->back()->with('error', 'Data kas gagal dihapus!');
+        }
+    }
+    public function unlink($id)
+    {
+        try {
+            $kas = Kas::findOrFail($id);
+            if ($kas->bukti) Storage::delete("public/$kas->bukti");
+            $kas->update(['bukti' => null]);
+
+            return redirect()->back()->with('success', 'Bukti kas berhasil dihapus!');
+        } catch (\Throwable $th) {
+
+            return redirect()->back()->with('error', 'Bukti kas gagal dihapus!');
         }
     }
 }

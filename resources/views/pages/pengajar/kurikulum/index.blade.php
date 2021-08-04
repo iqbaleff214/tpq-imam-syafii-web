@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <!-- Default box -->
-                        <div class="card card-solid">
+                        <div class="card card-solid card-maroon">
                             <div class="card-header">
                                 <h3 class="card-title">
                                     Kurikulum
@@ -67,7 +67,7 @@
                     </div>
                     <div class="col-12 col-md-6">
                         @if($kurikulum->bahan->count())
-                            <div class="card card-solid">
+                            <div class="card card-solid card-maroon">
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         Bahan Pendidikan
@@ -77,7 +77,9 @@
                                     <table class="table">
                                         @foreach($kurikulum->bahan as $bahan)
                                             <tr>
+                                                @if($kurikulum->bahan->count() > 1)
                                                 <td style="width: 5px">{{ $loop->iteration }}.</td>
+                                                @endif
                                                 <td>{{ $bahan->bahan }}</td>
                                             </tr>
                                         @endforeach
@@ -86,7 +88,7 @@
                             </div>
                         @endif
                         @if($kurikulum->materi->count())
-                            <div class="card card-solid">
+                            <div class="card card-solid card-maroon">
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         Materi Kurikulum
@@ -96,7 +98,9 @@
                                     <table class="table">
                                         @foreach($kurikulum->materi as $materi)
                                             <tr>
+                                                @if($kurikulum->materi->count() > 1)
                                                 <td style="width: 5px">{{ $loop->iteration }}.</td>
+                                                @endif
                                                 <td>{{ $materi->materi }}</td>
                                             </tr>
                                         @endforeach
@@ -105,7 +109,7 @@
                             </div>
                         @endif
                         @if($kurikulum->metode->count())
-                            <div class="card card-solid">
+                            <div class="card card-solid card-maroon">
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         Metode Pembelajaran
@@ -115,7 +119,9 @@
                                     <table class="table">
                                         @foreach($kurikulum->metode as $metode)
                                             <tr>
+                                                @if($kurikulum->metode->count() > 1)
                                                 <td style="width: 5px">{{ $loop->iteration }}.</td>
+                                                @endif
                                                 <td>{{ $metode->metode }}</td>
                                             </tr>
                                         @endforeach
