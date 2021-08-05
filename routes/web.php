@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 /*=== LANDING PAGE ===*/
+
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'beranda'])->name('beranda');
 Route::get('/pengumuman', [\App\Http\Controllers\HomeController::class, 'pengumuman'])->name('pengumuman');
 Route::get('/pengumuman/{slug}', [\App\Http\Controllers\HomeController::class, 'pengumuman_lihat'])->name('pengumuman.detail');
@@ -36,7 +37,7 @@ Auth::routes([
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /*=== ROLE: KEPALA ===*/
-Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.')->group(function() {
+Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.')->group(function () {
 
     /*=== DASHBOARD ===*/
     Route::get('/', [\App\Http\Controllers\Kepala\PageController::class, 'index'])->name('dashboard');
@@ -66,7 +67,7 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
     Route::put('kurikulum.mod', [\App\Http\Controllers\Kepala\KurikulumController::class, 'mod'])->name('kurikulum.mod');
 
     /*=== KEUANGAN ===*/
-    Route::prefix('keuangan')->as('keuangan.')->group(function() {
+    Route::prefix('keuangan')->as('keuangan.')->group(function () {
 
         /*=== KAS ===*/
         Route::get('kas', [\App\Http\Controllers\Kepala\KasController::class, 'index'])->name('kas.index');
@@ -83,11 +84,10 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
     /*=== PENGATURAN ===*/
     Route::get('profil', [\App\Http\Controllers\Kepala\PageController::class, 'profil'])->name('profil');
     Route::put('profil', [\App\Http\Controllers\Kepala\PageController::class, 'update'])->name('profil.update');
-
 });
 
 /*=== ROLE: ADMIN ===*/
-Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')->group(function() {
+Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')->group(function () {
 
     /*=== DASHBOARD ===*/
     Route::get('/', [\App\Http\Controllers\Admin\PageController::class, 'index'])->name('dashboard');
@@ -112,28 +112,26 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     Route::resource('kelas', \App\Http\Controllers\Admin\KelasController::class);
 
     /*=== KEUANGAN ===*/
-    Route::prefix('keuangan')->as('keuangan.')->group(function() {
+    Route::prefix('keuangan')->as('keuangan.')->group(function () {
         Route::resource('kas', \App\Http\Controllers\Admin\KasController::class);
         Route::delete('kas/{kas}/foto', [\App\Http\Controllers\Admin\KasController::class, 'unlink'])->name('kas.unlink');
     });
 
     /*=== SPP ===*/
-    Route::prefix('spp')->as('spp.')->group(function() {
+    Route::prefix('spp')->as('spp.')->group(function () {
 
         /*=== OPSI ===*/
         Route::resource('opsi', \App\Http\Controllers\Admin\SppOpsiController::class);
-
     });
 
     /*=== KEHADIRAN ===*/
-    Route::prefix('kehadiran')->as('kehadiran.')->group(function() {
+    Route::prefix('kehadiran')->as('kehadiran.')->group(function () {
 
         /*=== KEHADIRAN PENGAJAR ===*/
         Route::resource('pengajar', \App\Http\Controllers\Admin\KehadiranPengajarController::class);
 
         /*=== KEHADIRAN SANTRI ===*/
         Route::resource('santri', \App\Http\Controllers\Admin\KehadiranSantriController::class);
-
     });
 
     /*=== INVENTARIS ===*/
@@ -147,11 +145,10 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     Route::resource('pengumuman', \App\Http\Controllers\Admin\PengumumanController::class);
 
     /*=== GALERI KEGIATAN ===*/
-    Route::prefix('galeri')->as('galeri.')->group(function() {
+    Route::prefix('galeri')->as('galeri.')->group(function () {
 
         /*=== KATEGORI ===*/
         Route::resource('kategori', \App\Http\Controllers\Admin\KategoriGaleriController::class);
-
     });
 
     /*=== GALERI ===*/
@@ -164,25 +161,25 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
 
     /*=== LEMBAGA ===*/
     Route::resource('lembaga', \App\Http\Controllers\Admin\LembagaController::class);
-
 });
 
 /*=== ROLE: PENGAJAR ===*/
-Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->group(function() {
+Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->group(function () {
 
     /*=== DASHBOARD ===*/
     Route::get('/', [\App\Http\Controllers\Pengajar\PageController::class, 'index'])->name('dashboard');
 
     /*=== KEHADIRAN ===*/
     Route::resource('kehadiran', \App\Http\Controllers\Pengajar\KehadiranPengajarController::class);
-
-    /*=== KEHADIRAN SANTRI ===*/
-    Route::resource('kehadiran-santri', \App\Http\Controllers\Pengajar\KehadiranSantriController::class);
+    Route::as('kehadiran.')->prefix('kehadiran')->group(function () {
+        /*=== KEHADIRAN SANTRI ===*/
+        Route::resource('santri', \App\Http\Controllers\Pengajar\KehadiranSantriController::class);
+    });
 
     /*=== SANTRI ===*/
     Route::get('santri', [\App\Http\Controllers\Pengajar\SantriController::class, 'index'])->name('santri.index');
+    Route::get('santri/{santri}', [\App\Http\Controllers\Pengajar\SantriController::class, 'show'])->name('santri.show');
 
     /*=== KURIKULUM ===*/
     Route::get('kurikulum', [\App\Http\Controllers\Pengajar\PageController::class, 'kurikulum'])->name('kurikulum');
 });
-

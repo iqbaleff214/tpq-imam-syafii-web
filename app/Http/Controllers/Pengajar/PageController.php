@@ -45,7 +45,7 @@ class PageController extends Controller
                             foreach ($ket as $key => $val) {
                                 $class = $key == 'Hadir' ? 'confirm-attendance' : '';
                                 $column .= '
-                            <form class="d-inline" method="POST" action="' . route('pengajar.kehadiran-santri.store') . '">
+                            <form class="d-inline" method="POST" action="' . route('pengajar.kehadiran.santri.store') . '">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
                                 <input type="hidden" name="nilai_adab">
                                 <input type="hidden" name="santri_id" value="' . $row->id . '">
