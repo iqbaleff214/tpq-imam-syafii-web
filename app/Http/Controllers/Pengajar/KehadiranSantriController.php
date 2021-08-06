@@ -69,35 +69,22 @@ class KehadiranSantriController extends Controller
         if ($request->ajax()) {
 
             $bulan = $request->get('bulan');
-            $santri_id = $request->get('santri_id');
-            $keterangan = $request->get('keterangan');
-            $hari = $request->get('hari');
+            $chart = $request->get('chart');
 
-            $data = KehadiranSantri::where('bulan', $bulan);
+            $data = KehadiranSantri::where('bulan', $bulan)->where('santri_id', $id);
 
-            if ($santri_id) {
-                $data = $data->where('santri_id', $santri_id);
-            }
-
-            if ($hari !== null) {
-                $data = $data->whereRaw('WEEKDAY(created_at) = ?', [$hari]);
-            }
-
-            if ($keterangan) {
-                $data = $data->where('keterangan', $keterangan);
+            if ($chart) {
+                if ($chart == 'doughnut') {
+                    $data = $data->selectRaw('COUNT(keterangan) as data, keterangan as label')->groupBy('keterangan')->get();
+                    return response()->json($data);
+                } else {
+                    $data = KehadiranSantri::where('santri_id', $id)->groupBy('bulan')->selectRaw('COUNT(CASE WHEN keterangan="Hadir" THEN 1 ELSE NULL END) as data, bulan as label')->get();
+                    return response()->json($data);
+                }
             }
 
             return DataTables::of($data->get())
                 ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    return '<a href="' . route('admin.kehadiran.santri.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
-                            <a href="' . route('admin.kehadiran.santri.edit', $row) . '" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
-                            <form class="d-inline" method="POST" action="' . route('admin.kehadiran.santri.destroy', $row) . '">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="' . csrf_token() . '" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
-                            </form>';
-                })
                 ->addColumn('hari', function ($row) {
                     return $row->created_at->isoFormat('dddd');
                 })
@@ -107,10 +94,12 @@ class KehadiranSantriController extends Controller
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
+                ->editColumn('nilai_adab', function ($row) {
+                    return $row->nilai_adab ?? '-';
+                })
                 ->addColumn('santri', function ($row) {
                     return $row->santri->nama_lengkap;
                 })
-                ->rawColumns(['action'])
                 ->make(true);
         }
     }

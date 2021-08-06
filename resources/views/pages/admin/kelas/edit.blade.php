@@ -49,7 +49,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelas</label>
                                     <div class="col-sm-8">
-                                        <select name="jenis_kelas" id="jenis_kelas" class="form-control select2">
+                                        <select name="jenis_kelas" id="jenis_kelas" class="form-control select2" disabled>
                                             <option value="Ikhwan" {{ $kelas->jenis_kelas == 'Ikhwan' ? 'selected' : '' }}>Ikhwan</option>
                                             <option value="Akhwat" {{ $kelas->jenis_kelas == 'Akhwat' ? 'selected' : '' }}>Akhwat</option>
                                         </select>

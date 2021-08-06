@@ -59,7 +59,10 @@ class PageController extends Controller
                         return 'Libur';
                     }
                 })
-                ->rawColumns(['action'])
+                ->editColumn('nama_panggilan', function($row) {
+                    return "<a href='". route('pengajar.santri.show', $row) ."'>" . $row->nama_panggilan . "</a>";
+                })
+                ->rawColumns(['action', 'nama_panggilan'])
                 ->make(true);
         }
 

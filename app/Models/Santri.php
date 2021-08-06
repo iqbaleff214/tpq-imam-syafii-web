@@ -32,4 +32,9 @@ class Santri extends Model
     {
         return $this->hasMany(KehadiranSantri::class);
     }
+
+    public function pembelajaran()
+    {
+        return $this->hasMany(Pembelajaran::class);
+    }
 }

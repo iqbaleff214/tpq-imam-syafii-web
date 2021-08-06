@@ -177,6 +177,9 @@ Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->gr
     });
 
     /*=== SANTRI ===*/
+    Route::resource('pembelajaran', \App\Http\Controllers\Pengajar\PembelajaranController::class);
+
+    /*=== SANTRI ===*/
     Route::get('santri', [\App\Http\Controllers\Pengajar\SantriController::class, 'index'])->name('santri.index');
     Route::get('santri/{santri}', [\App\Http\Controllers\Pengajar\SantriController::class, 'show'])->name('santri.show');
 
