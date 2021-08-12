@@ -194,7 +194,7 @@
                             <p>Profil</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item mb-5">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-building"></i>
                             <p>Lembaga</p>

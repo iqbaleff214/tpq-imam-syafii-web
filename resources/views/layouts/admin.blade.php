@@ -250,7 +250,7 @@
                             <p>Profil</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item mb-5">
                         <a href="{{ route('admin.lembaga.index') }}" class="nav-link {{ Route::is('admin.lembaga.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-building"></i>
                             <p>Lembaga</p>
