@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -28,8 +30,8 @@ class UserController extends Controller
 
             if (!Auth::attempt($credential)) {
                 return ResponseFormatter::error([
-                    'message' => 'Unauthorized'
-                ], 'Autentikasi gagal!', 500);
+                    'error' => 'Unauthorized'
+                ], 'Gagal melakukan login!', 500);
             }
 
             $user = User::where('username', $request->username)->first();
@@ -40,9 +42,15 @@ class UserController extends Controller
 
             if (in_array($user->peran, ['Kepala', 'Admin'])) {
                 return ResponseFormatter::error([
-                    'message' => 'Something went wrong',
                     'error' => 'Hak akses ditolak!'
-                ], 'Autentikasi gagal!', 500);
+                ], 'Gagal melakukan login!', 500);
+            }
+
+            $kelas = $this->isPengajar($user) ? $user->pengajar->kelas : $user->santri->kelas;
+            if (!$kelas) {
+                return ResponseFormatter::error([
+                    'error' => 'Belum terdaftar pada kelas!'
+                ], 'Gagal melakukan login!', 500);
             }
 
             $tokenResult = $user->createToken('authToken')->plainTextToken;
@@ -78,6 +86,34 @@ class UserController extends Controller
             return ResponseFormatter::success($profile, 'Berhasil mengedit profil!');
         } catch (Exception $e) {
             return ResponseFormatter::error(['error' => $e], 'Gagal mengedit profil!', 500);
+        }
+    }
+
+    public function upload(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'foto' => 'required|image|max:2048'
+            ]);
+
+            if ($validator->fails()) {
+                return ResponseFormatter::error(['error' => $validator->errors()], 'Gagal upload foto profil!', 401);
+            }
+
+            $user = Auth::user();
+            $profil = $this->isPengajar($user) ? $user->pengajar : $user->santri;
+            $foto = $profil->foto;
+
+            if ($request->hasFile('foto')) {
+                if ($foto) Storage::delete("public/$foto");
+                $foto = time() . '.' . $request->foto->extension();
+                Storage::putFileAs('public', $request->file('foto'), $foto);
+            }
+
+            $profil->update(['foto' => $foto]);
+
+        } catch (Exception $e) {
+            return ResponseFormatter::error(['error' => $e], 'Gagal upload foto profil!', 500);
         }
     }
 

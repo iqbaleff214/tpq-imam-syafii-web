@@ -57,9 +57,7 @@ class PageController extends Controller
         try {
             $foto = $admin->foto;
             if ($request->hasFile('foto')) {
-
                 if ($foto) Storage::delete("public/$foto");
-
                 $foto = time() . '.' . $request->foto->extension();
                 Storage::putFileAs('public', $request->file('foto'), $foto);
             }

@@ -60,4 +60,5 @@ Route::middleware('auth:sanctum')->group(function() {
     /*=== PROFILE ===*/
     Route::get('user', [\App\Http\Controllers\API\UserController::class, 'get']);
     Route::post('user', [\App\Http\Controllers\API\UserController::class, 'update']);
+    Route::put('user', [\App\Http\Controllers\API\UserController::class, 'upload']);
 });
