@@ -340,6 +340,12 @@
                 table_hafalan.draw();
             });
 
+            $(document).on('click', '.nav-link', function () {
+                table_kehadiran.draw();
+                table_pembelajaran.draw();
+                table_hafalan.draw();
+            });
+
         });
     </script>
 @endpush

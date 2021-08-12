@@ -213,7 +213,7 @@
                     {data: 'keterangan', name: 'keterangan'},
                 ]
             });
-            $('#table-honor').DataTable({
+            var table_honor = $('#table-honor').DataTable({
                 ajax: {
                     url: "{!! route('admin.keuangan.honor.index') !!}",
                     data: function (d) {
@@ -275,6 +275,11 @@
             $(document).on('change', '#select-bulan', function () {
                 bulan = $(this).val();
                 table.draw();
+            });
+
+            $(document).on('click', '.nav-link', function () {
+                table.draw();
+                table_honor.draw();
             });
 
         });

@@ -625,6 +625,11 @@
                     $('.row-mulai-hafalan').hide();
                 }
             });
+            $(document).on('click', '.nav-link', function () {
+                table_kehadiran.draw();
+                table_pembelajaran.draw();
+                table_hafalan.draw();
+            });
 
             $(document).on("click", "button[type=submit].confirm-attendance", async function (e) {
                 e.preventDefault();
