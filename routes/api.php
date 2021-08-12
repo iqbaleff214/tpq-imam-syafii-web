@@ -57,8 +57,12 @@ Route::middleware('auth:sanctum')->group(function() {
     /*=== KURIKULUM ===*/
     Route::get('kurikulum', [\App\Http\Controllers\API\KurikulumController::class, 'all']);
 
+    /*=== PENGUMUMAN ===*/
+    Route::get('pengumuman', [\App\Http\Controllers\API\PengumumanController::class, 'all']);
+
     /*=== PROFILE ===*/
     Route::get('user', [\App\Http\Controllers\API\UserController::class, 'get']);
     Route::post('user', [\App\Http\Controllers\API\UserController::class, 'update']);
-    Route::put('user', [\App\Http\Controllers\API\UserController::class, 'upload']);
+    Route::get('user/foto', [\App\Http\Controllers\API\UserController::class, 'photo']);
+    Route::post('user/foto', [\App\Http\Controllers\API\UserController::class, 'upload']);
 });

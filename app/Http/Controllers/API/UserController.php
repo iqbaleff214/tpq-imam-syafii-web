@@ -76,6 +76,19 @@ class UserController extends Controller
         }
     }
 
+    public function photo(Request $request)
+    {
+        $user = $request->user();
+        $profile = $this->isPengajar($user) ? $user->pengajar : $user->santri;
+        $data = $profile->foto;
+        if ($data) {
+            return ResponseFormatter::success(asset("storage/$data"), 'Berhasil mengambil foto profil!');
+        } else {
+            $data = $profile->jenis_kelamin == 'L' ? 'ikhwan.jpg' : 'akhwat.jpg';
+            return ResponseFormatter::success(asset("images/$data"), 'Berhasil mengambil foto profil!');
+        }
+    }
+
     public function update(Request $request)
     {
         try {
@@ -112,6 +125,7 @@ class UserController extends Controller
 
             $profil->update(['foto' => $foto]);
 
+            return ResponseFormatter::success(asset("storage/$foto"), 'Berhasil upload foto profil!');
         } catch (Exception $e) {
             return ResponseFormatter::error(['error' => $e], 'Gagal upload foto profil!', 500);
         }
