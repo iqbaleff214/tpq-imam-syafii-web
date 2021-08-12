@@ -110,7 +110,7 @@
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" name="foto" id="image">
-                                            <label class="custom-file-label" for="image">Pilih foto</label>
+                                            <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                         </div>
                                     </div>
                                 </div>

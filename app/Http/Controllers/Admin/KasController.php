@@ -26,9 +26,20 @@ class KasController extends Controller
             $saldo = 0;
             $data = Kas::orderBy('created_at', 'asc');
             $jenis = $request->get('jenis');
+            $dari = $request->get('dari');
+            $sampai = $request->get('sampai');
 
             if ($jenis) {
                 $data = $data->where($jenis, '>', 0);
+            }
+
+            if ($dari) {
+                $dari = Carbon::createFromFormat('d/m/Y', $dari);
+                $data = $data->whereDate('created_at', '>=', $dari);
+            }
+            if ($sampai) {
+                $sampai = Carbon::createFromFormat('d/m/Y', $sampai);
+                $data = $data->whereDate('created_at', '<=', $sampai);
             }
 
             return DataTables::of($data->get())

@@ -246,7 +246,7 @@
                                         <select name="kelas_id" class="form-control select2">
                                             <option disabled="disabled" selected="selected">Kelas (Opsional)</option>
                                             @foreach($kelas as $item)
-                                                <option value="{{ $item->id }}">{{ $item->nama_kelas }}</option>
+                                                <option value="{{ $item->id }}">{{ $item->nama_kelas . ' (' . $item->jenis_kelas . ')' }}</option>
                                             @endforeach
                                         </select>
                                     </div>

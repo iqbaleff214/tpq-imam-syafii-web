@@ -5,28 +5,40 @@ namespace App\Http\Controllers\Pengajar;
 use App\Http\Controllers\Controller;
 use App\Models\Pembelajaran;
 use GeniusTS\HijriDate\Date;
+use GeniusTS\HijriDate\Hijri;
 use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class PembelajaranController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        Hijri::setDefaultAdjustment(-1);
+        Date::setTranslation(new Indonesian());
+    }
+
     public function store(Request $request)
     {
-        Date::setTranslation(new Indonesian());
         try {
             $data = [
                 'santri_id' => $request->input('santri_id'),
+                'bacaan' => $request->input('bacaan'),
                 'nilai' => $request->input('nilai'),
+                'mulai' => $request->input('mulai'),
+                'selesai' => $request->input('selesai') ?? $request->input('mulai'),
                 'keterangan' => $request->input('keterangan'),
-                'bulan' => Date::today()->format('F o')
+                'bulan' => Date::today()->format('F o'),
+                'pengajar_id' => Auth::user()->pengajar->id,
             ];
 
             Pembelajaran::create($data);
 
-            return redirect()->back()->with('success', 'Berhasil mengisi catatan pembelajaran');
+            return redirect()->back()->with('success', 'Berhasil mengisi evaluasi pembelajaran');
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Gagal melakukan catatan pembelajaran');
+            return redirect()->back()->with('error', 'Gagal melakukan evaluasi pembelajaran');
         }
     }
 
@@ -41,7 +53,7 @@ class PembelajaranController extends Controller
                     return $row->created_at->isoFormat('dddd');
                 })
                 ->addColumn('hijriah', function ($row) {
-                    return \Alkoumi\LaravelHijriDate\Hijri::Date('d-m-Y', $row->created_at);
+                    return Hijri::convertToHijri($row->created_at)->format('d-m-Y');
                 })
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');

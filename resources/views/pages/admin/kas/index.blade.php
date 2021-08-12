@@ -100,7 +100,7 @@
 
                                             <div class="row">
 
-                                                <div class="col-12 col-md-4">
+                                                <div class="col-12 col-md-6">
                                                     <label for="select-jenis">Jenis</label>
                                                     <select class="custom-select" id="select-jenis">
                                                         <option value="" selected>Semua</option>
@@ -108,6 +108,15 @@
                                                         <option value="pengeluaran">Pengeluaran</option>
                                                     </select>
                                                 </div>
+
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Rentang Waktu</label>
+                                                        <input type="text" class="form-control"
+                                                               id="select-rentang">
+                                                    </div>
+                                                </div>
+
                                             </div>
 
                                         </div>
@@ -152,6 +161,8 @@
 @endsection
 
 @push('link')
+    <!-- Daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <!-- Datatable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
@@ -159,6 +170,9 @@
 @endpush
 
 @push('script')
+    <!--Daterangepicker-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!--Datatable-->
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
@@ -175,6 +189,19 @@
         $(function () {
 
             let jenis = null;
+            let dari = null;
+            let sampai = null;
+
+            // Date range picker
+            $('#select-rentang').daterangepicker({
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                opens: 'left'
+            }, function (start, end, label) {
+                dari = start.format('DD/MM/YYYY');
+                sampai = end.format('DD/MM/YYYY');
+            });
 
             $(document).on('click', '#filter-submit', function () {
                 const selected_jenis = $('#select-jenis').val();
@@ -185,6 +212,8 @@
 
             $(document).on('click', '#filter-reset', function () {
                 jenis = null;
+                dari = null;
+                sampai = null;
                 table.draw();
             });
 
@@ -194,6 +223,8 @@
                     url: "{!! route('admin.keuangan.kas.index') !!}",
                     data: function (d) {
                         d.jenis = jenis;
+                        d.dari = dari;
+                        d.sampai = sampai;
                     }
                 },
                 autoWidth: false,

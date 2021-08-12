@@ -16,10 +16,20 @@ use Yajra\DataTables\DataTables;
 class KehadiranSantriController extends Controller
 {
     private $title = "Kehadiran Santri";
+
+    public function __construct()
+    {
+        parent::__construct();
+        Hijri::setDefaultAdjustment(-1);
+        Date::setTranslation(new Indonesian());
+    }
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
+     * @throws \Exception
      */
     public function index(Request $request)
     {
@@ -59,7 +69,7 @@ class KehadiranSantriController extends Controller
                     return $row->created_at->isoFormat('dddd');
                 })
                 ->addColumn('hijriah', function ($row) {
-                    return \Alkoumi\LaravelHijriDate\Hijri::Date('d-m-Y', $row->created_at);
+                    return Hijri::convertToHijri($row->created_at)->format('d-m-Y');
                 })
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');
@@ -94,12 +104,11 @@ class KehadiranSantriController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return RedirectResponse
      */
     public function store(Request $request)
     {
-        Date::setTranslation(new Indonesian());
         try {
             KehadiranSantri::create([
                 'created_at' => $request->created_at,
@@ -123,7 +132,6 @@ class KehadiranSantriController extends Controller
      */
     public function show($id)
     {
-        Date::setTranslation(new Indonesian());
         $presensi = KehadiranSantri::findOrFail($id);
         $title = $this->title;
 
@@ -148,13 +156,12 @@ class KehadiranSantriController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param $id
      * @return RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        Date::setTranslation(new Indonesian());
         try {
             $presensi = KehadiranSantri::findOrFail($id);
             $presensi->update([

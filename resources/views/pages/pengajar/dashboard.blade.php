@@ -36,73 +36,94 @@
                                             <h6 class="text-right text-muted">{{ \Carbon\Carbon::today()->isoFormat('D MMMM Y') }}</h6>
                                         </div>
                                     </div>
-                                    @if($ngaji)
-                                        <div class="row mt-4">
-                                            @if($presensi)
-                                                @if($presensi->datang)
-                                                    @if($presensi->pulang)
-                                                        <div class="col-4">
-                                                            Pembelajaran
-                                                            Selesai: {{ \Carbon\Carbon::parse($presensi->datang)->format('H.i') }}
-                                                            -{{ \Carbon\Carbon::parse($presensi->pulang)->format('H.i') }}
-                                                            WITA
-                                                        </div>
-                                                    @else
-                                                        <div class="col-4">
-                                                            <form
-                                                                action="{{ route('pengajar.kehadiran.update', $presensi) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                <button type="submit" class="btn bg-maroon btn-block">
-                                                                    Selesai
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    @endif
+                                    <div class="row mt-4">
+                                        @if($presensi)
+                                            @if($presensi->datang)
+                                                @if($presensi->pulang)
+                                                    <div class="col-4">
+                                                        Pembelajaran
+                                                        Selesai: {{ \Carbon\Carbon::parse($presensi->datang)->format('H.i') }}
+                                                        -{{ \Carbon\Carbon::parse($presensi->pulang)->format('H.i') }}
+                                                        WITA
+                                                    </div>
                                                 @else
                                                     <div class="col-4">
-                                                        <h3 class="text-muted">{{ $presensi->keterangan }}</h3>
+                                                        <form
+                                                            action="{{ route('pengajar.kehadiran.update', $presensi) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <button type="submit" class="btn bg-maroon btn-block">
+                                                                Selesai
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 @endif
                                             @else
                                                 <div class="col-4">
-                                                    <form action="{{ route('pengajar.kehadiran.store') }}"
-                                                          method="post">
-                                                        @csrf
-                                                        <button type="submit" class="btn bg-maroon btn-block"
-                                                                name="keterangan" value="Hadir">Hadir
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                                <div class="col-4">
-                                                    <form action="{{ route('pengajar.kehadiran.store') }}"
-                                                          method="post">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-outline-danger btn-block"
-                                                                name="keterangan" value="Izin">Izin
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                                <div class="col-4">
-                                                    <form action="{{ route('pengajar.kehadiran.store') }}"
-                                                          method="post">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-outline-danger btn-block"
-                                                                name="keterangan" value="Sakit">Sakit
-                                                        </button>
-                                                    </form>
+                                                    <h3 class="text-muted">{{ $presensi->keterangan }}</h3>
                                                 </div>
                                             @endif
-                                        </div>
-                                    @endif
+                                        @else
+                                            <div class="col-4">
+                                                <form action="{{ route('pengajar.kehadiran.store') }}"
+                                                      method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn bg-maroon btn-block"
+                                                            name="keterangan" value="Hadir">Hadir
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col-4">
+                                                <form action="{{ route('pengajar.kehadiran.store') }}"
+                                                      method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-outline-danger btn-block"
+                                                            name="keterangan" value="Izin">Izin
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col-4">
+                                                <form action="{{ route('pengajar.kehadiran.store') }}"
+                                                      method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-outline-danger btn-block"
+                                                            name="keterangan" value="Sakit">Sakit
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div><!-- /.card -->
 
+                        @if($honor)
+                            <div class="card card-maroon card-outline">
+                                <div class="card-header">
+                                    <h5 class="card-title">Konfirmasi Honor</h5>
+                                </div>
+                                <div class="card-body p-0 m-0">
+                                    <table class="table table-hover table-striped p-0 m-0" id="tabel-konfirmasi-honor">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th style="width: 25px">No</th>
+                                            <th>Tanggal</th>
+                                            <th>Bulan</th>
+                                            <th>Nominal</th>
+                                            <th style="width: 75px;">Aksi</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
+
                         @if($presensi_bulan->count())
                             <div class="card card-maroon card-tabs">
                                 <div class="card-header p-0 pt-1">
+                                    <a href="{{ route('pengajar.kehadiran.index') }}" class="btn btn-sm btn-light text-dark mt-1 mx-2 float-right">Selengkapnya</a>
                                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                         @foreach($presensi_bulan as $bulan)
                                             <li class="nav-item">
@@ -238,7 +259,53 @@
                     $('td', row).eq(2).addClass('text-center'); // 6 is index of column
                 },
             });
+            //Initialize Datatables Elements
+            $('#tabel-konfirmasi-honor').DataTable({
+                ajax: {
+                    url: "{!! route('pengajar.honor.index') !!}",
+                    data: function (d) {
+                        d.status = 0;
+                    }
+                },
+                autoWidth: false,
+                responsive: true,
+                processing: true,
+                searching: false,
+                paging: false,
+                serverSide: true,
+                info: false,
+                lengthChange: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'bulan', name: 'bulan'},
+                    {data: 'jumlah', name: 'jumlah'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                createdRow: function (row, data, index) {
+                    $('td', row).eq(2).addClass('text-center'); // 6 is index of column
+                },
+            });
 
+            $(document).on("click", "button[type=submit].honor-confirm", function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Anda yakin honor telah diterima?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Iya, saya yakin!',
+                    cancelButtonText: 'Batalkan',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).closest('form.d-inline').submit();
+                    }
+                });
+            });
 
             $(document).on("click", "button[type=submit].confirm-attendance", async function (e) {
                 e.preventDefault();

@@ -24,6 +24,7 @@
                             class="fas fa-chevron-down ml-2"></i></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                    <a href="{{ route('kepala.akun') }}" class="dropdown-item">Akun</a>
                     <a href="{{ route('kepala.profil') }}" class="dropdown-item">Profil</a>
                     <a href="{{ route('logout') }}" class="dropdown-item" id="logout-button">Keluar</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -181,6 +182,12 @@
                     </li>
 
                     <li class="nav-header">PENGATURAN</li>
+                    <li class="nav-item">
+                        <a href="{{ route('kepala.akun') }}" class="nav-link {{ Route::is('kepala.akun') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-shield"></i>
+                            <p>Akun</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('kepala.profil') }}" class="nav-link {{ Route::is('kepala.profil') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user-cog"></i>

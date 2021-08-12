@@ -162,7 +162,7 @@
                 url: "{{ route('admin.kelas.create') }}",
                 type: "get",
                 data: {
-                    type: 'ok',
+                    type: 'foto',
                     id: id
                 },
                 success: function(response) {

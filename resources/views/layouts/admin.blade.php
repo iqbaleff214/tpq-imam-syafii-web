@@ -24,6 +24,7 @@
                             class="fas fa-chevron-down ml-2"></i></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                    <a href="{{ route('admin.akun') }}" class="dropdown-item">Akun</a>
                     <a href="{{ route('admin.profil') }}" class="dropdown-item">Profil</a>
                     <a href="{{ route('logout') }}" class="dropdown-item" id="logout-button">Keluar</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -125,10 +126,17 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('kepala.keuangan.honor') }}"
-                                   class="nav-link {{ Route::is('kepala.keuangan.honor') ? 'active' : '' }}">
+                                <a href="{{ route('admin.keuangan.honor.index') }}"
+                                   class="nav-link {{ Route::is('admin.keuangan.honor.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Honor Pengajar</p>
+                                    <p>Honor</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.keuangan.donasi.index') }}"
+                                   class="nav-link {{ Route::is('admin.keuangan.donasi.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Donasi</p>
                                 </a>
                             </li>
                         </ul>
@@ -182,18 +190,24 @@
                             <p>Inventaris Barang</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-handshake"></i>
-                            <p>Rapat</p>
-                        </a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="#" class="nav-link">--}}
+{{--                            <i class="nav-icon fas fa-handshake"></i>--}}
+{{--                            <p>Rapat</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
 
                     <li class="nav-header">HALAMAN WEB</li>
                     <li class="nav-item">
                         <a href="{{ route('admin.fasilitas.index') }}" class="nav-link {{ Route::is('admin.fasilitas.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-elementor"></i>
+                            <i class="nav-icon fas fa-toolbox"></i>
                             <p>Fasilitas</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.pesan.index') }}" class="nav-link {{ Route::is('admin.pesan.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-mail-bulk"></i>
+                            <p>Pesan</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -224,6 +238,12 @@
                     </li>
 
                     <li class="nav-header">PENGATURAN</li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.akun') }}" class="nav-link {{ Route::is('admin.akun') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-shield"></i>
+                            <p>Akun</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.profil') }}" class="nav-link {{ Route::is('admin.profil') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user-cog"></i>

@@ -8,14 +8,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Galeri</h1>
+                        <h1 class="m-0">Honor</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.galeri.index') }}">Galeri</a>
+                            <li class="breadcrumb-item active">Keuangan</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.keuangan.donasi.index') }}">Honor</a>
                             </li>
                             <li class="breadcrumb-item active">Detail</li>
-                            <!-- <li class="breadcrumb-item active">Administrator</li> -->
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -26,20 +26,43 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <div class="col-12 col-md-6">
+                <div class="col-12">
                     <!-- Default box -->
                     <div class="card card-solid">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <a href="{{ route('admin.galeri.index') }}" class="btn btn-outline-danger">
+                                <a href="{{ route('admin.keuangan.donasi.index') }}" class="btn btn-outline-danger">
                                     Kembali
                                 </a>
                             </h3>
                         </div>
-                        <div class="card-body mb-3">
-                            <img src="{{ asset("storage/$galeri->foto") }}" class="img-thumbnail img-preview"
-                                 style="width: 100%;" alt="{{ $galeri->judul }}">
-
+                        <div class="card-body mb-3 p-0">
+                            <table class="table">
+                                <tr>
+                                    <th style="width: 25%;">Ditambahkan</th>
+                                    <td>{{ $donasi->created_at->diffForHumans() }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 25%;">Donatur</th>
+                                    <td>{{ $donasi->nama }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 25%;">Nomor Telepon</th>
+                                    <td>{{ $donasi->no_telp }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 25%;">Nominal</th>
+                                    <td>Rp{{ number_format($donasi->jumlah, 2, '.', ',') }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 25%;">Status</th>
+                                    <td>{{ $donasi->status ? 'Diterima' : 'Menunggu' }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 25%;">Keterangan</th>
+                                    <td>{{ $donasi->keterangan ?: '-' }}</td>
+                                </tr>
+                            </table>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -47,35 +70,6 @@
                         <!-- /.card-footer-->
                     </div>
                     <!-- /.card -->
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="card card-solid">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                Kegiatan
-                            </h3>
-                        </div>
-                        <div class="card-body mb-3 p-0">
-                            <table class="table">
-                                <tr>
-                                    <th style="width: 25%;">Ditambahkan</th>
-                                    <td>{{ $galeri->created_at->diffForHumans() }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 25%;">Judul</th>
-                                    <td>{{ $galeri->judul }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 25%;">Kategori</th>
-                                    <td>{{ $galeri->kategori->kategori }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 25%;">Keterangan</th>
-                                    <td>{{ $galeri->keterangan ?: '-' }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

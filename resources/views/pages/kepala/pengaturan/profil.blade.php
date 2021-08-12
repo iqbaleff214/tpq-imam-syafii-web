@@ -41,46 +41,66 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Nama</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama" value="{{ old('nama', Auth::user()->administrator->nama) }}">
+                                        <input type="text" class="form-control @error('nama') is-invalid @enderror"
+                                               name="nama" placeholder="Nama"
+                                               value="{{ old('nama', Auth::user()->administrator->nama) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jabatan</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control @error('jabatan') is-invalid @enderror" placeholder="Jabatan" value="{{ old('jabatan', Auth::user()->administrator->jabatan) }}" readonly>
+                                        <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
+                                               placeholder="Jabatan"
+                                               value="{{ old('jabatan', Auth::user()->administrator->jabatan) }}"
+                                               readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Tempat Lahir</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror" placeholder="Tempat Lahir" value="{{ old('tempat_lahir', Auth::user()->administrator->tempat_lahir) }}">
+                                        <input type="text" name="tempat_lahir"
+                                               class="form-control @error('tempat_lahir') is-invalid @enderror"
+                                               placeholder="Tempat Lahir"
+                                               value="{{ old('tempat_lahir', Auth::user()->administrator->tempat_lahir) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir', date('Y-m-d', strtotime(Auth::user()->administrator->tanggal_lahir))) }}">
+                                        <input type="date"
+                                               class="form-control @error('tanggal_lahir') is-invalid @enderror"
+                                               name="tanggal_lahir"
+                                               value="{{ old('tanggal_lahir', date('Y-m-d', strtotime(Auth::user()->administrator->tanggal_lahir))) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                                     <div class="col-sm-8">
                                         <select name="jenis_kelamin" id="" class="form-control select2">
-                                            <option {{ Auth::user()->administrator->jenis_kelamin=='L' ? 'selected' : '' }} value="L">Laki-laki</option>
-                                            <option {{ Auth::user()->administrator->jenis_kelamin=='P' ? 'selected' : '' }} value="P">Perempuan</option>
+                                            <option
+                                                {{ Auth::user()->administrator->jenis_kelamin=='L' ? 'selected' : '' }} value="L">
+                                                Laki-laki
+                                            </option>
+                                            <option
+                                                {{ Auth::user()->administrator->jenis_kelamin=='P' ? 'selected' : '' }} value="P">
+                                                Perempuan
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Nomor Telepon</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control @error('no_telp') is-invalid @enderror" placeholder="Nomor Telepon" name="no_telp" value="{{ old('no_telp', Auth::user()->administrator->no_telp) }}">
+                                        <input type="text" class="form-control @error('no_telp') is-invalid @enderror"
+                                               placeholder="Nomor Telepon" name="no_telp"
+                                               value="{{ old('no_telp', Auth::user()->administrator->no_telp) }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Alamat</label>
                                     <div class="col-sm-8">
-                                        <textarea name="alamat" id="" cols="30" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', Auth::user()->administrator->alamat) }}</textarea>
+                                        <textarea name="alamat" id="" cols="30" rows="3"
+                                                  class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', Auth::user()->administrator->alamat) }}</textarea>
                                     </div>
                                 </div>
 
@@ -114,11 +134,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="{{ Auth::user()->administrator->foto ? asset("storage/".Auth::user()->administrator->foto) : asset(Auth::user()->administrator->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                <img
+                                    src="{{ Auth::user()->administrator->foto ? asset("storage/".Auth::user()->administrator->foto) : asset(Auth::user()->administrator->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}"
+                                    class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                @if(Auth::user()->administrator->foto)
+                                    <button type="submit" form="unlink"
+                                            class="btn btn-outline-danger btn-sm position-absolute mt-3 ml-n5"><i
+                                            class="fas fa-times"></i></button>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
+            </form>
+            <form action="{{ route('kepala.profil.unlink') }}" id="unlink" method="post">
+                @csrf
+                @method('DELETE')
             </form>
         </section>
         <!-- /.content -->
@@ -128,8 +159,11 @@
 
 @push('link')
     <!-- Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css"
+          integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 @endpush
 
 @push('script')
@@ -137,11 +171,30 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        $(function() {
+        $(function () {
+            $(document).on("click", "button[type=submit].position-absolute", function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Anda yakin ingin menghapus?',
+                    text: "Tindakan tidak dapat dibatalkan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Iya, saya yakin!',
+                    cancelButtonText: 'Batalkan',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#unlink').submit();
+                    }
+                });
+                return false;
+            });
+
             //Initialize Select2 Elements
             $('.select2').select2();
 
-            $('#image').on('change', function() {
+            $('#image').on('change', function () {
                 previewImage();
             });
         });

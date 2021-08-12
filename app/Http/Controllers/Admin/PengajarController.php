@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\KehadiranPengajar;
 use App\Models\Pengajar;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +19,9 @@ class PengajarController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function index(Request $request)
     {
@@ -75,13 +78,11 @@ class PengajarController extends Controller
         ]);
 
         try {
-
             $foto = null;
             if ($request->hasFile('foto')) {
                 $foto = time() . '.' . $request->foto->extension();
                 Storage::putFileAs('public', $request->file('foto'), $foto);
             }
-
             $akun = User::create([
                 'username' => $request->username ?: $request->email,
                 'email' => $request->email,

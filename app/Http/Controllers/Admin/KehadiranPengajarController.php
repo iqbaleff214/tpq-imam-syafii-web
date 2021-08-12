@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\KehadiranPengajar;
 use App\Models\Pengajar;
+use Exception;
 use GeniusTS\HijriDate\Date;
 use GeniusTS\HijriDate\Hijri;
 use GeniusTS\HijriDate\Translations\Indonesian;
@@ -17,11 +18,19 @@ class KehadiranPengajarController extends Controller
 {
     private $title = "Kehadiran Pengajar";
 
+    public function __construct()
+    {
+        parent::__construct();
+        Hijri::setDefaultAdjustment(-1);
+        Date::setTranslation(new Indonesian());
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function index(Request $request)
     {
@@ -61,7 +70,7 @@ class KehadiranPengajarController extends Controller
                     return $row->created_at->isoFormat('dddd');
                 })
                 ->addColumn('hijriah', function($row) {
-                    return \Alkoumi\LaravelHijriDate\Hijri::Date('d-m-Y', $row->created_at);
+                    return Hijri::convertToHijri($row->created_at)->format('d-m-Y');
                 })
                 ->editColumn('created_at', function($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');
@@ -72,6 +81,7 @@ class KehadiranPengajarController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+
         $title = $this->title;
         $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Ahad'];
         $pengajar = Pengajar::all();
@@ -101,7 +111,6 @@ class KehadiranPengajarController extends Controller
      */
     public function store(Request $request)
     {
-        Date::setTranslation(new Indonesian());
         try {
             KehadiranPengajar::create([
                 'created_at' => $request->created_at,
@@ -126,7 +135,6 @@ class KehadiranPengajarController extends Controller
      */
     public function show($id)
     {
-        Date::setTranslation(new Indonesian());
         $presensi = KehadiranPengajar::findOrFail($id);
         $title = $this->title;
 
@@ -157,7 +165,6 @@ class KehadiranPengajarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Date::setTranslation(new Indonesian());
         $presensi = KehadiranPengajar::findOrFail($id);
         try {
             $presensi->update([

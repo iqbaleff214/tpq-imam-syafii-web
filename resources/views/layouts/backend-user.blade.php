@@ -58,7 +58,7 @@
 {{--            </li>--}}
 {{--        </ul>--}}
 {{--    </nav>--}}
-    <!-- /.navbar -->
+<!-- /.navbar -->
 
     @yield('navbar')
 
@@ -92,12 +92,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
+<script !src="">
+    var osInstance = $('body').overlayScrollbars({ }).overlayScrollbars();
+</script>
 @stack('script')
 <script !src="">
     $(function () {
-        //The passed argument has to be at least a empty object or a object with your desired options
-        $("body").overlayScrollbars({});
-
         $(document).on('click', '#logout-button', function (e) {
             e.preventDefault();
             Swal.fire({

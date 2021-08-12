@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Lembaga;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
 class LembagaController extends Controller
@@ -22,91 +24,69 @@ class LembagaController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            return DataTables::of(Lembaga::all())
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    return '<a href="' . route('admin.lembaga.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
-                            <a href="' . route('admin.lembaga.edit', $row) . '" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
-                            <form class="d-inline" method="POST" action="' . route('admin.lembaga.destroy', $row) . '">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="' . csrf_token() . '" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
-                            </form>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
         $title = $this->title;
-        $profil = Lembaga::where('is_active', 1)->first();
+        $profil = Lembaga::where('is_active', 1)->firstOrFail();
 
-        echo view('pages.admin.lembaga.index', compact('title', 'profil'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Lembaga  $lembaga
-     * @return Response
-     */
-    public function show(Lembaga $lembaga)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Lembaga  $lembaga
-     * @return Response
-     */
-    public function edit(Lembaga $lembaga)
-    {
-        //
+        echo view('pages.admin.pengaturan.lembaga', compact('title', 'profil'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lembaga  $lembaga
-     * @return Response
+     * @param Request $request
+     * @param Lembaga $lembaga
+     * @return RedirectResponse
      */
     public function update(Request $request, Lembaga $lembaga)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'no_telp' => 'required',
+            'alamat' => 'required',
+            'deskripsi' => 'required',
+        ]);
+
+        try {
+            $foto = $lembaga->foto;
+            if ($request->hasFile('foto')) {
+
+                if ($foto) Storage::delete("public/$foto");
+
+                $foto = time() . '.' . $request->foto->extension();
+                Storage::putFileAs('public', $request->file('foto'), $foto);
+            }
+
+            $lembaga->update([
+                'nama' => $request->nama,
+                'no_telp' => $request->no_telp,
+                'deskripsi' => $request->deskripsi,
+                'alamat' => $request->alamat,
+                'foto' => $foto,
+                'visi' => $request->visi,
+                'facebook' => $request->facebook,
+                'twitter' => $request->twitter,
+                'whatsapp' => $request->whatsapp,
+                'instagram' => $request->instagram,
+            ]);
+
+            return redirect()->back()->with('success', 'Data lembaga berhasil diperbarui!');
+        } catch (\Throwable $e) {
+
+            return redirect()->back()->with('error', 'Data lembaga gagal diperbarui!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Lembaga  $lembaga
-     * @return Response
-     */
-    public function destroy(Lembaga $lembaga)
+    public function unlink()
     {
-        //
+        try {
+            $profil = Lembaga::where('is_active', 1)->firstOrFail();
+            if ($profil->foto) Storage::delete("public/$profil->foto");
+            $profil->update(['foto' => null]);
+
+            return redirect()->back()->with('success', 'Foto lembaga berhasil dihapus!');
+        } catch (\Throwable $th) {
+
+            return redirect()->back()->with('error', 'Foto lembaga gagal dihapus!');
+        }
     }
 }

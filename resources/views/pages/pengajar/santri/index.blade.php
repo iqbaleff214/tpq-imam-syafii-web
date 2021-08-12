@@ -38,7 +38,11 @@
                                                 </a>
                                             </h4>
                                             <h5 class="card-title text-muted">{{ $item->nama_lengkap }}</h5>
-                                            <p class="card-text"><small class="text-muted">{{ $item->nis }}</small>
+                                            <p class="card-text mt-4">
+                                                <small class="text-muted d-block">{{ $item->nis }}</small>
+                                                @if($bacaan = $item->pembelajaran()->orderBy('created_at', 'desc')->first())
+                                                <small class="text-muted">{{ $bacaan->bacaan . ': ' . ($bacaan->mulai==$bacaan->selesai ? $bacaan->mulai : "{$bacaan->mulai}-{$bacaan->selesai}") }}</small>
+                                                @endif
                                             </p>
                                         </div>
                                     </div>

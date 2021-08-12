@@ -92,38 +92,41 @@
                                     <li class="nav-item">
                                         <a class="nav-link active" href="#kehadiran" data-toggle="tab">Kehadiran</a>
                                     </li>
-                                    @if($pengajar->kelas)
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#kelas" data-toggle="tab">Kelas</a>
-                                        </li>
-                                    @endif
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#honor" data-toggle="tab">Honor</a>
+                                    </li>
                                 </ul>
                             </div><!-- /.card-header -->
                             <div class="card-body">
                                 <div class="tab-content">
-                                    @if($pengajar->kelas)
-                                        <div class="tab-pane" id="kelas">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab aperiam
-                                                asperiores dolore ea exercitationem expedita, explicabo illum, iure
-                                                magnam nisi non nulla obcaecati omnis quod unde vero, voluptatem?
-                                                Nobis?</p>
-                                        </div>
-                                        <!-- /.tab-pane -->
-                                    @endif
+                                    <div class="tab-pane" id="honor">
+                                        <table class="table table-hover table-bordered table-striped" id="table-honor">
+                                            <thead class="text-center">
+                                            <th style="width: 25px">No</th>
+                                            <th>Tanggal</th>
+                                            <th>Bulan</th>
+                                            <th>Nominal</th>
+                                            <th>Status</th>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.tab-pane -->
                                     <div class="tab-pane active" id="kehadiran">
 
                                         <div class="form-group">
                                             @if($bulan->count())
-                                            <select class="form-control select2" id="select-bulan" style="width: 100%;">
-                                                @foreach($bulan as $item)
-                                                    <option
-                                                        value="{{ $item->bulan }}" {{ $loop->last ? 'selected' : '' }}>{{ $item->bulan }}</option>
-                                                @endforeach
-                                            </select>
+                                                <select class="form-control select2" id="select-bulan"
+                                                        style="width: 100%;">
+                                                    @foreach($bulan as $item)
+                                                        <option
+                                                            value="{{ $item->bulan }}" {{ $loop->last ? 'selected' : '' }}>{{ $item->bulan }}</option>
+                                                    @endforeach
+                                                </select>
                                             @endif
                                         </div>
 
-                                        <table class="table table-hover table-bordered table-striped" id="datatable-bs">
+                                        <table class="table table-hover table-bordered table-striped" id="table-kehadiran">
                                             <thead class="text-center">
                                             <th style="width: 25px">No</th>
                                             <th>Hari</th>
@@ -185,7 +188,7 @@
             let bulan = $('#select-bulan').val();
             let pengajar_id = '{{ $pengajar->id }}';
 
-            var table = $('#datatable-bs').DataTable({
+            var table = $('#table-kehadiran').DataTable({
                 ajax: {
                     url: "{!! route('admin.kehadiran.pengajar.index') !!}",
                     data: function (d) {
@@ -208,6 +211,64 @@
                     {data: 'created_at', name: 'created_at'},
                     {data: 'hijriah', name: 'hijriah'},
                     {data: 'keterangan', name: 'keterangan'},
+                ]
+            });
+            $('#table-honor').DataTable({
+                ajax: {
+                    url: "{!! route('admin.keuangan.honor.index') !!}",
+                    data: function (d) {
+                        d.pengajar_id = pengajar_id;
+                    }
+                },
+                autoWidth: false,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                searching: false,
+                lengthChange: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':not(.notexport)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        exportOptions: {
+                            columns: ':not(.notexport)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'PDF',
+                        orientation: 'landscape',
+                        exportOptions: {
+                            columns: ':not(.notexport)'
+                        },
+                        customize: function (doc) {
+                            doc.content[1].table.widths =
+                                Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        }
+                    }
+                ],
+                initComplete: function () {
+                    var btns = $('.btn-secondary');
+                    btns.addClass('btn-outline-danger btn-sm');
+                    btns.removeClass('btn-secondary');
+
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'bulan', name: 'bulan'},
+                    {data: 'jumlah', name: 'jumlah'},
+                    {data: 'status', name: 'status'},
                 ]
             });
 

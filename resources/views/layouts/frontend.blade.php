@@ -6,9 +6,10 @@
     <title>{{ $title }} - {{ config('app.name', $profil->nama) }}</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('adminlte/img/404nf.ico') }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="keywords" content="tpq, imam syafi'i banjarmasin, tpq imam syafi'i banjarmasin, tpq mis, {{ $profil->nama }}, {{ config('app.name') }}" />
+    <meta name="keywords"
+          content="tpq, imam syafi'i banjarmasin, tpq imam syafi'i banjarmasin, tpq mis, {{ $profil->nama }}, {{ config('app.name') }}"/>
     @yield('meta')
-    <meta name="google" content="notranslate" />
+    <meta name="google" content="notranslate"/>
     <!-- Web Font -->
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -50,26 +51,42 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-9 col-12">
-                    <div class="toolbar-contact"><p><i class="lni lni-envelope"></i><a
-                                href="mailto:{{ $profil->email }}"> {{ $profil->email }} </a></p>
-                        <p><i class="lni lni-phone"></i><a href="tel:+123456789">(+62) 8215 914 2175</a></p>
+                    <div class="toolbar-contact">
+                        <p>
+                            <i class="lni lni-envelope"></i><a
+                                href="mailto:{{ $profil->email }}"> {{ $profil->email }} </a>
+                        </p>
+                        @if($profil->no_telp)
+                        <p>
+                            <i class="lni lni-phone"></i><a href="tel:{{ $profil->no_telp }}">{{ $profil->no_telp }}</a>
+                        </p>
+                        @endif
                         <p><i class="lni lni-map-marker"></i> {{ $profil->alamat }}</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-3 col-12">
                     <div class="toolbar-sl-share">
                         <ul>
-                            <li><a href="#"><i class="fab fa-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                            </li>
+                            @if($profil->facebook)
+                                <li>
+                                    <a target="_blank" href="{{ 'https://facebook.com/' . $profil->facebook }}"><i class="fab fa-facebook"></i></a>
+                                </li>
+                            @endif
+                            @if($profil->twitter)
+                                <li>
+                                    <a target="_blank" href="{{ 'https://twitter.com/' . $profil->twitter }}"><i class="fab fa-twitter"></i></a>
+                                </li>
+                            @endif
+                            @if($profil->whatsapp)
+                                <li>
+                                    <a target="_blank" href="{{ 'https://wa.me/' . $profil->whatsapp }}"><i class="fab fa-whatsapp"></i></a>
+                                </li>
+                            @endif
+                            @if($profil->instagram)
+                                <li>
+                                    <a target="_blank" href="{{ 'https://instagram.com/' . $profil->instagram }}"><i class="fab fa-instagram"></i></a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -83,7 +100,7 @@
                 <div class="nav-inner">
                     <nav class="navbar navbar-expand-lg">
                         <a class="navbar-brand logo" href="{{ route('beranda') }}">
-                            <img src="{{ asset('logo.png') }}"
+                            <img src="{{ $profil->foto ? asset("storage/".$profil->foto) : asset('logo.png') }}"
                                  alt="{{ config('app.name') }}" style="width: 75px;">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -155,7 +172,6 @@
                     <form
                         action="{{ route('donasi') }}"
                         method="get"
-                        target="_blank"
                         class="newsletter-inner">
                         <input
                             name="donasi"
@@ -164,6 +180,7 @@
                             onfocus="this.placeholder = 'Rp0'"
                             onblur="this.placeholder = 'Rp0'"
                             required=""
+                            min="0"
                             type="number"
                             autocomplete="off"/>
                         <div class="button">
@@ -182,112 +199,69 @@
     <div class="footer-middle">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-5 col-12">
+                <div class="col-md-4 col-12">
                     <div class="f-about single-footer">
                         <div class="logo">
-                            <a href="{{ route('beranda') }}"><img src="{{ asset('logo.png') }}" alt="#"/></a>
+                            <a href="{{ route('beranda') }}"><img
+                                    src="{{ $profil->foto ? asset("storage/".$profil->foto) : asset('logo.png') }}"
+                                    alt="#"/></a>
                         </div>
                         <p>
                             {{ $profil->deskripsi }}
                         </p>
                         <div class="footer-social">
                             <ul>
-                                <li>
-                                    <a href="#"><i class="fab fa-facebook"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fab fa-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fab fa-instagram"></i></a>
-                                </li>
+                                @if($profil->facebook)
+                                    <li>
+                                        <a target="_blank" href="{{ 'https://facebook.com/' . $profil->facebook }}"><i class="fab fa-facebook"></i></a>
+                                    </li>
+                                @endif
+                                @if($profil->twitter)
+                                    <li>
+                                        <a target="_blank" href="{{ 'https://twitter.com/' . $profil->twitter }}"><i class="fab fa-twitter"></i></a>
+                                    </li>
+                                @endif
+                                @if($profil->whatsapp)
+                                    <li>
+                                        <a target="_blank" href="{{ 'https://wa.me/' . $profil->whatsapp }}"><i class="fab fa-whatsapp"></i></a>
+                                    </li>
+                                @endif
+                                @if($profil->instagram)
+                                    <li>
+                                        <a target="_blank" href="{{ 'https://instagram.com/' . $profil->instagram }}"><i class="fab fa-instagram"></i></a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-7 col-12">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-12">
-                            <div class="single-footer f-link">
-                                <h3>TPQ Imam Syafi'i</h3>
-                                <ul>
-                                    <li><a href="{{ route('beranda') }}">Beranda</a></li>
-                                    <li><a href="{{ route('pengumuman') }}">Pengumuman</a></li>
-                                    <li><a href="{{ route('galeri') }}">Galeri</a></li>
-                                    <li><a href="{{ route('donasi') }}">Donasi</a></li>
-                                    <li><a href="{{ route('struktur') }}">Struktur</a></li>
-                                    <li><a href="{{ route('hubungi') }}">Hubungi Kami</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-12">
-                            <div class="single-footer f-contact f-link">
-                                <h3>Hubungi Kami</h3>
-                                <p>Untuk mendapat informasi lebih lengkap, silakan hubungi kami</p>
-                                <ul class="footer-contact">
-                                    <li>
-                                        <i class="fas fa-envelope"></i> <a
-                                            href="mailto:{{ $profil->email }}"> {{ $profil->email }} </a>
-                                    </li>
-                                    <li>
-                                        <i class="fas fa-phone"></i><a href="tel:+123456789">(+62) 8215 914 2175</a>
-                                    </li>
-                                    <li>
-                                        <i class="fas fa-map-marker"></i> {{ $profil->alamat }}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                <div class="col-md-4 col-12">
+                    <div class="single-footer f-link">
+                        <h3>{{ $profil->nama }}</h3>
+                        <ul>
+                            <li><a href="{{ route('beranda') }}">Beranda</a></li>
+                            <li><a href="{{ route('pengumuman') }}">Pengumuman</a></li>
+                            <li><a href="{{ route('galeri') }}">Galeri</a></li>
+                            <li><a href="{{ route('donasi') }}">Donasi</a></li>
+                            <li><a href="{{ route('struktur') }}">Struktur</a></li>
+                            <li><a href="{{ route('hubungi') }}">Hubungi Kami</a></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="single-footer gallery">
-                        <h3>Instagram Feed</h3>
-                        <ul class="list">
+                <div class="col-md-4 col-12">
+                    <div class="single-footer f-contact f-link">
+                        <h3>Hubungi Kami</h3>
+                        <p>Untuk mendapat informasi lebih lengkap, silakan hubungi kami</p>
+                        <ul class="footer-contact">
                             <li>
-                                <a href="#"><img src="{{ asset('bizfinity/images/gallery1.jpg') }}" alt="#"/><i
-                                        class="lni lni-instagram"></i></a>
+                                <i class="fas fa-envelope"></i> <a
+                                    href="mailto:{{ $profil->email }}"> {{ $profil->email }} </a>
+                            </li>
+                            <li class="d-block">
+                                <i class="fas fa-phone"></i><a href="tel:{{ $profil->no_telp }}">{{ $profil->no_telp }}</a>
                             </li>
                             <li>
-                                <a href="#"
-                                ><img src="{{ asset('bizfinity/images/gallery2.jpg') }}" alt="#"/><i
-                                        class="lni lni-instagram"
-                                    ></i
-                                    ></a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                ><img src="{{ asset('bizfinity/images/gallery3.jpg') }}" alt="#"/><i
-                                        class="lni lni-instagram"
-                                    ></i
-                                    ></a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                ><img src="{{ asset('bizfinity/images/gallery2.jpg') }}" alt="#"/><i
-                                        class="lni lni-instagram"
-                                    ></i
-                                    ></a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                ><img src="{{ asset('bizfinity/images/gallery3.jpg') }}" alt="#"/><i
-                                        class="lni lni-instagram"
-                                    ></i
-                                    ></a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                ><img src="{{ asset('bizfinity/images/gallery1.jpg') }}" alt="#"/><i
-                                        class="lni lni-instagram"
-                                    ></i
-                                    ></a>
+                                <i class="fas fa-map-marker"></i> {{ $profil->alamat }}
                             </li>
                         </ul>
                     </div>
@@ -325,6 +299,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+<!--Sweet alert 2-->
+@include('sweetalert::alert')
 <script src="{{ asset('bizfinity/js/count-up.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"
         integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g=="
@@ -343,6 +319,14 @@
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
 
+        //========= glightbox
+        GLightbox({
+            href: "https://www.youtube.com/watch?v=3uUh5ywVEfQ",
+            type: "video",
+            source: "youtube", //vimeo, youtube or local
+            width: 900,
+            autoplayVideos: true,
+        });
 
         //====== Clients Logo Slider
         tns({

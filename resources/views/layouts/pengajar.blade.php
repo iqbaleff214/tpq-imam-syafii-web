@@ -22,6 +22,9 @@
                     <li class="nav-item">
                         <a href="{{ route('pengajar.dashboard') }}" class="nav-link {{ Route::is('pengajar.dashboard') ? 'active' : '' }}">Beranda</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('pengajar.pengumuman.index') }}" class="nav-link {{ Route::is('pengajar.pengumuman.*') ? 'active' : '' }}">Pengumuman</a>
+                    </li>
                     @if(Auth::user()->pengajar->kelas)
                     <li class="nav-item">
                         <a href="{{ route('pengajar.santri.index') }}" class="nav-link {{ Route::is('pengajar.santri.*') ? 'active' : '' }}">Santri</a>
@@ -32,56 +35,13 @@
                     @endif
                     <li class="nav-item dropdown">
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+                           aria-expanded="false" class="nav-link dropdown-toggle {{ (Route::is('pengajar.kehadiran.*') or Route::is('pengajar.honor.*')) ? 'active' : '' }}">Lainnya</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                            <li><a href="#" class="dropdown-item">Some action </a></li>
-                            <li><a href="#" class="dropdown-item">Some other action</a></li>
-
-                            <li class="dropdown-divider"></li>
-
-                            <!-- Level two dropdown-->
-                            <li class="dropdown-submenu dropdown-hover">
-                                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover
-                                    for action</a>
-                                <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
-                                    <li>
-                                        <a tabindex="-1" href="#" class="dropdown-item">level 2</a>
-                                    </li>
-
-                                    <!-- Level three dropdown-->
-                                    <li class="dropdown-submenu">
-                                        <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false"
-                                           class="dropdown-item dropdown-toggle">level 2</a>
-                                        <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
-                                            <li><a href="#" class="dropdown-item">3rd level</a></li>
-                                            <li><a href="#" class="dropdown-item">3rd level</a></li>
-                                        </ul>
-                                    </li>
-                                    <!-- End Level three -->
-
-                                    <li><a href="#" class="dropdown-item">level 2</a></li>
-                                    <li><a href="#" class="dropdown-item">level 2</a></li>
-                                </ul>
-                            </li>
-                            <!-- End Level two -->
+                            <li><a href="{{ route('pengajar.kehadiran.index') }}" class="dropdown-item">Kehadiran</a></li>
+                            <li><a href="{{ route('pengajar.honor.index') }}" class="dropdown-item">Honor</a></li>
                         </ul>
                     </li>
                 </ul>
-
-                <!-- SEARCH FORM -->
-{{--                <form class="form-inline ml-0 ml-md-3">--}}
-{{--                    <div class="input-group input-group-sm">--}}
-{{--                        <input class="form-control form-control-navbar" type="search" placeholder="Search"--}}
-{{--                               aria-label="Search">--}}
-{{--                        <div class="input-group-append">--}}
-{{--                            <button class="btn btn-navbar" type="submit">--}}
-{{--                                <i class="fas fa-search"></i>--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
             </div>
 
             <!-- Right navbar links -->
@@ -105,7 +65,8 @@
                                 class="fas fa-chevron-down ml-2"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                        <a href="{{ route('kepala.profil') }}" class="dropdown-item">Profil</a>
+                        <a href="{{ route('pengajar.akun') }}" class="dropdown-item">Akun</a>
+                        <a href="{{ route('pengajar.profil') }}" class="dropdown-item">Profil</a>
                         <a href="{{ route('logout') }}" class="dropdown-item" id="logout-button">Keluar</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf

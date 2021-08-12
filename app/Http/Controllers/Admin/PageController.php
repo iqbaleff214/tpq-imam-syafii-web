@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class PageController extends Controller
@@ -34,6 +35,11 @@ class PageController extends Controller
     public function profil()
     {
         return view('pages.admin.pengaturan.profil', ['title' => 'Profil']);
+    }
+
+    public function akun()
+    {
+        return view('pages.admin.pengaturan.akun', ['title' => 'Akun']);
     }
 
     public function update(Request $request)
@@ -72,6 +78,30 @@ class PageController extends Controller
         } catch (\Throwable $e) {
 
             return redirect()->back()->with('error', 'Profil gagal diperbarui!');
+        }
+    }
+
+    public function update_akun(Request $request)
+    {
+        $request->validate([
+            'username' => ['required', Rule::unique('users')->ignore(Auth::user()->id)],
+            'password_old' => 'required',
+            'password' => 'nullable|confirmed',
+        ]);
+        try {
+
+            if (!password_verify($request->input('password_old'), Auth::user()->getAuthPassword())) return redirect()->back()->with('error', 'Kata sandi salah!');
+
+            $data = [
+                'username' => $request->input('username'),
+            ];
+
+            if ($request->input('password')) $data['password'] = password_hash($request->input('password'), PASSWORD_DEFAULT);
+
+            Auth::user()->update($data);
+            return redirect()->back()->with('success', 'Akun berhasil diperbarui!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Akun gagal diperbarui!');
         }
     }
 

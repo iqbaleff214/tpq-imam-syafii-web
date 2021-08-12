@@ -112,44 +112,67 @@
                                     <li class="nav-item">
                                         <a class="nav-link active" href="#kehadiran" data-toggle="tab">Kehadiran</a>
                                     </li>
-                                    @if($santri->kelas)
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#kelas" data-toggle="tab">Kelas</a>
-                                        </li>
-                                    @endif
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#pembelajaran" data-toggle="tab">Pembelajaran</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#hafalan" data-toggle="tab">Hafalan</a>
+                                    </li>
                                 </ul>
                             </div><!-- /.card-header -->
                             <div class="card-body">
-                                <div class="tab-content">
-                                    @if($santri->kelas)
-                                        <div class="tab-pane" id="kelas">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab aperiam
-                                                asperiores dolore ea exercitationem expedita, explicabo illum, iure
-                                                magnam nisi non nulla obcaecati omnis quod unde vero, voluptatem?
-                                                Nobis?</p>
-                                        </div>
-                                        <!-- /.tab-pane -->
+                                <div class="form-group">
+                                    @if($bulan->count())
+                                        <select class="form-control select2" id="select-bulan" style="width: 100%;">
+                                            @foreach($bulan as $item)
+                                                <option
+                                                    value="{{ $item->bulan }}" {{ $loop->last ? 'selected' : '' }}>{{ $item->bulan }}</option>
+                                            @endforeach
+                                        </select>
                                     @endif
+                                </div>
+                                <div class="tab-content">
                                     <div class="tab-pane active" id="kehadiran">
-
-                                        <div class="form-group">
-                                            @if($bulan->count())
-                                                <select class="form-control select2" id="select-bulan" style="width: 100%;">
-                                                    @foreach($bulan as $item)
-                                                        <option
-                                                            value="{{ $item->bulan }}" {{ $loop->last ? 'selected' : '' }}>{{ $item->bulan }}</option>
-                                                    @endforeach
-                                                </select>
-                                            @endif
-                                        </div>
-
-                                        <table class="table table-hover table-bordered table-striped" id="datatable-bs">
+                                        <table class="table table-hover table-bordered table-striped" id="datatable-kehadiran">
                                             <thead class="text-center">
                                             <th style="width: 25px">No</th>
                                             <th>Hari</th>
                                             <th>Tanggal</th>
                                             <th>Hijriah</th>
+                                            <th>Nilai Adab</th>
                                             <th>Status</th>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="pembelajaran">
+                                        <table class="table table-hover table-bordered table-striped"
+                                               id="datatable-pembelajaran">
+                                            <thead class="text-center">
+                                            <th style="width: 25px">No</th>
+                                            <th>Hari</th>
+                                            <th>Tanggal</th>
+                                            <th>Hijriah</th>
+                                            <th>Bacaan</th>
+                                            <th>Nilai</th>
+                                            <th>Keterangan</th>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="hafalan">
+                                        <table class="table table-hover table-bordered table-striped"
+                                               id="datatable-hafalan">
+                                            <thead class="text-center">
+                                            <th style="width: 25px">No</th>
+                                            <th>Hari</th>
+                                            <th>Tanggal</th>
+                                            <th>Hijriah</th>
+                                            <th>Hafalan</th>
+                                            <th>Nilai</th>
+                                            <th>Keterangan</th>
                                             </thead>
                                             <tbody></tbody>
                                         </table>
@@ -231,9 +254,90 @@
                 ]
             });
 
+            var table_kehadiran = $('#datatable-kehadiran').DataTable({
+                ajax: {
+                    url: "{!! route('admin.kehadiran.santri.index') !!}",
+                    data: function (d) {
+                        d.bulan = bulan;
+                        d.santri_id = santri_id;
+                    }
+                },
+                autoWidth: false,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                searching: false,
+                lengthChange: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'hari', name: 'hari'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'hijriah', name: 'hijriah'},
+                    {data: 'nilai_adab', name: 'nilai_adab'},
+                    {data: 'keterangan', name: 'keterangan'},
+                ]
+            });
+            var table_pembelajaran = $('#datatable-pembelajaran').DataTable({
+                ajax: {
+                    url: "{!! route('admin.santri.pembelajaran', $santri) !!}",
+                    data: function (d) {
+                        d.bulan = bulan;
+                    }
+                },
+                autoWidth: false,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                searching: false,
+                lengthChange: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'hari', name: 'hari'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'hijriah', name: 'hijriah'},
+                    {data: 'ayat', name: 'ayat'},
+                    {data: 'nilai', name: 'nilai'},
+                    {data: 'keterangan', name: 'keterangan'},
+                ]
+            });
+            var table_hafalan = $('#datatable-hafalan').DataTable({
+                ajax: {
+                    url: "{!! route('admin.santri.hafalan', $santri) !!}",
+                    data: function (d) {
+                        d.bulan = bulan;
+                    }
+                },
+                autoWidth: false,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                searching: false,
+                lengthChange: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'hari', name: 'hari'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'hijriah', name: 'hijriah'},
+                    {data: 'ayat', name: 'ayat'},
+                    {data: 'nilai', name: 'nilai'},
+                    {data: 'keterangan', name: 'keterangan'},
+                ]
+            });
+
             $(document).on('change', '#select-bulan', function () {
                 bulan = $(this).val();
-                table.draw();
+                table_kehadiran.draw();
+                table_pembelajaran.draw();
+                table_hafalan.draw();
             });
 
         });

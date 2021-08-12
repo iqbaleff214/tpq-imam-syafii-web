@@ -190,7 +190,7 @@
                                         <select name="spp_opsi_id" class="form-control select2">
                                             @foreach($opsi as $item)
                                                 <option
-                                                    value="{{ $item->id }}" {{ $santri->spp_opsi_id == $item->id ? 'active' : '' }}>{{ $item->opsi . ' (Rp'. number_format($item->jumlah, 2, ',', '.') . ')' }}</option>
+                                                    value="{{ $item->id }}" {{ $santri->spp_opsi_id == $item->id ? 'selected' : '' }}>{{ $item->opsi . ' (Rp'. number_format($item->jumlah, 2, ',', '.') . ')' }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -201,7 +201,7 @@
                                         <select name="kelas_id" class="form-control select2">
                                             <option disabled="disabled" {{ $santri->kelas_id ?: 'selected="selected"' }}>Kelas (Opsional)</option>
                                             @foreach($kelas as $item)
-                                                <option value="{{ $item->id }}" {{ $santri->kelas_id == $item->id ? 'active' : '' }}>{{ $item->nama_kelas }}</option>
+                                                <option value="{{ $item->id }}" {{ $santri->kelas_id == $item->id ? 'selected' : '' }}>{{ $item->nama_kelas . ' (' . $item->jenis_kelas . ')' }}</option>
                                             @endforeach
                                         </select>
                                     </div>

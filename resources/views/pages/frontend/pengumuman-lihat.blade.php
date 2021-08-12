@@ -57,6 +57,12 @@
                                         {{ $pengumuman->created_at->isoFormat('dddd, D MMMM YYYY') }}
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="lni lni-eye"></i>
+                                        {{ $pengumuman->seen }} kali dilihat
+                                    </a>
+                                </li>
                             </ul>
                             <p>
                                 {!! $pengumuman->konten !!}
@@ -133,7 +139,7 @@
                                             <h6 class="post-title"><a
                                                     href="{{ route('pengumuman.detail', $item->slug) }}">{{ $item->judul }}</a>
                                             </h6>
-                                            <span class="time"><i class="fas fa-calendar"></i> {{ $item->created_at->isoFormat('dddd, D MMMM YYYYY') }}</span>
+                                            <span class="time"><i class="fas fa-calendar"></i> {{ $item->created_at->isoFormat('dddd, D MMMM YYYY') }}</span>
                                         </div>
                                     </div>
                                 @empty

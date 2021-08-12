@@ -24,7 +24,6 @@ class KategoriGaleriController extends Controller
      */
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             return DataTables::of(KategoriGaleri::all())
                 ->addIndexColumn()

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\KehadiranSantri;
 use Carbon\Carbon;
 use GeniusTS\HijriDate\Date;
+use GeniusTS\HijriDate\Hijri;
 use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,12 @@ use Yajra\DataTables\DataTables;
 
 class KehadiranSantriController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        Hijri::setDefaultAdjustment(-1);
+        Date::setTranslation(new Indonesian());
+    }
     /**
      * Display a listing of the resource.
      *
@@ -41,7 +48,6 @@ class KehadiranSantriController extends Controller
      */
     public function store(Request $request)
     {
-        Date::setTranslation(new Indonesian());
         try {
             $data = [
                 'santri_id' => $request->input('santri_id'),
@@ -78,7 +84,16 @@ class KehadiranSantriController extends Controller
                     $data = $data->selectRaw('COUNT(keterangan) as data, keterangan as label')->groupBy('keterangan')->get();
                     return response()->json($data);
                 } else {
-                    $data = KehadiranSantri::where('santri_id', $id)->groupBy('bulan')->selectRaw('COUNT(CASE WHEN keterangan="Hadir" THEN 1 ELSE NULL END) as data, bulan as label')->get();
+                    $data = [];
+                    $data['label'] = KehadiranSantri::selectRaw('bulan')->where('santri_id', $id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
+
+                    $data['data'] = [];
+
+                    foreach ($data['label'] as $item) {
+                        $data['data'][] = KehadiranSantri::where('bulan', $item->bulan)->selectRaw("COUNT(CASE WHEN keterangan='Hadir' THEN 1 END) as hadir, COUNT(CASE WHEN keterangan='Izin' THEN 1 END) as izin, COUNT(CASE WHEN keterangan='Sakit' THEN 1 END) as sakit, COUNT(CASE WHEN keterangan='Absen' THEN 1 END) as absen")->where('santri_id', $id)->first();
+                    }
+
+//                    $data = KehadiranSantri::where('santri_id', $id)->groupBy('bulan')->selectRaw('COUNT(CASE WHEN keterangan="Hadir" THEN 1 ELSE NULL END) as data, bulan as label')->get();
                     return response()->json($data);
                 }
             }
@@ -89,7 +104,7 @@ class KehadiranSantriController extends Controller
                     return $row->created_at->isoFormat('dddd');
                 })
                 ->addColumn('hijriah', function ($row) {
-                    return \Alkoumi\LaravelHijriDate\Hijri::Date('d-m-Y', $row->created_at);
+                    return Hijri::convertToHijri($row->created_at)->format('d-m-Y');
                 })
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');

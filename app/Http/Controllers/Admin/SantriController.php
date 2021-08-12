@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Alkoumi\LaravelHijriDate\Hijri;
 use App\Http\Controllers\Controller;
+use App\Models\Hafalan;
 use App\Models\KehadiranSantri;
 use App\Models\Kelas;
+use App\Models\Pembelajaran;
 use App\Models\Santri;
 use App\Models\SantriWali;
 use App\Models\SppOpsi;
@@ -165,6 +167,64 @@ class SantriController extends Controller
     {
         $bulan = KehadiranSantri::selectRaw('bulan')->where('santri_id', $santri->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
         echo view('pages.admin.santri.show', ['title' => $this->title, 'santri' => $santri, 'bulan' => $bulan]);
+    }
+
+    public function show_hafalan(Request $request, Santri $santri)
+    {
+        if ($request->ajax()) {
+            $bulan = $request->get('bulan');
+            $data = Hafalan::where('bulan', $bulan)->where('santri_id', $santri->id);
+            return DataTables::of($data->get())
+                ->addIndexColumn()
+                ->addColumn('hari', function ($row) {
+                    return $row->created_at->isoFormat('dddd');
+                })
+                ->addColumn('hijriah', function ($row) {
+                    return \GeniusTS\HijriDate\Hijri::convertToHijri($row->created_at)->format('d-m-Y');
+                })
+                ->editColumn('created_at', function ($row) {
+                    return $row->created_at->isoFormat('DD-MM-Y');
+                })
+                ->addColumn('ayat', function ($row) {
+                    if ($row->mulai == $row->selesai)
+                        return $row->hafalan . ( $row->mulai ? ': ' . $row->mulai : '');
+                    else
+                        return $row->hafalan . ': ' . $row->mulai . '-' . $row->selesai;
+                })
+                ->addColumn('santri', function ($row) {
+                    return $row->santri->nama_lengkap;
+                })
+                ->make(true);
+        }
+    }
+
+    public function show_pembelajaran(Request $request, Santri $santri)
+    {
+        if ($request->ajax()) {
+            $bulan = $request->get('bulan');
+            $data = Pembelajaran::where('bulan', $bulan)->where('santri_id', $santri->id);
+            return DataTables::of($data->get())
+                ->addIndexColumn()
+                ->addColumn('hari', function ($row) {
+                    return $row->created_at->isoFormat('dddd');
+                })
+                ->addColumn('hijriah', function ($row) {
+                    return \GeniusTS\HijriDate\Hijri::convertToHijri($row->created_at)->format('d-m-Y');
+                })
+                ->editColumn('created_at', function ($row) {
+                    return $row->created_at->isoFormat('DD-MM-Y');
+                })
+                ->addColumn('ayat', function ($row) {
+                    if ($row->mulai == $row->selesai)
+                        return $row->bacaan . ': ' . $row->mulai;
+                    else
+                        return $row->bacaan . ': ' . $row->mulai . '-' . $row->selesai;
+                })
+                ->addColumn('santri', function ($row) {
+                    return $row->santri->nama_lengkap;
+                })
+                ->make(true);
+        }
     }
 
     /**

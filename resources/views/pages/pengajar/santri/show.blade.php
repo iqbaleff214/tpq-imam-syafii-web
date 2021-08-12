@@ -113,6 +113,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="#pembelajaran" data-toggle="tab">Pembelajaran</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#hafalan" data-toggle="tab">Hafalan</a>
+                                    </li>
                                 </ul>
                             </div><!-- /.card-header -->
                             <div class="card-body">
@@ -128,112 +131,8 @@
                                     @endif
                                 </div>
                                 <div class="tab-content">
-                                    <div class="tab-pane" id="pembelajaran">
-
-                                        @if(!$santri->pembelajaran()->whereDate('created_at', \Carbon\Carbon::today())->first() or $ngaji)
-
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#exampleModal">
-                                                Launch demo modal
-                                            </button>
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content" style="z-index: 510!important;">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Modal
-                                                                title</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            ...
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Close
-                                                            </button>
-                                                            <button type="button" class="btn btn-primary">Save changes
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <form action="{{ route('pengajar.pembelajaran.store') }}">
-                                                @csrf
-                                                <div class="row">
-                                                    <div class="col-12 col-md-3">
-                                                        <div class="form-group">
-                                                            <label for="bacaan">Bacaan</label>
-                                                            <select class="form-control select2" id="bacaan"
-                                                                    name="bacaan" style="width: 100%">
-                                                                @foreach($bacaan as $item)
-                                                                    <option
-                                                                        value="{{ $item->materi }}">{{ $item->jenis == 'QURAN' ? 'Q.S.' : 'Iqro' }} {{ $item->materi }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-md-3">
-                                                        <div class="form-group">
-                                                            <label for="mulai">Mulai</label>
-                                                            <input type="number" min="1" class="form-control" id="mulai"
-                                                                   name="mulai" placeholder="Mulai Ayat/Halaman">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-md-3">
-                                                        <div class="form-group">
-                                                            <label for="selesai">Selesai</label>
-                                                            <input type="number" min="1" class="form-control"
-                                                                   id="selesai" name="selesai"
-                                                                   placeholder="Sampai Ayat/Halaman">
-                                                            <small id="selesai"
-                                                                   class="form-text text-muted text-center">Kosongkan
-                                                                jika 1 ayat/halaman.</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-md-3">
-                                                        <div class="form-group">
-                                                            <label for="keterangan">Keterangan</label>
-                                                            <select name="keterangan" id="keterangan"
-                                                                    class="form-control select2" style="width: 100%">
-                                                                <option value="Lanjut">Lanjut</option>
-                                                                <option value="Ulang">Ulang</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-3">
-                                                    <div class="col-12 col-md-3 offset-9">
-                                                        <button class="btn bg-maroon btn-block">Simpan</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        @endif
-
-                                        <table class="table table-hover table-bordered table-striped"
-                                               id="datatable-pembelajaran">
-                                            <thead class="text-center">
-                                            <th style="width: 25px">No</th>
-                                            <th>Hari</th>
-                                            <th>Tanggal</th>
-                                            <th>Hijriah</th>
-                                            <th>Bacaan</th>
-                                            <th>Nilai</th>
-                                            <th>Keterangan</th>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                    <!-- /.tab-pane -->
                                     <div class="tab-pane active" id="kehadiran">
-
-                                        @if(!$santri->kehadiran()->whereDate('created_at', \Carbon\Carbon::today())->first() and $ngaji)
+                                        @if(!$terisi and $ngaji)
                                             <div class="row mb-3">
                                                 <div class="col">
                                                     @php($ket = ['Hadir' => 'bg-maroon', 'Izin' => 'btn-outline-danger', 'Sakit' => 'btn-outline-danger', 'Absen' => 'btn-outline-danger'])
@@ -271,21 +170,232 @@
                                         <div class="text-center">
                                             @if($bulan->count())
                                                 <div class="row">
-                                                    <div class="col-12 col-md-6">
+                                                    <div class="col-12 col-md-12">
                                                         <canvas id="doughnutChart" class="mt-5 mx-auto"></canvas>
                                                         <p class="text-sm text-center mt-3 text-muted"
                                                            id="doughnutChartLabel">Grafik Kehadiran Bulan Ini</p>
                                                     </div>
-                                                    <div class="col-12 col-md-6">
-                                                        <canvas id="barChart" height="300px"
-                                                                class="mt-5 mx-auto"></canvas>
-                                                        <p class="text-sm text-center mt-3 text-muted"
-                                                           id="barChartLabel">Grafik Kehadiran Bulan Ini</p>
+                                                    <div class="col-12 col-md-12">
+                                                        <canvas id="barChart" height="50px" width="100%"
+                                                                class="mt-5"></canvas>
+                                                        <p class="text-sm text-center mt-3 text-muted">Grafik
+                                                            Kehadiran</p>
                                                     </div>
                                                 </div>
                                             @endif
                                         </div>
 
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="pembelajaran">
+
+                                        @if(!$santri->pembelajaran()->whereDate('created_at', \Carbon\Carbon::today())->first() and $ngaji and $hadir)
+
+                                            <button type="button" class="btn bg-maroon mb-2" data-toggle="modal"
+                                                    data-target="#evaluasiPembelajaran">
+                                                Evaluasi Pembelajaran
+                                            </button>
+
+                                            <form action="{{ route('pengajar.pembelajaran.store') }}" method="POST">
+                                                @csrf
+                                                <div class="modal fade" id="evaluasiPembelajaran" data-backdrop="static"
+                                                     data-keyboard="false" tabindex="-1"
+                                                     aria-labelledby="evaluasiPembelajaranLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="evaluasiPembelajaranLabel">
+                                                                    Evaluasi Pembelajaran
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="bacaan">Bacaan</label>
+                                                                    <input type="hidden" name="santri_id"
+                                                                           value="{{ $santri->id }}">
+                                                                    <select class="form-control select2" id="bacaan"
+                                                                            name="bacaan" style="width: 100%">
+                                                                        @foreach($bacaan as $item)
+                                                                            <option
+                                                                                value="{{ $item->materi }}">{{ $item->jenis == 'QURAN' ? 'Q.S.' : 'Iqro' }} {{ $item->materi }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="mulai">Mulai</label>
+                                                                            <input type="number" min="1"
+                                                                                   class="form-control" id="mulai"
+                                                                                   name="mulai"
+                                                                                   placeholder="Mulai Ayat/Halaman">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="selesai">Selesai</label>
+                                                                            <input type="number" min="1"
+                                                                                   class="form-control"
+                                                                                   id="selesai" name="selesai"
+                                                                                   placeholder="Sampai Ayat/Halaman">
+                                                                            <small id="selesai"
+                                                                                   class="form-text text-muted">Kosongkan
+                                                                                jika 1 ayat/halaman.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="nilai">Nilai</label>
+                                                                    <input type="text" class="form-control" id="nilai"
+                                                                           name="nilai" placeholder="Nilai">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="keterangan">Keterangan</label>
+                                                                    <select name="keterangan" id="keterangan"
+                                                                            class="form-control select2"
+                                                                            style="width: 100%">
+                                                                        <option value="Lancar">Lancar</option>
+                                                                        <option value="Ulang">Ulang</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="reset" class="btn btn-outline-danger"
+                                                                        data-dismiss="modal">Tutup
+                                                                </button>
+                                                                <button type="submit" class="btn bg-maroon">
+                                                                    Simpan
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        @endif
+
+                                        <table class="table table-hover table-bordered table-striped"
+                                               id="datatable-pembelajaran">
+                                            <thead class="text-center">
+                                            <th style="width: 25px">No</th>
+                                            <th>Hari</th>
+                                            <th>Tanggal</th>
+                                            <th>Hijriah</th>
+                                            <th>Bacaan</th>
+                                            <th>Nilai</th>
+                                            <th>Keterangan</th>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="hafalan">
+
+                                        @if(!$santri->hafalan()->whereDate('created_at', \Carbon\Carbon::today())->first() and $ngaji and $hadir)
+
+                                            <button type="button" class="btn bg-maroon mb-2" data-toggle="modal"
+                                                    data-target="#evaluasiHafalan">
+                                                Evaluasi Hafalan
+                                            </button>
+
+                                            <form action="{{ route('pengajar.hafalan.store') }}" method="POST">
+                                                @csrf
+                                                <div class="modal fade" id="evaluasiHafalan" data-backdrop="static"
+                                                     data-keyboard="false" tabindex="-1"
+                                                     aria-labelledby="evaluasiHafalanLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="evaluasiHafalanLabel">
+                                                                    Evaluasi Hafalan
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="bacaan">Hafalan</label>
+                                                                    <input type="hidden" name="santri_id"
+                                                                           value="{{ $santri->id }}">
+                                                                    <select class="form-control select2" id="hafalan"
+                                                                            name="hafalan" style="width: 100%">
+                                                                        @foreach($hafalan as $item)
+                                                                            <option
+                                                                                value="{{ $item->jenis == 'QURAN' ? 'Q.S.' : ucwords(strtolower($item->jenis)) }} {{ $item->materi }}"
+                                                                                data-jenis="{{ $item->jenis }}">{{ $item->jenis == 'QURAN' ? 'Q.S.' : ucwords(strtolower($item->jenis)) }} {{ $item->materi }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="row row-mulai-hafalan">
+                                                                    <div class="col-12 col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="mulai">Mulai</label>
+                                                                            <input type="number" min="1"
+                                                                                   class="form-control" id="mulai"
+                                                                                   name="mulai"
+                                                                                   placeholder="Mulai Ayat/Halaman">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="selesai">Selesai</label>
+                                                                            <input type="number" min="1"
+                                                                                   class="form-control"
+                                                                                   id="selesai" name="selesai"
+                                                                                   placeholder="Sampai Ayat/Halaman">
+                                                                            <small id="selesai"
+                                                                                   class="form-text text-muted">Kosongkan
+                                                                                jika 1 ayat/halaman.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="nilai">Nilai</label>
+                                                                    <input type="text" class="form-control" id="nilai"
+                                                                           name="nilai" placeholder="Nilai">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="keterangan">Keterangan</label>
+                                                                    <select name="keterangan" id="keterangan"
+                                                                            class="form-control select2"
+                                                                            style="width: 100%">
+                                                                        <option value="Lancar">Lancar</option>
+                                                                        <option value="Ulang">Ulang</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="reset" class="btn btn-outline-danger"
+                                                                        data-dismiss="modal">Tutup
+                                                                </button>
+                                                                <button type="submit" class="btn bg-maroon">
+                                                                    Simpan
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        @endif
+
+                                        <table class="table table-hover table-bordered table-striped"
+                                               id="datatable-hafalan">
+                                            <thead class="text-center">
+                                            <th style="width: 25px">No</th>
+                                            <th>Hari</th>
+                                            <th>Tanggal</th>
+                                            <th>Hijriah</th>
+                                            <th>Hafalan</th>
+                                            <th>Nilai</th>
+                                            <th>Keterangan</th>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
                                     </div>
                                     <!-- /.tab-pane -->
                                 </div>
@@ -337,13 +447,28 @@
     <script>
         $(function () {
 
+            $('body').on('show.bs.modal', function () {
+                setTimeout(function () {
+                    var osContentElm = $(osInstance.getElements().content);
+                    var backdropElms = $('body > .modal-backdrop');
+                    backdropElms.each(function (index, elm) {
+                        osContentElm.append(elm);
+                    });
+                }, 1);
+            });
+
             $('.select2').select2();
 
             let bulan = $('#select-bulan').val();
             let santri_id = '{{ $santri->id }}';
 
+            var doughnutChart = null;
+            var barChart = null;
+
+            @if($bulan->count())
+
             var doughnutCanvas = document.getElementById('doughnutChart');
-            var doughnutChart = new Chart(doughnutCanvas, {
+            doughnutChart = new Chart(doughnutCanvas, {
                 type: 'doughnut',
                 data: {
                     labels: [],
@@ -356,21 +481,40 @@
             });
 
             var barCanvas = document.getElementById('barChart');
-            var barChart = new Chart(barCanvas, {
+            barChart = new Chart(barCanvas, {
                 type: 'bar',
                 data: {
                     labels: [],
-                    datasets: [{
-                        label: 'Kehadiran Santri',
-                        data: [],
-                        backgroundColor: [],
-                    }]
+                    datasets: [
+                        {
+                            label: 'Hadir',
+                            data: [],
+                            backgroundColor: 'green',
+                        },
+                        {
+                            label: 'Izin',
+                            data: [],
+                            backgroundColor: 'blue',
+                        },
+                        {
+                            label: 'Sakit',
+                            data: [],
+                            backgroundColor: 'yellow',
+                        },
+                        {
+                            label: 'Absen',
+                            data: [],
+                            backgroundColor: 'red',
+                        },
+                    ]
                 },
                 options: {
                     scales: {
-                        xAxes: [{
+                        yAxes: [{
                             ticks: {
                                 stepSize: 1,
+                                min: 0,
+                                max: 100,
                             }
                         }]
                     }
@@ -378,7 +522,10 @@
             });
 
             generateChart(bulan, doughnutChart);
-            generateChart(bulan, barChart);
+            generateBar(barChart);
+
+            @endif
+
             $('#doughnutChartLabel').text(`Grafik kehadiran bulan ${bulan}`);
 
             var table_kehadiran = $('#datatable-kehadiran').DataTable({
@@ -433,12 +580,50 @@
                     {data: 'keterangan', name: 'keterangan'},
                 ]
             });
+            var table_hafalan = $('#datatable-hafalan').DataTable({
+                ajax: {
+                    url: "{!! route('pengajar.hafalan.show', $santri->id) !!}",
+                    data: function (d) {
+                        d.bulan = bulan;
+                    }
+                },
+                autoWidth: false,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                searching: false,
+                lengthChange: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'hari', name: 'hari'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'hijriah', name: 'hijriah'},
+                    {data: 'ayat', name: 'ayat'},
+                    {data: 'nilai', name: 'nilai'},
+                    {data: 'keterangan', name: 'keterangan'},
+                ]
+            });
 
             $(document).on('change', '#select-bulan', function () {
                 bulan = $(this).val();
+
                 $('#doughnutChartLabel').text(`Grafik kehadiran bulan ${bulan}`);
                 generateChart(bulan, doughnutChart);
+
                 table_kehadiran.draw();
+                table_pembelajaran.draw();
+                table_hafalan.draw();
+            });
+            $(document).on('change', '#hafalan', function () {
+                const jenis = $('option:selected', this).attr('data-jenis');
+                if (jenis == 'QURAN') {
+                    $('.row-mulai-hafalan').show();
+                } else {
+                    $('.row-mulai-hafalan').hide();
+                }
             });
 
             $(document).on("click", "button[type=submit].confirm-attendance", async function (e) {
@@ -478,6 +663,29 @@
                     chart.data.datasets[0].data = chartData;
                     chart.data.datasets[0].backgroundColor = chartColor;
 
+                    chart.update();
+                }
+            });
+        }
+
+        function generateBar(chart) {
+            $.ajax({
+                url: "{!! route('pengajar.kehadiran.santri.show', $santri->id) !!}",
+                method: "GET",
+                data: {
+                    chart: chart.config.type ?? true,
+                },
+                success: function (res) {
+                    // console.log(res.data);
+                    res.label.forEach(e => {
+                        chart.data.labels.push(e.bulan);
+                    });
+                    res.data.forEach(e => {
+                        chart.data.datasets[0].data.push(e.hadir);
+                        chart.data.datasets[1].data.push(e.izin);
+                        chart.data.datasets[2].data.push(e.sakit);
+                        chart.data.datasets[3].data.push(e.absen);
+                    });
                     chart.update();
                 }
             });

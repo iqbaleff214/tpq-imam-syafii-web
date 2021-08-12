@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Administrator;
+use App\Models\Donasi;
 use App\Models\Fasilitas;
 use App\Models\Galeri;
 use App\Models\KategoriGaleri;
 use App\Models\Kelas;
+use App\Models\Kontak;
 use App\Models\Lembaga;
 use App\Models\Pengajar;
 use App\Models\Pengumuman;
 use App\Models\Santri;
 use App\Models\SppOpsi;
+use Carbon\Carbon;
+use GeniusTS\HijriDate\Hijri;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +45,7 @@ class HomeController extends Controller
 
     public function beranda()
     {
-        $profil = Lembaga::where('is_active', true)->first();
+        $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Beranda';
 
         $count = [
@@ -51,7 +55,7 @@ class HomeController extends Controller
             'santriwati' => Santri::where('jenis_kelamin', 'P')->count(),
         ];
 
-        $pengumuman = Pengumuman::limit(3)->get();
+        $pengumuman = Pengumuman::limit(3)->orderBy('created_at', 'desc')->get();
         $fasilitas = Fasilitas::all();
 
         echo view('pages.frontend.index', compact('count', 'pengumuman', 'profil', 'title', 'fasilitas'));
@@ -59,36 +63,37 @@ class HomeController extends Controller
 
     public function pengumuman(Request $request)
     {
-        $profil = Lembaga::where('is_active', true)->first();
+        $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Pengumuman';
 
         if (isset($request->q)) {
-            $pengumuman = Pengumuman::where("judul", 'like', '%'.$request->query('q').'%')->paginate(6);
+            $pengumuman = Pengumuman::where("judul", 'like', '%'.$request->query('q').'%')->orderBy('created_at', 'desc')->paginate(6);
         } else {
-            $pengumuman = Pengumuman::paginate(6);
+            $pengumuman = Pengumuman::orderBy('created_at', 'desc')->paginate(6);
         }
 
-        $newest = Pengumuman::limit(3)->get();
+        $newest = Pengumuman::limit(3)->orderBy('created_at', 'desc')->get();
 
         echo view('pages.frontend.pengumuman', compact('pengumuman', 'newest', 'title', 'profil'));
     }
 
-    public function pengumuman_lihat($slug)
+    public function show_pengumuman($slug)
     {
-        $profil = Lembaga::where('is_active', true)->first();
+        $profil = Lembaga::where('is_active', true)->firstOrFail();
 
         $pengumuman = Pengumuman::where('slug', $slug)->firstOrFail();
+        $pengumuman->increment('seen');
         $title = $pengumuman->judul;
         $prev = Pengumuman::where('id', '<', $pengumuman->id)->orderBy('id', 'desc')->first();
         $next = Pengumuman::where('id', '>', $pengumuman->id)->orderBy('id')->first();
-        $newest = Pengumuman::limit(3)->get();
+        $newest = Pengumuman::limit(3)->orderBy('created_at', 'desc')->get();
 
         echo view('pages.frontend.pengumuman-lihat', compact('pengumuman', 'newest', 'prev', 'next', 'profil', 'title'));
     }
 
     public function galeri()
     {
-        $profil = Lembaga::where('is_active', true)->first();
+        $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Galeri';
 
         $galeri = Galeri::all();
@@ -96,17 +101,35 @@ class HomeController extends Controller
         echo view('pages.frontend.galeri', compact('galeri', 'kategori', 'profil', 'title'));
     }
 
-    public function donasi()
+    public function donasi(Request $request)
     {
-        $profil = Lembaga::where('is_active', true)->first();
+        $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Donasi';
 
-        echo view('pages.frontend.donasi', compact('profil', 'title'));
+        $donasi = $request->get('donasi');
+
+        echo view('pages.frontend.donasi', compact('profil', 'title', 'donasi'));
+    }
+
+    public function store_donasi(Request $request)
+    {
+        try {
+            Donasi::create([
+                'nama' => $request->input('nama'),
+                'no_telp' => $request->input('no_telp'),
+                'jumlah' => $request->input('jumlah'),
+                'keterangan' => $request->input('keterangan'),
+                'bulan' => Hijri::convertToHijri(Carbon::today())->format('F o')
+            ]);
+            return redirect()->back()->with('success', 'Berhasil konfirmasi donasi!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal konfirmasi donasi!');
+        }
     }
 
     public function pendaftaran()
     {
-        $profil = Lembaga::where('is_active', true)->first();
+        $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Pendaftaran Santri';
 
         $spp = SppOpsi::all();
@@ -122,7 +145,7 @@ class HomeController extends Controller
 
     public function struktur()
     {
-        $profil = Lembaga::where('is_active', true)->first();
+        $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Struktur Organisasi';
 
         $pengelola = Administrator::all();
@@ -133,9 +156,25 @@ class HomeController extends Controller
 
     public function hubungi()
     {
-        $profil = Lembaga::where('is_active', true)->first();
+        $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Hubungi Kami';
 
         echo view('pages.frontend.hubungi', compact('profil', 'title'));
+    }
+
+    public function store_hubungi(Request $request)
+    {
+        try {
+            Kontak::create([
+                'nama' => $request->input('nama'),
+                'no_telp' => $request->input('no_telp'),
+                'email' => $request->input('email'),
+                'subyek' => $request->input('subyek'),
+                'pesan' => $request->input('pesan'),
+            ]);
+            return redirect()->back()->with('success', 'Berhasil mengirimkan pesan!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal mengirimkan pesan!');
+        }
     }
 }
