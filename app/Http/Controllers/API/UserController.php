@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\ApiHelpers;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\Pengajar;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    use ApiHelpers;
+
     public function login(Request $request)
     {
         try {
@@ -21,6 +25,7 @@ class UserController extends Controller
             ]);
 
             $credential = request(['username', 'password']);
+
             if (!Auth::attempt($credential)) {
                 return ResponseFormatter::error([
                     'message' => 'Unauthorized'
@@ -45,43 +50,44 @@ class UserController extends Controller
                 'access_token' => $tokenResult,
                 'token_type' => 'Bearer',
                 'user' => $user
-            ], 'Terautentikasi');
-        } catch (\Exception $exception) {
-            return ResponseFormatter::error([
-                'message' => 'Something went wrong',
-                'error' => $exception
-            ], 'Autentikasi gagal!', 500);
+            ], 'Berhasil melakukan login');
+        } catch (Exception $exception) {
+            return ResponseFormatter::error(['error' => $exception], 'Gagal melakukan login!', 500);
         }
     }
 
-    public function fetch(Request $request)
+    public function get(Request $request)
     {
-        $user = null;
-        switch ($request->user()->peran) {
-            case 'Pengajar':
-                $user = User::with(['pengajar'])->find($request->user()->id);
-                break;
-            case 'Santri':
-                $user = User::with(['santri'])->find($request->user()->id);
-                break;
-            default:
-                return ResponseFormatter::error(['message' => 'Gagal'], 'Gagal mengambil, 500');
+        $user = $request->user();
+        $profile = $this->isPengajar($user) ? 'pengajar' : 'santri';
+        $user = User::with([$profile])->findOrFail($user->id);
+        if ($user) {
+            return ResponseFormatter::success($user, 'Berhasil mengambil data profil!');
+        } else {
+            return ResponseFormatter::error(null, 'Data profil tidak ditemukan!', 404);
         }
-        return ResponseFormatter::success($user, 'Data profil user berhasil diambil');
     }
 
-    public function editProfile(Request $request)
+    public function update(Request $request)
     {
-        $data = $request->all();
-        $profil = Auth::user()->peran == 'Pengajar' ? Auth::user()->pengajar : Auth::user()->santri;
-        $profil->update($data);
-        return ResponseFormatter::success($profil, 'hore!');
+        try {
+            $data = $request->post();
+            $user = $request->user();
+            $profile = $this->isPengajar($user) ? $user->pengajar : $user->santri;
+            $profile->update($data);
+            return ResponseFormatter::success($profile, 'Berhasil mengedit profil!');
+        } catch (Exception $e) {
+            return ResponseFormatter::error(['error' => $e], 'Gagal mengedit profil!', 500);
+        }
     }
 
     public function logout(Request $request)
     {
-        $token = $request->user()->currentAccessToken()->delete();
-
-        return ResponseFormatter::success($token, 'Berhasil logout');
+        try {
+            $token = $request->user()->currentAccessToken()->delete();
+            return ResponseFormatter::success($token, 'Berhasil melakukan logout!');
+        } catch (Exception $e) {
+            return ResponseFormatter::error(['error' => $e], 'Gagal melakukan logout!', 500);
+        }
     }
 }

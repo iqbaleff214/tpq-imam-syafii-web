@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\ApiHelpers;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\Kurikulum;
@@ -9,31 +10,43 @@ use Illuminate\Http\Request;
 
 class KurikulumController extends Controller
 {
+    use ApiHelpers;
+
     public function all(Request $request)
     {
         $id = $request->input('id');
         $limit = $request->input('limit');
-        $tingkat = $request->input('tingkat');
+        $kelas = $request->input('kelas');
+        $q = $request->input('q');
 
+        $data = Kurikulum::with(['bahan', 'materi', 'metode']);
 
         if ($id) {
-            $kurikulum = Kurikulum::with(['bahan', 'materi', 'metode'])->find($id);
-
-            if ($kurikulum) {
-                return ResponseFormatter::success($kurikulum, 'Data kurikulum berhasil diambil!');
+            $data = $data->find($id);
+            if ($data) {
+                return ResponseFormatter::success($data, 'Data kurikulum berhasil diambil!');
             } else {
-                return ResponseFormatter::error(null, 'Data kurikulum gagal diambil!', 404);
+                return ResponseFormatter::error(null, 'Data kurikulum tidak ditemukan!', 404);
             }
         }
 
-        $kurikulum = Kurikulum::with(['bahan', 'materi', 'metode']);
+        if ($kelas) {
+            $user = $request->user();
+            $kelas = $this->isPengajar($user) ? $user->pengajar->kelas : $user->santri->kelas;
+            $data = $kelas->kurikulum()->with(['bahan', 'materi', 'metode'])->first();
+            if ($data) {
+                return ResponseFormatter::success($data, 'Data kurikulum berhasil diambil!');
+            } else {
+                return ResponseFormatter::error(null, 'Data kurikulum tidak ditemukan!', 404);
+            }
+        }
 
-        if ($tingkat) {
-            $kurikulum->where('tingkat', 'like', "%{$tingkat}%");
+        if ($q) {
+            $data = $data->where('tingkat', 'like', "%{$q}%");
         }
 
         return ResponseFormatter::success(
-            $kurikulum->paginate($limit),
+            $data->paginate($limit),
             'Data kurikulum berhasil diambil!'
         );
     }

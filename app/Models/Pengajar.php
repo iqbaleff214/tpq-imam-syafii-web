@@ -17,4 +17,14 @@ class Pengajar extends Model
     {
         return $this->hasOne(Kelas::class);
     }
+
+    public function kehadiran()
+    {
+        return $this->hasMany(KehadiranPengajar::class);
+    }
+
+    public function honor()
+    {
+        return $this->hasMany(Honor::class);
+    }
 }
