@@ -33,6 +33,7 @@
                                                    class="form-control @error('username') is-invalid @enderror"
                                                    placeholder="Nama Pengguna" name="username" autocomplete="off"
                                                    value="{{ old('username', Auth::user()->username) }}">
+                                            <span class="error invalid-feedback">{{ $errors->first('username') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -42,14 +43,16 @@
                                                    class="form-control @error('email') is-invalid @enderror"
                                                    placeholder="Surel" autocomplete="off"
                                                    value="{{ old('email', Auth::user()->email) }}" disabled>
+                                            <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Kata Sandi Lama</label>
                                         <div class="col-sm-10">
                                             <input type="password"
-                                                   class="form-control @error('password_old') is-invalid @enderror"
-                                                   placeholder="Kata Sandi Lama" name="password_old" autocomplete="off">
+                                                   class="form-control @error('password_lama') is-invalid @enderror"
+                                                   placeholder="Kata Sandi Lama" name="password_lama" autocomplete="off" autofocus>
+                                            <span class="error invalid-feedback">{{ $errors->first('password_lama') }}</span>
                                             <div class="form-text font-weight-lighter text-sm">
                                                 Konfirmasi kata sandi untuk mengubah.
                                             </div>
@@ -61,14 +64,16 @@
                                             <input type="password"
                                                    class="form-control @error('password') is-invalid @enderror"
                                                    placeholder="Kata Sandi Baru (Opsional)" name="password" autocomplete="off">
+                                            <span class="error invalid-feedback">{{ $errors->first('password') }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Konfirmasi</label>
                                         <div class="col-sm-10">
-                                            <input type="password" class="form-control"
+                                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
                                                    placeholder="Konfirmasi Kata Sandi Baru (Opsional)"
                                                    name="password_confirmation">
+                                            <span class="error invalid-feedback">{{ $errors->first('password_confirmation') }}</span>
                                             <div class="form-text font-weight-lighter text-sm">
                                                 Wajib diisi jika ingin mengganti kata sandi baru.
                                             </div>

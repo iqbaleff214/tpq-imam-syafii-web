@@ -75,6 +75,7 @@ class PengajarController extends Controller
             'username' => 'unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
@@ -150,10 +151,10 @@ class PengajarController extends Controller
             'tanggal_lahir' => 'required|date',
             'no_telp' => 'required',
             'alamat' => 'required',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
-
             $foto = $pengajar->foto;
             if ($request->hasFile('foto')) {
 

@@ -43,25 +43,28 @@
                                     <label class="col-sm-4 col-form-label">Nama Kelas</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control @error('nama_kelas') is-invalid @enderror" name="nama_kelas" placeholder="Nama" value="{{ old('nama_kelas') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nama_kelas') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelas</label>
                                     <div class="col-sm-8">
-                                        <select name="jenis_kelas" id="jenis_kelas" class="form-control select2">
+                                        <select name="jenis_kelas" id="jenis_kelas" class="form-control select2 @error('jenis_kelas') is-invalid @enderror">
                                             <option value="Ikhwan">Ikhwan</option>
                                             <option value="Akhwat">Akhwat</option>
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('jenis_kelas') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Tingkat</label>
                                     <div class="col-sm-8">
-                                        <select name="kurikulum_id" class="form-control select2">
+                                        <select name="kurikulum_id" class="form-control select2 @error('kurikulum_id') is-invalid @enderror">
                                             @foreach($kurikulum as $item)
                                                 <option value="{{ $item->id }}">{{ $item->tingkat }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('kurikulum_id') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -87,19 +90,20 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Nama Pengajar</label>
+                                    <label class="col-sm-4 col-form-label">Pengajar</label>
                                     <div class="col-sm-8">
-                                        <select name="pengajar_id" id="pengajar_id" class="form-control select2">
+                                        <select name="pengajar_id" id="pengajar_id" class="form-control select2 @error('pengajar_id') is-invalid @enderror">
                                             @foreach($pengajar as $item)
                                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('pengajar_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Foto</label>
                                     <div class="col-sm-8">
-                                        <img src="<?= asset('images/ikhwan.jpg') ?>" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                        <img src="{{ asset('images/ikhwan.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                                     </div>
                                 </div>
                             </div>

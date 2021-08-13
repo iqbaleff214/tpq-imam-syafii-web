@@ -41,25 +41,29 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Nama</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama" value="{{ old('nama', Auth::user()->administrator->nama) }}">
+                                        <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama" value="{{ old('nama', Auth::user()->administrator->nama) }}" autofocus>
+                                        <span class="error invalid-feedback">{{ $errors->first('nama') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jabatan</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control @error('jabatan') is-invalid @enderror" placeholder="Jabatan" value="{{ old('jabatan', Auth::user()->administrator->jabatan) }}" readonly>
+                                        <span class="error invalid-feedback">{{ $errors->first('jabatan') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Tempat Lahir</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror" placeholder="Tempat Lahir" value="{{ old('tempat_lahir', Auth::user()->administrator->tempat_lahir) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('tempat_lahir') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
                                     <div class="col-sm-8">
                                         <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir', date('Y-m-d', strtotime(Auth::user()->administrator->tanggal_lahir))) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('tanggal_lahir') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -69,18 +73,21 @@
                                             <option {{ Auth::user()->administrator->jenis_kelamin=='L' ? 'selected' : '' }} value="L">Laki-laki</option>
                                             <option {{ Auth::user()->administrator->jenis_kelamin=='P' ? 'selected' : '' }} value="P">Perempuan</option>
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('jenis_kelamin') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Nomor Telepon</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control @error('no_telp') is-invalid @enderror" placeholder="Nomor Telepon" name="no_telp" value="{{ old('no_telp', Auth::user()->administrator->no_telp) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('no_telp') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Alamat</label>
                                     <div class="col-sm-8">
-                                        <textarea name="alamat" id="" cols="30" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', Auth::user()->administrator->alamat) }}</textarea>
+                                        <textarea name="alamat" id="" cols="30" rows="3" class="form-control @error('alamat') is-invalid @enderror" placeholder="Alamat">{{ old('alamat', Auth::user()->administrator->alamat) }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('alamat') }}</span>
                                     </div>
                                 </div>
 
@@ -112,6 +119,12 @@
                                             <input type="file" class="custom-file-input" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                         </div>
+                                    </div>
+                                    @error('foto')
+                                    <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                                    @enderror
+                                    <div class="form-text font-weight-lighter text-sm">
+                                        Maksimal: 2048KB
                                     </div>
                                 </div>
                                 <img src="{{ Auth::user()->administrator->foto ? asset("storage/".Auth::user()->administrator->foto) : asset(Auth::user()->administrator->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">

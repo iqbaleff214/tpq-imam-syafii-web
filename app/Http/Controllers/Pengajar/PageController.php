@@ -94,13 +94,14 @@ class PageController extends Controller
             'nama' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
-            'no_telp' => 'required',
+            'no_telp' => 'required|max:15',
             'alamat' => 'required',
+            'foto' => 'image|max:2048'
         ]);
-
-        $admin = Auth::user()->pengajar;
-
         try {
+
+            $admin = Auth::user()->pengajar;
+
             $foto = $admin->foto;
             if ($request->hasFile('foto')) {
 
@@ -122,7 +123,6 @@ class PageController extends Controller
 
             return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
         } catch (\Throwable $e) {
-
             return redirect()->back()->with('error', 'Profil gagal diperbarui!');
         }
     }
@@ -131,11 +131,12 @@ class PageController extends Controller
     {
         $request->validate([
             'username' => ['required', Rule::unique('users')->ignore(Auth::user()->id)],
-            'password_old' => 'required',
+            'password_lama' => 'required',
             'password' => 'nullable|confirmed',
         ]);
+
         try {
-            if (!password_verify($request->input('password_old'), Auth::user()->getAuthPassword())) return redirect()->back()->with('error', 'Kata sandi salah!');
+            if (!password_verify($request->input('password_lama'), Auth::user()->getAuthPassword())) return redirect()->back()->with('error', 'Kata sandi salah!');
 
             $data = [
                 'username' => $request->input('username'),

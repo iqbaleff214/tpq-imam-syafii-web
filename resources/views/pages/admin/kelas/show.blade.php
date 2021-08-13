@@ -120,7 +120,7 @@
                         <div class="card-body p-0">
                             <table class="table">
                                 <tr>
-                                    <th style="width: 35%;">Nama Pengajar</th>
+                                    <th style="width: 35%;">Pengajar</th>
                                     <td>{{ $kelas->pengajar->nama }}</td>
                                 </tr>
                                 <tr>

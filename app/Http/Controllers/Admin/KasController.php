@@ -107,6 +107,8 @@ class KasController extends Controller
     {
         $request->validate([
             'uraian' => 'required',
+            'nominal' => 'integer|required',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
@@ -116,13 +118,14 @@ class KasController extends Controller
                 Storage::putFileAs('public', $request->file('foto'), $foto);
             }
 
-            Kas::create([
+            $data = [
                 'uraian' => $request->uraian,
-                'pemasukan' => $request->pemasukan ?: 0,
-                'pengeluaran' => $request->pengeluaran ?: 0,
                 'keterangan' => $request->keterangan,
                 'bukti' => $foto,
-            ]);
+                strtolower($request->jenis) => $request->nominal,
+            ];
+
+            Kas::create($data);
             return redirect()->route('admin.keuangan.kas.index')->with('success', 'Data kas berhasil ditambahkan!');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Data kas gagal ditambahkan!');

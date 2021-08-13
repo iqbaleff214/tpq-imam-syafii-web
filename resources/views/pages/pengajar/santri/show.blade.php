@@ -232,7 +232,7 @@
                                                                             <input type="number" min="1"
                                                                                    class="form-control" id="mulai"
                                                                                    name="mulai"
-                                                                                   placeholder="Mulai Ayat/Halaman">
+                                                                                   placeholder="Mulai Ayat/Halaman" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12 col-md-6">
@@ -251,7 +251,7 @@
                                                                 <div class="form-group">
                                                                     <label for="nilai">Nilai</label>
                                                                     <input type="text" class="form-control" id="nilai"
-                                                                           name="nilai" placeholder="Nilai">
+                                                                           name="nilai" placeholder="Nilai" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="keterangan">Keterangan</label>
@@ -357,7 +357,7 @@
                                                                 <div class="form-group">
                                                                     <label for="nilai">Nilai</label>
                                                                     <input type="text" class="form-control" id="nilai"
-                                                                           name="nilai" placeholder="Nilai">
+                                                                           name="nilai" placeholder="Nilai" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="keterangan">Keterangan</label>

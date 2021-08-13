@@ -44,18 +44,21 @@
                             <label class="col-sm-4 col-form-label">Nama</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama" value="{{ old('nama', $pengajar->nama) }}">
+                                <span class="error invalid-feedback">{{ $errors->first('nama') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Tempat Lahir</label>
                             <div class="col-sm-8">
                                 <input type="text" name="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror" placeholder="Tempat Lahir" value="{{ old('tempat_lahir', $pengajar->tempat_lahir) }}">
+                                <span class="error invalid-feedback">{{ $errors->first('tempat_lahir') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-8">
                                 <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir', date('Y-m-d', strtotime($pengajar->tanggal_lahir))) }}">
+                                <span class="error invalid-feedback">{{ $errors->first('tanggal_lahir') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -71,12 +74,14 @@
                             <label class="col-sm-4 col-form-label">Nomor Telepon</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control @error('no_telp') is-invalid @enderror" placeholder="Nomor Telepon" name="no_telp" value="{{ old('no_telp', $pengajar->no_telp) }}">
+                                <span class="error invalid-feedback">{{ $errors->first('no_telp') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Alamat</label>
                             <div class="col-sm-8">
                                 <textarea name="alamat" id="" cols="30" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', $pengajar->alamat) }}</textarea>
+                                <span class="error invalid-feedback">{{ $errors->first('alamat') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -104,7 +109,7 @@
                 <!-- /.card -->
             </div>
             <div class="col-12 col-md-4">
-                <div class="card card-solid">
+                <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
                             Foto
@@ -114,9 +119,15 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="foto" id="image">
+                                    <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                     <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                 </div>
+                            </div>
+                            @error('foto')
+                            <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                            @enderror
+                            <div class="form-text font-weight-lighter text-sm">
+                                Maksimal: 2048KB
                             </div>
                         </div>
                         <img src="{{ \App\Helpers\UserHelpers::getUserImage($pengajar->foto, $pengajar->jenis_kelamin) }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Pengajar">

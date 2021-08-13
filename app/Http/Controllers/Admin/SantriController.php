@@ -18,6 +18,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class SantriController extends Controller
@@ -84,14 +85,27 @@ class SantriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'nis' => 'unique:santri,nis|nullable',
             'nama_lengkap' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
             'alamat' => 'required',
 
+            'anak_ke' => 'nullable|numeric',
+            'jumlah_saudara' => 'nullable|numeric',
+
             'username' => 'nullable|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
+
+            'nama_wali' => 'required',
+            'no_telp' => 'required|max:15',
+            'hubungan' => 'required',
+
+            'no_telp_opsional' => ['max:15', Rule::requiredIf($request->nama_wali_opsional != '')],
+            'hubungan_opsional' => Rule::requiredIf($request->nama_wali_opsional != ''),
+
+            'foto' => 'image|max:2048',
         ]);
 
         try {
@@ -141,11 +155,18 @@ class SantriController extends Controller
 
             $santri = Santri::create($santri);
 
-            for ($i = 0; $i < count($nama_wali); $i++) {
+            SantriWali::create([
+                'nama_wali' => $request->nama_wali,
+                'hubungan' => $request->hubungan,
+                'no_telp' => $request->no_telp,
+                'santri_id' => $santri->id
+            ]);
+
+            if ($request->nama_wali_opsional) {
                 SantriWali::create([
-                    'nama_wali' => $nama_wali[$i],
-                    'hubungan' => $hubungan[$i],
-                    'no_telp' => $no_telp[$i],
+                    'nama_wali' => $request->nama_wali_opsional,
+                    'hubungan' => $request->hubungan_opsional,
+                    'no_telp' => $request->no_telp_opsional,
                     'santri_id' => $santri->id
                 ]);
             }
@@ -250,20 +271,25 @@ class SantriController extends Controller
 
         $request->validate([
             'nama_lengkap' => 'required',
-            'nama_panggilan' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
-            'anak_ke' => 'required|numeric',
-            'jumlah_saudara' => 'required|numeric',
             'alamat' => 'required',
-            'status' => 'required',
-            'spp_opsi_id' => 'required',
+
+            'anak_ke' => 'nullable|integer',
+            'jumlah_saudara' => 'nullable|integer',
+
+            'nama_wali' => 'required',
+            'no_telp' => 'required|max:15',
+            'hubungan' => 'required',
+
+            'no_telp_opsional' => ['max:15', Rule::requiredIf($request->nama_wali_opsional != '')],
+            'hubungan_opsional' => Rule::requiredIf($request->nama_wali_opsional != ''),
+
+            'foto' => 'image|max:2048',
         ]);
 
         try {
-
             $foto = $santri->foto;
-
             if ($request->hasFile('foto')) {
                 if ($foto) Storage::delete("public/$foto");
                 $foto = time() . '.' . $request->foto->extension();
@@ -282,9 +308,33 @@ class SantriController extends Controller
                 'status' => $request->status,
                 'foto' => $foto,
                 'spp_opsi_id' => $request->spp_opsi_id,
-                'kelas_id' => $request->kelas_id,
+                'kelas_id' => $request->status == 'Aktif' ? $request->kelas_id : null,
             ]);
 
+            SantriWali::findOrFail($request->id_wali)->update([
+                'nama_wali' => $request->nama_wali,
+                'no_telp' => $request->no_telp,
+                'hubungan' => $request->hubungan,
+            ]);
+
+            if (isset($request->id_wali_opsional)) {
+                if ($request->nama_wali_opsional == '') {
+                    SantriWali::findOrFail($request->id_wali_opsional)->delete();
+                } else {
+                    SantriWali::findOrFail($request->id_wali_opsional)->update([
+                        'nama_wali' => $request->nama_wali_opsional,
+                        'no_telp' => $request->no_telp_opsional,
+                        'hubungan' => $request->hubungan_opsional,
+                    ]);
+                }
+            } elseif ($request->nama_wali_opsional != '') {
+                SantriWali::create([
+                    'nama_wali' => $request->nama_wali_opsional,
+                    'hubungan' => $request->hubungan_opsional,
+                    'no_telp' => $request->no_telp_opsional,
+                    'santri_id' => $santri->id
+                ]);
+            }
 
             return redirect()->back()->with('success', 'Data santri berhasil diedit!');
         } catch (\Throwable $e) {

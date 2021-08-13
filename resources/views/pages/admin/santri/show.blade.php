@@ -31,8 +31,10 @@
                         <!-- Profile Image -->
                         <div class="card card-maroon card-outline">
                             <div class="card-body box-profile">
-                                <span class="badge {{ $santri->status == 'Aktif' ? 'badge-success' : 'badge-danger' }}">{{ $santri->status }}</span>
-                                <span class="badge bg-maroon float-right mt-1">{{ \Carbon\Carbon::parse($santri->tanggal_lahir)->age . ' tahun' }}</span>
+                                <span
+                                    class="badge {{ $santri->status == 'Aktif' ? 'badge-success' : 'badge-danger' }}">{{ $santri->status }}</span>
+                                <span
+                                    class="badge bg-maroon float-right mt-1">{{ \Carbon\Carbon::parse($santri->tanggal_lahir)->age . ' tahun' }}</span>
                                 <div class="text-center image">
                                     <div class="img-circle img-thumbnail img-fluid mx-auto mb-3"
                                          style="width: 150px; height: 150px; background-repeat: no-repeat;background-size: 150px; background-position: center; background-image: url('{{ \App\Helpers\UserHelpers::getUserImage($santri->foto, $santri->jenis_kelamin) }}') ;"></div>
@@ -49,7 +51,7 @@
                         <!-- /.card -->
 
                         <!-- About Me Box -->
-                        <div class="card card-maroon">
+                        <div class="card card-maroon card-outline">
                             <div class="card-header">
                                 <h3 class="card-title">Biodata</h3>
                             </div>
@@ -77,7 +79,8 @@
                                 <hr>
                                 <div>
                                     <h6 class="font-weight-bold">Usia</h6>
-                                    <p class="text-muted">{{ \Carbon\Carbon::parse($santri->tanggal_lahir)->age }} tahun</p>
+                                    <p class="text-muted">{{ \Carbon\Carbon::parse($santri->tanggal_lahir)->age }}
+                                        tahun</p>
                                 </div>
                                 <hr>
                                 <div>
@@ -133,7 +136,8 @@
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="kehadiran">
-                                        <table class="table table-hover table-bordered table-striped" id="datatable-kehadiran">
+                                        <table class="table table-hover table-bordered table-striped"
+                                               id="datatable-kehadiran">
                                             <thead class="text-center">
                                             <th style="width: 25px">No</th>
                                             <th>Hari</th>
@@ -183,6 +187,49 @@
                             </div><!-- /.card-body -->
                         </div>
                         <!-- /.card -->
+                        <div class="card card-maroon card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Wali Santri</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 {{ $santri->wali->count() > 1 ? 'col-md-6' : '' }}">
+                                        <div>
+                                            <h6 class="font-weight-bold">Nama</h6>
+                                            <p class="text-muted">{{ $santri->wali[0]->nama_wali }}</p>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <h6 class="font-weight-bold">Hubungan</h6>
+                                            <p class="text-muted">{{ $santri->wali[0]->hubungan }}</p>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <h6 class="font-weight-bold">Nomor Telepon</h6>
+                                            <p class="text-muted">{{ $santri->wali[0]->no_telp }}</p>
+                                        </div>
+                                    </div>
+                                    @if($santri->wali->count() > 1)
+                                        <div class="col-12 col-md-6">
+                                            <div>
+                                                <h6 class="font-weight-bold">Nama</h6>
+                                                <p class="text-muted">{{ $santri->wali[1]->nama_wali }}</p>
+                                            </div>
+                                            <hr>
+                                            <div>
+                                                <h6 class="font-weight-bold">Hubungan</h6>
+                                                <p class="text-muted">{{ $santri->wali[1]->hubungan }}</p>
+                                            </div>
+                                            <hr>
+                                            <div>
+                                                <h6 class="font-weight-bold">Nomor Telepon</h6>
+                                                <p class="text-muted">{{ $santri->wali[1]->no_telp }}</p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.col -->
                 </div>

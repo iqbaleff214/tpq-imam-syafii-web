@@ -184,7 +184,7 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     Route::delete('lembaga', [\App\Http\Controllers\Admin\LembagaController::class, 'unlink'])->name('lembaga.unlink');
 });
 
-/*=== ROLE: PENGAJAR (OK)===*/
+/*=== ROLE: PENGAJAR (OK) ===*/
 Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->group(function () {
 
     /*=== DASHBOARD ===*/
@@ -215,9 +215,11 @@ Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->gr
     Route::get('kurikulum', [\App\Http\Controllers\Pengajar\PageController::class, 'kurikulum'])->name('kurikulum');
 
     /*=== PROFIL ===*/
-    Route::get('akun', [\App\Http\Controllers\Pengajar\PageController::class, 'akun'])->name('akun');
-    Route::put('akun', [\App\Http\Controllers\Pengajar\PageController::class, 'update_akun'])->name('akun.update');
     Route::get('profil', [\App\Http\Controllers\Pengajar\PageController::class, 'profil'])->name('profil');
-    Route::put('profil', [\App\Http\Controllers\Pengajar\PageController::class, 'update'])->name('profil.update');
-    Route::delete('profil', [\App\Http\Controllers\Pengajar\PageController::class, 'unlink'])->name('profil.unlink');
+    Route::middleware('verified')->group(function() {
+        Route::put('profil', [\App\Http\Controllers\Pengajar\PageController::class, 'update'])->name('profil.update');
+        Route::delete('profil', [\App\Http\Controllers\Pengajar\PageController::class, 'unlink'])->name('profil.unlink');
+        Route::get('akun', [\App\Http\Controllers\Pengajar\PageController::class, 'akun'])->name('akun');
+        Route::put('akun', [\App\Http\Controllers\Pengajar\PageController::class, 'update_akun'])->name('akun.update');
+    });
 });

@@ -44,6 +44,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control @error('nis') is-invalid @enderror"
                                                name="nis" placeholder="NIS (Opsional)" value="{{ old('nis') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nis') }}</span>
                                         <div class="form-text font-weight-lighter text-sm">Dibuat otomatis jika
                                             kosong.
                                         </div>
@@ -54,8 +55,9 @@
                                     <div class="col-sm-8">
                                         <input type="text"
                                                class="form-control @error('nama_lengkap') is-invalid @enderror"
-                                               name="nama_lengkap" placeholder="Nama Lengkap"
+                                               name="nama_lengkap" placeholder="Nama Lengkap" autofocus="autofocus"
                                                value="{{ old('nama_lengkap') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nama_lengkap') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -65,6 +67,7 @@
                                                class="form-control @error('nama_panggilan') is-invalid @enderror"
                                                name="nama_panggilan" placeholder="Nama Panggilan (Opsional)"
                                                value="{{ old('nama_panggilan') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nama_panggilan') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -73,6 +76,7 @@
                                         <input type="text" name="tempat_lahir"
                                                class="form-control @error('tempat_lahir') is-invalid @enderror"
                                                placeholder="Tempat Lahir" value="{{ old('tempat_lahir') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('tempat_lahir') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -81,6 +85,7 @@
                                         <input type="date"
                                                class="form-control @error('tanggal_lahir') is-invalid @enderror"
                                                name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('tanggal_lahir') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -97,16 +102,16 @@
                                     <div class="col-sm-8">
                                         <div class="row">
                                             <div class="col-12 col-md-6">
-                                                <input type="number" name="anak_ke"
+                                                <input type="number" name="anak_ke" min="1"
                                                        class="form-control @error('anak_ke') is-invalid @enderror"
-                                                       placeholder="Anak ke-... (Opsional)"
-                                                       value="{{ old('anak_ke') }}">
+                                                       placeholder="Anak ke-... (Opsional)">
+                                                <span class="error invalid-feedback">{{ $errors->first('anak_ke') }}</span>
                                             </div>
                                             <div class="col-12 col-md-6 my-2 my-md-0">
-                                                <input type="number" name="jumlah_saudara"
+                                                <input type="number" name="jumlah_saudara" min="1"
                                                        class="form-control @error('jumlah_saudara') is-invalid @enderror"
-                                                       placeholder="Dari ... bersaudara (Opsional)"
-                                                       value="{{ old('jumlah_saudara') }}">
+                                                       placeholder="Dari ... bersaudara (Opsional)">
+                                                <span class="error invalid-feedback">{{ $errors->first('jumlah_saudara') }}</span>
                                             </div>
                                         </div>
                                         <div class="form-text font-weight-lighter text-sm">Boleh dikosongkan jika anak
@@ -119,6 +124,7 @@
                                     <div class="col-sm-8">
                                         <textarea name="alamat" cols="30" rows="3" placeholder="Alamat"
                                                   class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat') }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('alamat') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -150,29 +156,51 @@
                                 <h3 class="card-title">
                                     Wali Santri
                                 </h3>
-                                <button class="btn btn-outline-danger float-right" type="button" id="add-wali">
-                                    Tambah
-                                </button>
                             </div>
-                            <div class="card-body" id="container-wali">
+                            <div class="card-body">
                                 <div class="form-group row">
                                     <div class="col-12 col-sm-4 col-md-4">
-                                        <input type="text" class="form-control"
-                                               placeholder="Nama Wali" name="nama_wali[]"
-                                               required>
+                                        <label>Nama Wali</label>
+                                        <input type="text" class="form-control @error('nama_wali') is-invalid @enderror"
+                                               placeholder="Nama Wali" name="nama_wali" value="{{ old('nama_wali') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nama_wali') }}</span>
                                     </div>
                                     <div class="col-12 col-sm-4 col-md-4 mt-sm-0 mt-2">
-                                        <select name="hubungan[]" class="form-control select2">
+                                        <label>Hubungan</label>
+                                        <select name="hubungan" class="form-control select2 @error('hubungan') is-invalid @enderror">
                                             <option disabled="disabled" selected="selected">Hubungan</option>
                                             @foreach($hubungan as $val)
                                                 <option value="{{ $val }}">{{ $val }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('hubungan') }}</span>
                                     </div>
                                     <div class="col-12 col-sm-4 col-md-4 mt-sm-0 mt-2">
-                                        <input type="text" class="form-control"
-                                               placeholder="Nomor Telepon" name="no_telp[]"
-                                               required>
+                                        <label>Nomor Telepon</label>
+                                        <input type="text" class="form-control @error('no_telp') is-invalid @enderror"
+                                               placeholder="Nomor Telepon" name="no_telp" value="{{ old('no_telp') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('no_telp') }}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12 col-sm-4 col-md-4">
+                                        <input type="text" class="form-control @error('nama_wali_opsional') is-invalid @enderror"
+                                               placeholder="Nama Wali (Opsional)" name="nama_wali_opsional" value="{{ old('nama_wali_opsional') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nama_wali_opsional') }}</span>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 mt-sm-0 mt-2">
+                                        <select name="hubungan_opsional" class="form-control select2 @error('hubungan_opsional') is-invalid @enderror">
+                                            <option disabled="disabled" selected="selected">Hubungan (Opsional)</option>
+                                            @foreach($hubungan as $val)
+                                                <option value="{{ $val }}">{{ $val }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('hubungan_opsional') }}</span>
+                                    </div>
+                                    <div class="col-12 col-sm-4 col-md-4 mt-sm-0 mt-2">
+                                        <input type="text" class="form-control @error('no_telp_opsional') is-invalid @enderror"
+                                               placeholder="Nomor Telepon (Opsional)" name="no_telp_opsional" value="{{ old('no_telp_opsional') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('no_telp_opsional') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -192,6 +220,7 @@
                                         <input type="text" class="form-control @error('username') is-invalid @enderror"
                                                placeholder="Pengguna (Opsional)" name="username" autocomplete="off"
                                                value="{{ old('username') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('username') }}</span>
                                         <div class="form-text font-weight-lighter text-sm">Sama dengan NIS jika
                                             kosong.
                                         </div>
@@ -203,6 +232,7 @@
                                         <input type="email" class="form-control @error('email') is-invalid @enderror"
                                                placeholder="Surel" name="email" autocomplete="off"
                                                value="{{ old('email') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -211,6 +241,7 @@
                                         <input type="password"
                                                class="form-control @error('password') is-invalid @enderror"
                                                placeholder="Kata Sandi" name="password" autocomplete="off">
+                                        <span class="error invalid-feedback">{{ $errors->first('password') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -232,23 +263,25 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">SPP</label>
                                     <div class="col-sm-8">
-                                        <select name="spp_opsi_id" class="form-control select2">
+                                        <select name="spp_opsi_id" class="form-control select2 @error('spp_opsi_id') is-invalid @enderror">
                                             @foreach($opsi as $item)
                                                 <option
                                                     value="{{ $item->id }}">{{ $item->opsi . ' (Rp'. number_format($item->jumlah, 2, ',', '.') . ')' }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('spp_opsi_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Kelas</label>
                                     <div class="col-sm-8">
-                                        <select name="kelas_id" class="form-control select2">
-                                            <option disabled="disabled" selected="selected">Kelas (Opsional)</option>
+                                        <select name="kelas_id" class="form-control select2 @error('kelas_id') is-invalid @enderror">
+                                            <option disabled="disabled" selected="selected">Belum Masuk</option>
                                             @foreach($kelas as $item)
                                                 <option value="{{ $item->id }}">{{ $item->nama_kelas . ' (' . $item->jenis_kelas . ')' }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('kelas_id') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -263,9 +296,15 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="foto" id="image">
+                                            <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                         </div>
+                                    </div>
+                                    @error('foto')
+                                    <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                                    @enderror
+                                    <div class="form-text font-weight-lighter text-sm">
+                                        Maksimal: 2048KB
                                     </div>
                                 </div>
                                 <img src="<?= asset('images/ikhwan.jpg') ?>" class="img-thumbnail img-preview"
@@ -312,42 +351,6 @@
             } else {
                 img.attr('src', "{{ asset('images/akhwat.jpg') }}");
             }
-        });
-
-        var wali = 1;
-
-        $('#add-wali').click(function () {
-            if (wali == 2) return false;
-            wali++;
-            const newRow = `
-                            <div class="form-group row newRow">
-                                <div class="col-12 col-sm-4 col-md-4">
-                                    <input type="text" class="form-control" placeholder="Nama Wali" name="nama_wali[]"required>
-                                </div>
-                                <div class="col-12 col-sm-4 col-md-4 mt-sm-0 mt-2">
-                                    <select name="hubungan[]" class="form-control select2">
-                                        <option disabled="disabled" selected="selected">Hubungan</option>
-                                        @foreach($hubungan as $val) <option value="{{ $val }}">{{ $val }}</option> @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-12 col-sm-4 col-md-4 mt-sm-0 mt-2">
-                                   <div class="input-group mb-3" id="newRow">
-                                        <input type="text" class="form-control" placeholder="Nomor Telepon" name="no_telp[]">
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-danger removeRow">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-            $('#container-wali').append(newRow);
-            $('.select2').select2();
-        });
-
-        $(document).on('click', '.removeRow', function () {
-            wali--;
-            $(this).closest('.newRow').remove();
         });
 
     }, false);

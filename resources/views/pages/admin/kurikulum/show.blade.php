@@ -68,7 +68,7 @@
                     <!-- /.card -->
                 </div>
                 <div class="col-12 col-md-6">
-                    <div class="card card-solid">
+                    <div class="card card-maroon card-outline">
                         <div class="card-header">
                             <h3 class="card-title">
                                 Bahan Pendidikan
@@ -85,7 +85,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card card-solid">
+                    <div class="card card-maroon card-outline">
                         <div class="card-header">
                             <h3 class="card-title">
                                 Materi Kurikulum
@@ -102,7 +102,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card card-solid">
+                    <div class="card card-maroon card-outline">
                         <div class="card-header">
                             <h3 class="card-title">
                                 Metode Pembelajaran

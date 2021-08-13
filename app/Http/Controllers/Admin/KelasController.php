@@ -144,19 +144,16 @@ class KelasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kelas = Kelas::findOrFail($id);
         $request->validate([
             'nama_kelas' => 'required',
-            'jenis_kelas' => 'required',
             'pengajar_id' => 'required',
             'kurikulum_id' => 'required',
         ]);
 
         try {
-            $kelas->update([
+            Kelas::findOrFail($id)->update([
                 'nama_kelas' => $request->nama_kelas,
                 'kurikulum_id' => $request->kurikulum_id,
-                'jenis_kelas' => $request->jenis_kelas,
                 'pengajar_id' => $request->pengajar_id,
             ]);
 

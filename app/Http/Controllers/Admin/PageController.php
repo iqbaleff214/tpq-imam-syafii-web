@@ -48,13 +48,13 @@ class PageController extends Controller
             'nama' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
-            'no_telp' => 'required',
+            'no_telp' => 'required|max:15',
             'alamat' => 'required',
+            'foto' => 'image|max:2048'
         ]);
 
-        $admin = Auth::user()->administrator;
-
         try {
+            $admin = Auth::user()->administrator;
             $foto = $admin->foto;
             if ($request->hasFile('foto')) {
                 if ($foto) Storage::delete("public/$foto");
@@ -83,9 +83,10 @@ class PageController extends Controller
     {
         $request->validate([
             'username' => ['required', Rule::unique('users')->ignore(Auth::user()->id)],
-            'password_old' => 'required',
+            'password_lama' => 'required',
             'password' => 'nullable|confirmed',
         ]);
+
         try {
 
             if (!password_verify($request->input('password_old'), Auth::user()->getAuthPassword())) return redirect()->back()->with('error', 'Kata sandi salah!');

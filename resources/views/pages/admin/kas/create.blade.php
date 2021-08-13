@@ -44,12 +44,13 @@
                                     <label class="col-sm-4 col-form-label">Uraian</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control @error('uraian') is-invalid @enderror" placeholder="Uraian" name="uraian" value="{{ old('uraian') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('uraian') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Uraian</label>
                                     <div class="col-sm-8">
-                                        <select name="" id="jenis_uraian" class="form-control select2">
+                                        <select name="jenis" id="jenis_uraian" class="form-control select2">
                                             <option value="Pemasukan">Pemasukan</option>
                                             <option value="Pengeluaran">Pengeluaran</option>
                                         </select>
@@ -62,10 +63,11 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp</span>
                                             </div>
-                                            <input type="number" class="form-control @error('jumlah') is-invalid @enderror" id="jumlah-input" placeholder="0" name="pemasukan" value="{{ old('jumlah') }}">
+                                            <input type="number" class="form-control @error('nominal') is-invalid @enderror" id="jumlah-input" placeholder="0" name="nominal" value="{{ old('nominal') }}">
                                             <div class="input-group-append">
                                                 <span class="input-group-text">,00</span>
                                             </div>
+                                            <span class="error invalid-feedback">{{ $errors->first('nominal') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -101,9 +103,15 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="foto" id="image">
+                                            <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Bukti (Opsional)</label>
                                         </div>
+                                    </div>
+                                    @error('foto')
+                                    <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                                    @enderror
+                                    <div class="form-text font-weight-lighter text-sm">
+                                        Maksimal: 2048KB
                                     </div>
                                 </div>
                                 <img src="<?= asset('images/cash.jpg') ?>" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
@@ -136,7 +144,6 @@
             $('#jenis_uraian').on('change', function() {
                 const jenis = $(this).val();
                 $('#jumlah-label').html(jenis);
-                $('#jumlah-input').attr('name', jenis.toLowerCase());
             });
 
             $('#image').on('change', function() {

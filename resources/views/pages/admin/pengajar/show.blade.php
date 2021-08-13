@@ -49,7 +49,7 @@
                         <!-- /.card -->
 
                         <!-- About Me Box -->
-                        <div class="card card-maroon">
+                        <div class="card card-maroon card-outline">
                             <div class="card-header">
                                 <h3 class="card-title">Biodata</h3>
                             </div>

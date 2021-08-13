@@ -134,7 +134,7 @@
                                     <thead>
                                     <tr class="text-center">
                                         <th style="width: 25px">No</th>
-                                        <th style="width: 65px">Tanggal</th>
+                                        <th style="width: 100px">Tanggal</th>
                                         <th>Uraian</th>
                                         <th style="width: 100px;">Pemasukan</th>
                                         <th style="width: 100px;">Pengeluaran</th>
@@ -219,6 +219,8 @@
 
             //Initialize Datatables Elements
             const table = $('#datatable-bs').DataTable({
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                bLengthChange: true,
                 ajax: {
                     url: "{!! route('admin.keuangan.kas.index') !!}",
                     data: function (d) {
@@ -232,7 +234,6 @@
                 processing: true,
                 serverSide: true,
                 searching: false,
-                lengthChange: false,
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
@@ -271,12 +272,12 @@
 
                 },
                 columns: [
-                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                    {data: 'tanggal', name: 'tanggal'},
-                    {data: 'uraian', name: 'uraian'},
-                    {data: 'pemasukan', name: 'pemasukan'},
-                    {data: 'pengeluaran', name: 'pengeluaran'},
-                    {data: 'saldo', name: 'saldo'},
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false},
+                    {data: 'tanggal', name: 'tanggal', orderable: false},
+                    {data: 'uraian', name: 'uraian', orderable: false},
+                    {data: 'pemasukan', name: 'pemasukan', orderable: false},
+                    {data: 'pengeluaran', name: 'pengeluaran', orderable: false},
+                    {data: 'saldo', name: 'saldo', orderable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
