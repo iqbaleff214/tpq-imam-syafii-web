@@ -103,7 +103,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Foto</label>
                                     <div class="col-sm-8">
-                                        <img src="{{ asset('images/ikhwan.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                        <img src="{{ asset('images/ikhwan.svg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
                     id: id
                 },
                 success: function(response) {
-                    let foto = response.jenis_kelamin == 'L' ? "{{ asset('images/ikhwan.jpg') }}" : "{{ asset('images/akhwat.jpg') }}";
+                    let foto = response.jenis_kelamin == 'L' ? "{{ asset('images/ikhwan.svg') }}" : "{{ asset('images/akhwat.svg') }}";
                     if (response.foto) {
                         foto = "{{ asset('storage') }}/"+response.foto;
                     }

@@ -132,7 +132,7 @@
                                         </div>
                                     </div>
                                     <img
-                                        src="{{ Auth::user()->pengajar->foto ? asset("storage/".Auth::user()->pengajar->foto) : asset(Auth::user()->pengajar->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}"
+                                        src="{{ Auth::user()->pengajar->foto ? asset("storage/".Auth::user()->pengajar->foto) : asset(Auth::user()->pengajar->jenis_kelamin=="L" ? 'images/ikhwan.svg' : 'images/akhwat.svg') }}"
                                         class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                                     @if(Auth::user()->pengajar->foto)
                                         <button type="submit" form="unlink"

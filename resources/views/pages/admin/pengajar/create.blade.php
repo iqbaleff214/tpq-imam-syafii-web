@@ -180,7 +180,7 @@
                                         Maksimal: 2048KB
                                     </div>
                                 </div>
-                                <img src="<?= asset('images/ikhwan.jpg') ?>" class="img-thumbnail img-preview"
+                                <img src="<?= asset('images/ikhwan.svg') ?>" class="img-thumbnail img-preview"
                                      style="width: 100%;" alt="Administrator">
                             </div>
                         </div>
@@ -219,9 +219,9 @@
                 const jk = $(this).val();
                 const img = $('.img-preview');
                 if (jk == 'L') {
-                    img.attr('src', "{{ asset('images/ikhwan.jpg') }}");
+                    img.attr('src', "{{ asset('images/ikhwan.svg') }}");
                 } else {
-                    img.attr('src', "{{ asset('images/akhwat.jpg') }}");
+                    img.attr('src', "{{ asset('images/akhwat.svg') }}");
                 }
             });
         });

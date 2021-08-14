@@ -88,7 +88,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <img src="{{ $pengajar->foto ? asset("storage/$pengajar->foto") : asset($pengajar->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail" alt="pengajaristrator">
+                        <img src="{{ $pengajar->foto ? asset("storage/$pengajar->foto") : asset($pengajar->jenis_kelamin=="L" ? 'images/ikhwan.svg' : 'images/akhwat.svg') }}" class="img-thumbnail" alt="pengajaristrator">
                     </div>
                 </div>
             </div>

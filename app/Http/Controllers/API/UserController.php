@@ -84,7 +84,7 @@ class UserController extends Controller
         if ($data) {
             return ResponseFormatter::success(asset("storage/$data"), 'Berhasil mengambil foto profil!');
         } else {
-            $data = $profile->jenis_kelamin == 'L' ? 'ikhwan.jpg' : 'akhwat.jpg';
+            $data = $profile->jenis_kelamin == 'L' ? 'ikhwan.svg' : 'akhwat.svg';
             return ResponseFormatter::success(asset("images/$data"), 'Berhasil mengambil foto profil!');
         }
     }

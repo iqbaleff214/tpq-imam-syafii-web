@@ -128,7 +128,7 @@
                             </table>
                             <div class="mx-4 mb-4">
                                 <img
-                                    src="{{ $kelas->pengajar->foto ? asset("storage/".$kelas->pengajar->foto) : asset($kelas->pengajar->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}"
+                                    src="{{ $kelas->pengajar->foto ? asset("storage/".$kelas->pengajar->foto) : asset($kelas->pengajar->jenis_kelamin=="L" ? 'images/ikhwan.svg' : 'images/akhwat.svg') }}"
                                     class="img-thumbnail img-preview"
                                     style="width: 100%;" alt="Administrator">
                             </div>

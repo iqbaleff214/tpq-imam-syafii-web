@@ -127,7 +127,7 @@
                                         Maksimal: 2048KB
                                     </div>
                                 </div>
-                                <img src="{{ Auth::user()->administrator->foto ? asset("storage/".Auth::user()->administrator->foto) : asset(Auth::user()->administrator->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
+                                <img src="{{ Auth::user()->administrator->foto ? asset("storage/".Auth::user()->administrator->foto) : asset(Auth::user()->administrator->jenis_kelamin=="L" ? 'images/ikhwan.svg' : 'images/akhwat.svg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                                 @if(Auth::user()->administrator->foto)
                                     <button type="submit" form="unlink" class="btn btn-outline-danger btn-sm position-absolute mt-3 ml-n5"><i class="fas fa-times"></i></button>
                                 @endif

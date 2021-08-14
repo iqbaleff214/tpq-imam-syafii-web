@@ -323,9 +323,9 @@
                 const jk = $(this).val();
                 const img = $('.img-preview');
                 if (jk == 'L') {
-                    img.attr('src', "{{ asset('images/ikhwan.jpg') }}");
+                    img.attr('src', "{{ asset('images/ikhwan-santri.svg') }}");
                 } else {
-                    img.attr('src', "{{ asset('images/akhwat.jpg') }}");
+                    img.attr('src', "{{ asset('images/akhwat-santri.svg') }}");
                 }
             });
 

@@ -135,7 +135,7 @@
                                     </div>
                                 </div>
                                 <img
-                                    src="{{ Auth::user()->administrator->foto ? asset("storage/".Auth::user()->administrator->foto) : asset(Auth::user()->administrator->jenis_kelamin=="L" ? 'images/ikhwan.jpg' : 'images/akhwat.jpg') }}"
+                                    src="{{ Auth::user()->administrator->foto ? asset("storage/".Auth::user()->administrator->foto) : asset(Auth::user()->administrator->jenis_kelamin=="L" ? 'images/ikhwan.svg' : 'images/akhwat.svg') }}"
                                     class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                                 @if(Auth::user()->administrator->foto)
                                     <button type="submit" form="unlink"

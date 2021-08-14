@@ -29,26 +29,21 @@
 		<div class="contact-inner">
 			<div class="row">
 				<div class="col-xl-5 col-lg-5 col-md-4 col-12">
-					<div
-							class="contact-address-wrapper wow fadeInLeft"
-							data-wow-delay="0.4s"
-					>
+					<div class="contact-address-wrapper wow fadeInLeft"
+							data-wow-delay="0.4s">
 						<div class="inner-section-title">
 							<h4>Info Rekening</h4>
 						</div>
 						<div class="single-info">
+							@forelse ($profil->rekening as $item)
 							<ul>
-								<li>Bank Syariah Indonesia</li>
-								<li>6034 9488 2657 9473</li>
-								<li>a.n M. Iqbal Effendi</li>
+								<li>{{ $item->bank }}</li>
+								<li>{{ $item->rekening }}</li>
+								<li>{{ 'a.n. ' . $item->nama }}</li>
 							</ul>
-						</div>
-						<div class="single-info">
-							<ul>
-								<li>Bank Negara Indonesia</li>
-								<li>6034 9488 2657 9473</li>
-								<li>a.n M. Iqbal Effendi</li>
-							</ul>
+							@empty
+							<p>Belum terdapat nomor rekening.</p>
+							@endforelse
 						</div>
 					</div>
 				</div>

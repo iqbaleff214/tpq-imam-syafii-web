@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lembaga extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'profil';
     protected $guarded = [];
 
+    public function rekening()
+    {
+        return $this->hasMany(LembagaRekening::class, 'profil_id');
+    }
 }
