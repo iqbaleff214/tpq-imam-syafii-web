@@ -12,6 +12,7 @@ use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class KehadiranPengajarController extends Controller
@@ -58,7 +59,7 @@ class KehadiranPengajarController extends Controller
             return DataTables::of($data->get())
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    return '<a href="'.route('admin.kehadiran.pengajar.show', $row).'" class="btn btn-success btn-xs px-2"> Lihat </a>
+                    return '<a href="' . route('admin.kehadiran.pengajar.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
                             <a href="' . route('admin.kehadiran.pengajar.edit', $row) . '" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
                             <form class="d-inline" method="POST" action="' . route('admin.kehadiran.pengajar.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -66,16 +67,16 @@ class KehadiranPengajarController extends Controller
                                 <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
-                ->addColumn('hari', function($row) {
+                ->addColumn('hari', function ($row) {
                     return $row->created_at->isoFormat('dddd');
                 })
-                ->addColumn('hijriah', function($row) {
+                ->addColumn('hijriah', function ($row) {
                     return Hijri::convertToHijri($row->created_at)->format('d-m-Y');
                 })
-                ->editColumn('created_at', function($row) {
+                ->editColumn('created_at', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
-                ->addColumn('pengajar', function($row) {
+                ->addColumn('pengajar', function ($row) {
                     return $row->pengajar->nama;
                 })
                 ->rawColumns(['action'])
@@ -111,6 +112,14 @@ class KehadiranPengajarController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'created_at' => 'required|date',
+            'pengajar_id' => 'required',
+            'keterangan' => 'required',
+            'datang' => Rule::requiredIf($request->keterangan == 'Hadir'),
+            'pulang' => Rule::requiredIf($request->keterangan == 'Hadir'),
+        ]);
+
         try {
             KehadiranPengajar::create([
                 'created_at' => $request->created_at,
@@ -165,8 +174,15 @@ class KehadiranPengajarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $presensi = KehadiranPengajar::findOrFail($id);
+        $request->validate([
+            'created_at' => 'required|date',
+            'keterangan' => 'required',
+            'datang' => Rule::requiredIf($request->keterangan == 'Hadir'),
+            'pulang' => Rule::requiredIf($request->keterangan == 'Hadir'),
+        ]);
+
         try {
+            $presensi = KehadiranPengajar::findOrFail($id);
             $presensi->update([
                 'created_at' => $request->created_at,
                 'keterangan' => $request->keterangan,

@@ -56,7 +56,7 @@ class HonorController extends Controller
             return DataTables::of($data->get())
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    return '<a href="'.route('admin.keuangan.honor.show', $row).'" class="btn btn-success btn-xs px-2"> Lihat </a>
+                    return '<a href="' . route('admin.keuangan.honor.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
                             <a href="' . route('admin.keuangan.honor.edit', $row) . '" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
                             <form class="d-inline" method="POST" action="' . route('admin.keuangan.honor.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -64,20 +64,20 @@ class HonorController extends Controller
                                 <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
-                ->editColumn('created_at', function($row) {
+                ->editColumn('created_at', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
-                ->editColumn('jumlah', function($row) {
-                    return "Rp".number_format($row->jumlah, 2, ',', '.');
+                ->editColumn('jumlah', function ($row) {
+                    return "Rp" . number_format($row->jumlah, 2, ',', '.');
                 })
-                ->editColumn('status', function($row) {
+                ->editColumn('status', function ($row) {
                     if ($row->status) {
                         return '<span class="badge badge-success">Diterima</span>';
                     } else {
                         return '<span class="badge badge-danger">Menunggu</span>';
                     }
                 })
-                ->addColumn('pengajar', function($row) {
+                ->addColumn('pengajar', function ($row) {
                     return $row->pengajar->nama;
                 })
                 ->rawColumns(['action', 'status'])
@@ -116,7 +116,8 @@ class HonorController extends Controller
     {
         $request->validate([
             'pengajar_id' => 'required',
-            'jumlah' => 'required',
+            'bulan' => 'required',
+            'jumlah' => 'required|numeric',
         ]);
         try {
             if (Honor::where('pengajar_id', $request->pengajar_id)->where('bulan', $request->bulan)->first()) {
@@ -168,6 +169,9 @@ class HonorController extends Controller
      */
     public function update(Request $request, Honor $honor)
     {
+        $request->validate([
+            'jumlah' => 'required|numeric'
+        ]);
         try {
             $honor->update([
                 'jumlah' => $request->input('jumlah')

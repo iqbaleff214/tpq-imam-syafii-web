@@ -49,34 +49,38 @@
                                                class="form-control @error('created_at') is-invalid @enderror"
                                                name="created_at"
                                                value="{{ old('created_at', $presensi->created_at->isoFormat('Y-MM-DD')) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('created_at') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Nama</label>
                                     <div class="col-sm-10">
-                                        <select name="santri_id" id="santri_id" class="form-control select2" disabled>
+                                        <select name="santri_id" id="santri_id" class="custom-select @error('santri_id') is-invalid @enderror select2" disabled>
                                             @foreach($santri as $item)
                                                 <option
-                                                    value="{{ $item->id }}" {{ $item->id == $presensi->santri_id ? 'selected' : '' }}>{{ $item->nama_lengkap }}</option>
+                                                    value="{{ $item->id }}" {{ $item->id == old('santri_id', $presensi->santri_id) ? 'selected' : '' }}>{{ $item->nama_lengkap }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('santri_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
-                                        <select class="custom-select select2" id="keterangan" name="keterangan">
+                                        <select class="custom-select @error('keterangan') is-invalid @enderror select2" id="keterangan" name="keterangan">
                                             <?php $status = ['Hadir', 'Sakit', 'Izin', 'Absen'] ?>
                                             @foreach($status as $item)
-                                                <option value="{{ $item }}" {{ $presensi->keterangan == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                                <option value="{{ $item }}" {{ old('keterangan',$presensi->keterangan) == $item ? 'selected' : '' }}>{{ $item }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row form-waktu">
                                     <label class="col-sm-2 col-form-label">Nilai Adab</label>
                                     <div class="col-sm-10">
-                                        <input type="text" name="nilai_adab" class="form-control" value="{{ old('nilai_adab', $presensi->nilai_adab) }}">
+                                        <input type="text" name="nilai_adab" class="form-control @error('nilai_adab') is-invalid @enderror" value="{{ old('nilai_adab', $presensi->nilai_adab) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nilai_adab') }}</span>
                                     </div>
                                 </div>
                             </div>

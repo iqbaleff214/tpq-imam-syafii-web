@@ -44,6 +44,7 @@
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control @error('kategori') is-invalid @enderror"
                                                name="kategori" placeholder="Kategori" value="{{ old('kategori') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('kategori') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -51,6 +52,7 @@
                                     <div class="col-sm-10">
                                         <textarea name="keterangan" id="keterangan" cols="30" rows="3" placeholder="Keterangan (Opsional)"
                                                   class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan') }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
 

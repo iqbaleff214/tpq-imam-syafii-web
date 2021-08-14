@@ -45,6 +45,7 @@
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control @error('opsi') is-invalid @enderror"
                                                name="opsi" placeholder="Opsi" value="{{ old('opsi', $opsi->opsi) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('opsi') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -54,10 +55,11 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp</span>
                                             </div>
-                                            <input type="number" class="form-control @error('jumlah') is-invalid @enderror" id="jumlah" placeholder="0" name="jumlah" value="{{ old('jumlah', $opsi->jumlah) }}">
+                                            <input type="text" class="form-control @error('jumlah') is-invalid @enderror" id="jumlah" placeholder="0" name="jumlah" value="{{ old('jumlah', $opsi->jumlah) }}">
                                             <div class="input-group-append">
                                                 <span class="input-group-text"> per bulan</span>
                                             </div>
+                                            <span class="error invalid-feedback">{{ $errors->first('jumlah') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -66,6 +68,7 @@
                                     <div class="col-sm-10">
                                         <textarea name="keterangan" id="keterangan" cols="30" rows="3" placeholder="Keterangan (Opsional)"
                                                   class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan', $opsi->keterangan) }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
 
@@ -90,3 +93,19 @@
 
     </div>
 @endsection
+
+@push('script')
+    {{-- MaskMoney --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+
+    <script>
+        $(function() {
+
+            $('input[name=jumlah]').mask("000.000.000.000", {reverse: true});
+            $("form").submit(function() {
+                $("input[name=jumlah]").unmask();
+            });
+        });
+    </script>
+@endpush
+

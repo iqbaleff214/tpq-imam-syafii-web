@@ -45,6 +45,7 @@
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control @error('judul') is-invalid @enderror"
                                                name="judul" placeholder="Judul" value="{{ old('judul') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('judul') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -52,6 +53,7 @@
                                     <div class="col-sm-10">
                                         <textarea name="konten" id="konten" cols="30" rows="30"
                                                   class="form-control @error('konten') is-invalid @enderror">{{ old('konten') }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('konten') }}</span>
                                     </div>
                                 </div>
 
@@ -80,9 +82,15 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="foto" id="image">
+                                            <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Gambar (Opsional)</label>
                                         </div>
+                                    </div>
+                                    @error('foto')
+                                    <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                                    @enderror
+                                    <div class="form-text font-weight-lighter text-sm">
+                                        Maksimal: 2048KB
                                     </div>
                                 </div>
                                 <img src="<?= asset('images/info.jpg') ?>" class="img-thumbnail img-preview"

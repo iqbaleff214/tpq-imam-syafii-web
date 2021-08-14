@@ -69,7 +69,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                                     <div class="col-sm-8">
-                                        <select name="jenis_kelamin" id="" class="form-control select2">
+                                        <select name="jenis_kelamin" id="" class="custom-select select2">
                                             <option {{ Auth::user()->administrator->jenis_kelamin=='L' ? 'selected' : '' }} value="L">Laki-laki</option>
                                             <option {{ Auth::user()->administrator->jenis_kelamin=='P' ? 'selected' : '' }} value="P">Perempuan</option>
                                         </select>
@@ -116,7 +116,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="foto" id="image">
+                                            <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                         </div>
                                     </div>

@@ -45,6 +45,7 @@
                                     <label class="col-sm-4 col-form-label">Uraian</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control @error('uraian') is-invalid @enderror" placeholder="Uraian" name="uraian" value="{{ old('uraian', $kas->uraian) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('uraian') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -54,10 +55,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp</span>
                                             </div>
-                                            <input type="number" class="form-control @error($kas->pemasukan ? 'pemasukan' : 'pengeluaran') is-invalid @enderror" id="jumlah-input" placeholder="0" name="{{ $kas->pemasukan ? 'pemasukan' : 'pengeluaran' }}" value="{{ old($kas->pemasukan ? 'pemasukan' : 'pengeluaran', $kas->pemasukan?:$kas->pengeluaran) }}">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">,00</span>
-                                            </div>
+                                            <input type="text" class="form-control @error('nominal') is-invalid @enderror" id="jumlah-input" placeholder="0" name="nominal" value="{{ old('nominal', $kas->pemasukan ?: $kas->pengeluaran) }}">
+                                            <span class="error invalid-feedback">{{ $errors->first('nominal') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -65,6 +64,7 @@
                                     <label class="col-sm-4 col-form-label">Keterangan</label>
                                     <div class="col-sm-8">
                                         <textarea name="keterangan" id="" placeholder="Keterangan (Opsinal)" cols="30" rows="3" class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan', $kas->keterangan) }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
 
@@ -93,9 +93,15 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="foto" id="image">
+                                            <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Bukti (Opsional)</label>
                                         </div>
+                                    </div>
+                                    @error('foto')
+                                    <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                                    @enderror
+                                    <div class="form-text font-weight-lighter text-sm">
+                                        Maksimal: 2048KB
                                     </div>
                                 </div>
                                 <img src="{{ $kas->bukti ? asset("storage/$kas->bukti") : asset('images/cash.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Pengajar">
@@ -118,9 +124,17 @@
 @endsection
 
 @push('script')
+    {{-- MaskMoney --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 
     <script>
         $(function() {
+
+            $('input[name=nominal]').mask("000.000.000.000", {reverse: true});
+            $("form").submit(function() {
+                $("input[name=nominal]").unmask();
+            });
+
             $(document).on("click", "button[type=submit].position-absolute", function (e) {
                 e.preventDefault();
                 Swal.fire({

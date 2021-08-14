@@ -49,7 +49,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Jabatan</label>
                             <div class="col-sm-8">
-                                <select name="jabatan" id="" class="form-control select2">
+                                <select name="jabatan" id="" class="custom-select select2">
                                     <option {{ $admin->jabatan=='Sekretaris' ? 'selected' : '' }} value="Sekretaris">Sekretaris</option>
                                     <option {{ $admin->jabatan=='Bendahara' ? 'selected' : '' }} value="Bendahara">Bendahara</option>
                                 </select>
@@ -70,7 +70,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-8">
-                                <select name="jenis_kelamin" id="" class="form-control select2">
+                                <select name="jenis_kelamin" id="" class="custom-select select2">
                                     <option {{ $admin->jenis_kelamin=='L' ? 'selected' : '' }} value="L">Laki-laki</option>
                                     <option {{ $admin->jenis_kelamin=='P' ? 'selected' : '' }} value="P">Perempuan</option>
                                 </select>

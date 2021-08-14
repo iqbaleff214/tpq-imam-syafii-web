@@ -126,7 +126,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     @if($bulan->count())
-                                        <select class="form-control select2" id="select-bulan" style="width: 100%;">
+                                        <select class="custom-select select2" id="select-bulan" style="width: 100%;">
                                             @foreach($bulan as $item)
                                                 <option
                                                     value="{{ $item->bulan }}" {{ $loop->last ? 'selected' : '' }}>{{ $item->bulan }}</option>

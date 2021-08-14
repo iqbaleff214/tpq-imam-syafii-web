@@ -45,17 +45,19 @@
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control @error('fasilitas') is-invalid @enderror"
                                                name="fasilitas" placeholder="Fasilitas" value="{{ old('fasilitas', $fasilitas->fasilitas) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('fasilitas') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Ikon</label>
                                     <div class="col-sm-10 row">
                                         <div class="col-10">
-                                            <select name="icon" id="icon-select" class="form-control select2">
+                                            <select name="icon" id="icon-select" class="custom-select select2 @error('icon') is-invalid @enderror">
                                                 @foreach($icon as $item)
                                                     <option value="{{ $item->icon }}" {{ $item->icon == $fasilitas->icon ? 'selected' : '' }}>{{ $item->nama }}</option>
                                                 @endforeach
                                             </select>
+                                            <span class="error invalid-feedback">{{ $errors->first('icon') }}</span>
                                         </div>
                                         <div class="col-2 text-center">
                                             <h2>
@@ -71,6 +73,7 @@
                                         <textarea name="keterangan" id="keterangan" cols="30" rows="3"
                                                   placeholder="Keterangan (Opsional)"
                                                   class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan', $fasilitas->keterangan) }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
 

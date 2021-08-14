@@ -41,21 +41,23 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Bulan</label>
                                     <div class="col-sm-10">
-                                        <select class="custom-select select2" id="bulan" name="bulan">
+                                        <select class="custom-select select2 @error('bulan') is-invalid @enderror" id="bulan" name="bulan">
                                             @foreach($bulan as $item)
                                                 <option value="{{ $item->bulan }}">{{ $item->bulan }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('bulan') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Nama</label>
                                     <div class="col-sm-10">
-                                        <select name="pengajar_id" id="pengajar_id" class="form-control select2">
+                                        <select name="pengajar_id" id="pengajar_id" class="custom-select select2 @error('pengajar_id') is-invalid @enderror">
                                             @foreach($pengajar as $item)
                                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('pengajar_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -65,10 +67,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp</span>
                                             </div>
-                                            <input type="number" class="form-control " id="jumlah" placeholder="0" name="jumlah" min="0" value="500000">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">,00</span>
-                                            </div>
+                                            <input type="text" class="form-control @error('jumlah') is-invalid @enderror" id="jumlah" placeholder="0" name="jumlah" value="{{ old('jumlah', 50000)}}">
+                                            <span class="error invalid-feedback">{{ $errors->first('jumlah') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -106,11 +106,18 @@
 @push('script')
     <!--Select2-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    {{-- MaskMoney --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    
     <script>
         $(function () {
             //Initialize Select2 Elements
             $('.select2').select2();
+
+            $('input[name=jumlah]').mask("000.000.000.000", {reverse: true});
+            $("form").submit(function() {
+                $("input[name=jumlah]").unmask();
+            });
         });
     </script>
 @endpush

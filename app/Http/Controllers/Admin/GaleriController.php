@@ -71,7 +71,7 @@ class GaleriController extends Controller
         $request->validate([
             'judul' => 'required',
             'kategori_galeri_id' => 'required',
-            'foto' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+            'foto' => 'required|image|max:2048'
         ]);
 
         try {
@@ -130,7 +130,7 @@ class GaleriController extends Controller
         $request->validate([
             'judul' => 'required',
             'kategori_galeri_id' => 'required',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+            'foto' => 'nullable|image|max:2048'
         ]);
 
         try {

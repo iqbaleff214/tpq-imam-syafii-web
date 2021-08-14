@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
+use Illuminate\Validation\Rule;
 
 class DonasiController extends Controller
 {
@@ -101,8 +102,10 @@ class DonasiController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'jumlah' => 'required',
+            'no_telp' => 'required',
+            'jumlah' => 'required|numeric',
         ]);
+
         try {
             Donasi::create([
                 'nama' => $request->input('nama'),
@@ -151,6 +154,12 @@ class DonasiController extends Controller
      */
     public function update(Request $request, Donasi $donasi)
     {
+        $request->validate([
+            'nama' => Rule::requiredIf($request->status == null),
+            'no_telp' => Rule::requiredIf($request->status == null),
+            'jumlah' => [Rule::requiredIf($request->status == null), 'numeric', 'nullable'],
+        ]);
+
         try {
             if ($request->input('status')) {
                 $donasi->update(['status' => 1]);

@@ -44,6 +44,8 @@ class LembagaController extends Controller
             'no_telp' => 'required',
             'alamat' => 'required',
             'deskripsi' => 'required',
+            'visi' => 'required',
+            'foto' => 'image|max:2048',
         ]);
 
         try {

@@ -44,7 +44,7 @@ class PengumumanController extends Controller
                 ->editColumn('konten', function ($row) {
                     return Str::limit(strip_tags($row->konten), 155) . '...';
                 })
-                ->addColumn('tanggal', function($row){
+                ->addColumn('tanggal', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
                 ->rawColumns(['action', 'penulis', 'tanggal'])
@@ -75,6 +75,7 @@ class PengumumanController extends Controller
         $request->validate([
             'judul' => 'required',
             'konten' => 'required',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
@@ -136,6 +137,7 @@ class PengumumanController extends Controller
         $request->validate([
             'judul' => 'required',
             'konten' => 'required',
+            'foto' => 'image|max:2048'
         ]);
 
         try {

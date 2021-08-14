@@ -91,7 +91,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                                     <div class="col-sm-8">
-                                        <select name="jenis_kelamin" id="jenis_kelamin" class="form-control select2">
+                                        <select name="jenis_kelamin" id="jenis_kelamin" class="custom-select select2">
                                             <option value="L">Laki-laki</option>
                                             <option value="P">Perempuan</option>
                                         </select>
@@ -130,7 +130,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Status</label>
                                     <div class="col-sm-8">
-                                        <select name="status" class="form-control select2">
+                                        <select name="status" class="custom-select select2">
                                             @foreach($status as $key => $val)
                                                 <option value="{{ $key }}">{{ $val }}</option>
                                             @endforeach
@@ -167,7 +167,7 @@
                                     </div>
                                     <div class="col-12 col-sm-4 col-md-4 mt-sm-0 mt-2">
                                         <label>Hubungan</label>
-                                        <select name="hubungan" class="form-control select2 @error('hubungan') is-invalid @enderror">
+                                        <select name="hubungan" class="custom-select select2 @error('hubungan') is-invalid @enderror">
                                             <option disabled="disabled" selected="selected">Hubungan</option>
                                             @foreach($hubungan as $val)
                                                 <option value="{{ $val }}">{{ $val }}</option>
@@ -189,7 +189,7 @@
                                         <span class="error invalid-feedback">{{ $errors->first('nama_wali_opsional') }}</span>
                                     </div>
                                     <div class="col-12 col-sm-4 col-md-4 mt-sm-0 mt-2">
-                                        <select name="hubungan_opsional" class="form-control select2 @error('hubungan_opsional') is-invalid @enderror">
+                                        <select name="hubungan_opsional" class="custom-select select2 @error('hubungan_opsional') is-invalid @enderror">
                                             <option disabled="disabled" selected="selected">Hubungan (Opsional)</option>
                                             @foreach($hubungan as $val)
                                                 <option value="{{ $val }}">{{ $val }}</option>
@@ -263,7 +263,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">SPP</label>
                                     <div class="col-sm-8">
-                                        <select name="spp_opsi_id" class="form-control select2 @error('spp_opsi_id') is-invalid @enderror">
+                                        <select name="spp_opsi_id" class="custom-select select2 @error('spp_opsi_id') is-invalid @enderror">
                                             @foreach($opsi as $item)
                                                 <option
                                                     value="{{ $item->id }}">{{ $item->opsi . ' (Rp'. number_format($item->jumlah, 2, ',', '.') . ')' }}</option>
@@ -275,7 +275,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Kelas</label>
                                     <div class="col-sm-8">
-                                        <select name="kelas_id" class="form-control select2 @error('kelas_id') is-invalid @enderror">
+                                        <select name="kelas_id" class="custom-select select2 @error('kelas_id') is-invalid @enderror">
                                             <option disabled="disabled" selected="selected">Belum Masuk</option>
                                             @foreach($kelas as $item)
                                                 <option value="{{ $item->id }}">{{ $item->nama_kelas . ' (' . $item->jenis_kelas . ')' }}</option>

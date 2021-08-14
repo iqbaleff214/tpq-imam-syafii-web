@@ -208,7 +208,7 @@ class SantriController extends Controller
                 })
                 ->addColumn('ayat', function ($row) {
                     if ($row->mulai == $row->selesai)
-                        return $row->hafalan . ( $row->mulai ? ': ' . $row->mulai : '');
+                        return $row->hafalan . ($row->mulai ? ': ' . $row->mulai : '');
                     else
                         return $row->hafalan . ': ' . $row->mulai . '-' . $row->selesai;
                 })
@@ -270,6 +270,7 @@ class SantriController extends Controller
     {
 
         $request->validate([
+            'nis' => ['required', Rule::unique('santri')->ignore($santri->id), 'size:7', 'alpha_num'],
             'nama_lengkap' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
@@ -297,6 +298,7 @@ class SantriController extends Controller
             }
 
             $santri->update([
+                'nis' => $request->nis,
                 'nama_lengkap' => $request->nama_lengkap,
                 'nama_panggilan' => $request->nama_panggilan ?: $request->nama_lengkap,
                 'tempat_lahir' => $request->tempat_lahir,

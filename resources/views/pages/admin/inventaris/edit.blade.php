@@ -47,7 +47,8 @@
                                         <input type="text"
                                                class="form-control @error('kode_barang') is-invalid @enderror"
                                                name="kode_barang" placeholder="Kode Barang"
-                                               value="{{ old('kode_barang', $inventaris->kode_barang) }}" readonly>
+                                               value="{{ old('kode_barang', $inventaris->kode_barang) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('kode_barang') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -57,6 +58,7 @@
                                                class="form-control @error('nama_barang') is-invalid @enderror"
                                                name="nama_barang" placeholder="Nama"
                                                value="{{ old('nama_barang', $inventaris->nama_barang) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nama_barang') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -65,6 +67,7 @@
                                         <input type="text" name="satuan"
                                                class="form-control @error('satuan') is-invalid @enderror"
                                                placeholder="Satuan" value="{{ old('satuan', $inventaris->satuan) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('satuan') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -72,17 +75,18 @@
                                     <div class="col-sm-8">
                                         <div class="row">
                                             <div class="col-6">
-                                                <input type="number"
-                                                       class="form-control @error('jumlah_baik') is-invalid @enderror"
+                                                <input type="text" class="form-control @error('jumlah_baik') is-invalid @enderror"
                                                        placeholder="Kondisi Baik" name="jumlah_baik"
                                                        value="{{ old('jumlah_baik', $inventaris->jumlah_baik) }}">
+                                                <span class="error invalid-feedback">{{ $errors->first('jumlah_baik') }}</span>
                                                 <div class="text-sm ml-2">Jumlah baik</div>
                                             </div>
                                             <div class="col-6">
-                                                <input type="number"
+                                                <input type="text"
                                                        class="form-control @error('jumlah_rusak') is-invalid @enderror"
                                                        placeholder="Kondisi Rusak" name="jumlah_rusak"
                                                        value="{{ old('jumlah_rusak', $inventaris->jumlah_rusak) }}">
+                                                <span class="error invalid-feedback">{{ $errors->first('jumlah_rusak') }}</span>
                                                 <div class="text-sm ml-2">Jumlah rusak</div>
                                             </div>
                                         </div>
@@ -94,6 +98,7 @@
                                         <textarea name="keterangan" placeholder="Keterangan (Opsional)" id="" cols="30"
                                                   rows="3"
                                                   class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan', $inventaris->keterangan) }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -121,9 +126,15 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="foto" id="image">
+                                            <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                         </div>
+                                    </div>
+                                    @error('foto')
+                                    <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                                    @enderror
+                                    <div class="form-text font-weight-lighter text-sm">
+                                        Maksimal: 2048KB
                                     </div>
                                 </div>
                                 <img

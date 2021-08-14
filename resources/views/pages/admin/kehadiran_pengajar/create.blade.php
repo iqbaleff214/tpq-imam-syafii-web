@@ -44,26 +44,29 @@
                                     <div class="col-sm-10">
                                         <input type="date" class="form-control @error('created_at') is-invalid @enderror"
                                                name="created_at" value="{{ old('created_at', date('Y-m-d')) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('created_at') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Nama</label>
                                     <div class="col-sm-10">
-                                        <select name="pengajar_id" id="pengajar_id" class="form-control select2">
+                                        <select name="pengajar_id" id="pengajar_id" class="custom-select select2 @error('pengajar_id') is-invalid @enderror">
                                             @foreach($pengajar as $item)
                                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('pengajar_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
-                                        <select class="custom-select select2" id="keterangan" name="keterangan">
+                                        <select class="custom-select select2 @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan">
                                             <option value="Hadir">Hadir</option>
                                             <option value="Sakit">Sakit</option>
                                             <option value="Izin">Izin</option>
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row form-waktu">
@@ -71,10 +74,12 @@
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-6">
-                                                <input type="time" name="datang" class="form-control">
+                                                <input type="time" name="datang" class="form-control @error('datang') is-invalid @enderror">
+                                                <span class="error invalid-feedback">{{ $errors->first('datang') }}</span>
                                             </div>
                                             <div class="col-6">
-                                                <input type="time" name="pulang" class="form-control">
+                                                <input type="time" name="pulang" class="form-control @error('pulang') is-invalid @enderror">
+                                                <span class="error invalid-feedback">{{ $errors->first('pulang') }}</span>
                                             </div>
                                         </div>
                                     </div>

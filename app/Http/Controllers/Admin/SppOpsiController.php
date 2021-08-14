@@ -32,11 +32,11 @@ class SppOpsiController extends Controller
                             <form class="d-inline" method="POST" action="' . route('admin.spp.opsi.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
-                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data" onclick="return confirm(\'Yakin ingin menghapus ' . $row->opsi . '?\')"> Hapus </button>
+                                <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
                 ->editColumn('jumlah', function ($row) {
-                    return 'Rp'.number_format($row->jumlah, 2, ',', '.').' per bulan';
+                    return 'Rp' . number_format($row->jumlah, 2, ',', '.') . ' per bulan';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

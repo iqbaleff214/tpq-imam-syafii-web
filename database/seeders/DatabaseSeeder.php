@@ -6,6 +6,7 @@ use App\Models\Administrator;
 use App\Models\Icon;
 use App\Models\Lembaga;
 use App\Models\Materi;
+use App\Models\SppOpsi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        # Super Admin account
+        User::create([
+            'username' => 'superadmin',
+            'email' => 'superadmin@tpqmis.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('admin'),
+            'peran' => 'SuperAdmin'
+        ]);
+
         # Kepala account
         $kepala = User::create([
             'username' => 'rizki',
@@ -113,6 +123,12 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
             'deskripsi' => "TPQ Imam Syafi'i adalah Taman Pendidikan Al-Qur'an yang berada di bawah naungan pengurus Dewan Kemakmuran Masjid Imam Syafi'i Banjarmasin.",
             'created_at' => Carbon::now()
+        ]);
+
+        # SPP Options
+        SppOpsi::create([
+            'opsi' => 'Normal',
+            'jumlah' => 50000,
         ]);
 
         # Materi

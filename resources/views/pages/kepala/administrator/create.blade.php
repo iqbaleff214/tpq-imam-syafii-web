@@ -48,7 +48,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Jabatan</label>
                             <div class="col-sm-8">
-                                <select name="jabatan" id="" class="form-control select2">
+                                <select name="jabatan" id="" class="custom-select select2">
                                     <option value="Sekretaris">Sekretaris</option>
                                     <option value="Bendahara">Bendahara</option>
                                 </select>
@@ -69,7 +69,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-8">
-                                <select name="jenis_kelamin" id="jenis_kelamin" class="form-control select2">
+                                <select name="jenis_kelamin" id="jenis_kelamin" class="custom-select select2">
                                     <option value="L">Laki-laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>

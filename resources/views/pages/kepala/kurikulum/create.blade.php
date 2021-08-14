@@ -49,7 +49,7 @@
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-sm-5">
-                                                <select name="mulai" id="" class="form-control select2">
+                                                <select name="mulai" id="" class="custom-select select2">
                                                     @foreach($days as $day)
                                                         <option value="{{ $day }}" {{ $day=='Senin' ? 'selected' : '' }}>{{ $day }}</option>
                                                     @endforeach
@@ -59,7 +59,7 @@
                                                 <input type="text" value="s.d." class="form-control" readonly>
                                             </div>
                                             <div class="col-sm-5">
-                                                <select name="selesai" id="" class="form-control select2">
+                                                <select name="selesai" id="" class="custom-select select2">
                                                     @foreach($days as $day)
                                                         <option value="{{ $day }}" {{ $day=='Kamis' ? 'selected' : '' }}>{{ $day }}</option>
                                                     @endforeach

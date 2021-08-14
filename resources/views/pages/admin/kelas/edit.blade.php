@@ -50,7 +50,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelas</label>
                                     <div class="col-sm-8">
-                                        <select name="jenis_kelas" id="jenis_kelas" class="form-control select2 @error('jenis_kelas') is-invalid @enderror" disabled>
+                                        <select name="jenis_kelas" id="jenis_kelas" class="custom-select select2 @error('jenis_kelas') is-invalid @enderror" disabled>
                                             <option value="Ikhwan" {{ $kelas->jenis_kelas == 'Ikhwan' ? 'selected' : '' }}>Ikhwan</option>
                                             <option value="Akhwat" {{ $kelas->jenis_kelas == 'Akhwat' ? 'selected' : '' }}>Akhwat</option>
                                         </select>
@@ -60,7 +60,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Tingkat</label>
                                     <div class="col-sm-8">
-                                        <select name="kurikulum_id" class="form-control select2 @error('kurikulum_id') is-invalid @enderror">
+                                        <select name="kurikulum_id" class="custom-select select2 @error('kurikulum_id') is-invalid @enderror">
                                             @foreach($kurikulum as $item)
                                                 <option value="{{ $item->id }}" {{ $kelas->kurikulum_id == $item->id ? 'selected' : '' }}>{{ $item->tingkat }}</option>
                                             @endforeach
@@ -93,7 +93,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Pengajar</label>
                                     <div class="col-sm-8">
-                                        <select name="pengajar_id" id="pengajar_id" class="form-control select2 @error('pengajar_id') is-invalid @enderror">
+                                        <select name="pengajar_id" id="pengajar_id" class="custom-select select2 @error('pengajar_id') is-invalid @enderror">
                                             @foreach($pengajar as $item)
                                                 <option value="{{ $item->id }}" {{ $kelas->pengajar_id == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
                                             @endforeach

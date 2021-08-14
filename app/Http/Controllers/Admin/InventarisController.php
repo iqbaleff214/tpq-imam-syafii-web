@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class InventarisController extends Controller
@@ -24,16 +25,16 @@ class InventarisController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Inventaris::all())
                 ->addIndexColumn()
-                ->addColumn('action', function($row) {
-                    return '<a href="'.route('admin.inventaris.show', $row).'" class="btn btn-success btn-xs px-2"> Lihat </a>
-                            <a href="'.route('admin.inventaris.edit', $row).'" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
-                            <form class="d-inline" method="POST" action="'.route('admin.inventaris.destroy', $row).'">
+                ->addColumn('action', function ($row) {
+                    return '<a href="' . route('admin.inventaris.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
+                            <a href="' . route('admin.inventaris.edit', $row) . '" class="btn btn-primary btn-xs px-2 mx-1"> Edit </a>
+                            <form class="d-inline" method="POST" action="' . route('admin.inventaris.destroy', $row) . '">
                                 <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="'.csrf_token().'" />
+                                <input type="hidden" name="_token" value="' . csrf_token() . '" />
                                 <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
-                ->addColumn('total', function($row) {
+                ->addColumn('total', function ($row) {
                     return $row->jumlah_baik + $row->jumlah_rusak;
                 })
                 ->rawColumns(['action', 'total'])
@@ -66,9 +67,10 @@ class InventarisController extends Controller
         $request->validate([
             'kode_barang' => 'required|unique:inventaris,kode_barang',
             'nama_barang' => 'required',
-            'satuan' => 'required',
-            'jumlah_baik' => 'required|integer|min:0',
-            'jumlah_rusak' => 'required|integer|min:0',
+            'satuan'      => 'required',
+            'jumlah_baik' => 'required|numeric|min:0',
+            'jumlah_rusak' => 'required|numeric|min:0',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
@@ -131,15 +133,17 @@ class InventarisController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $inventaris = Inventaris::findOrFail($id);
         $request->validate([
-            'nama_barang'   => 'required',
-            'satuan'        => 'required',
-            'jumlah_baik'   => 'required|integer|min:0',
-            'jumlah_rusak'  => 'required|integer|min:0',
+            'kode_barang' => ['required', Rule::unique('inventaris')->ignore($id)],
+            'nama_barang' => 'required',
+            'satuan'      => 'required',
+            'jumlah_baik' => 'required|numeric|min:0',
+            'jumlah_rusak' => 'required|numeric|min:0',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
+            $inventaris = Inventaris::findOrFail($id);
             $foto = $inventaris->foto;
             if ($request->hasFile('foto')) {
                 if ($foto) Storage::delete("public/$foto");
@@ -149,6 +153,7 @@ class InventarisController extends Controller
             }
 
             $inventaris->update([
+                'kode_barang'   => $request->kode_barang,
                 'nama_barang'   => $request->nama_barang,
                 'satuan'        => $request->satuan,
                 'jumlah_baik'   => $request->jumlah_baik,

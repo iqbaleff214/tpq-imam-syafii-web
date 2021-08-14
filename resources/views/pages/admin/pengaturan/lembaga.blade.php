@@ -43,6 +43,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                                name="nama" placeholder="Lembaga" value="{{ old('nama', $profil->nama) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nama') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -50,6 +51,7 @@
                                     <div class="col-sm-8">
                                         <textarea name="deskripsi" id="" cols="30" rows="7"
                                                   class="form-control @error('deskripsi') is-invalid @enderror">{{ old('deskripsi', $profil->deskripsi) }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('deskripsi') }}</span>
                                     </div>
                                 </div>
 
@@ -58,6 +60,7 @@
                                     <div class="col-sm-8">
                                         <textarea name="visi" id="" cols="30" rows="5"
                                                   class="form-control @error('visi') is-invalid @enderror">{{ old('visi', $profil->visi) }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('visi') }}</span>
                                     </div>
                                 </div>
 
@@ -88,6 +91,7 @@
                                         <input type="email" class="form-control @error('email') is-invalid @enderror"
                                                placeholder="Surel" name="email"
                                                value="{{ old('email', $profil->email) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -96,6 +100,7 @@
                                         <input type="text" class="form-control @error('no_telp') is-invalid @enderror"
                                                placeholder="Nomor Telepon" name="no_telp"
                                                value="{{ old('no_telp', $profil->no_telp) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('no_telp') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -103,6 +108,7 @@
                                     <div class="col-sm-8">
                                         <textarea name="alamat" id="" cols="30" rows="3"
                                                   class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', $profil->alamat) }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('alamat') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -119,6 +125,7 @@
                                         <input type="text" class="form-control @error('facebook') is-invalid @enderror"
                                                placeholder="Facebook (Opsional)" name="facebook"
                                                value="{{ old('facebook', $profil->facebook) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('facebook') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -127,6 +134,7 @@
                                         <input type="text" class="form-control @error('twitter') is-invalid @enderror"
                                                placeholder="Twitter (Opsional)" name="twitter"
                                                value="{{ old('twitter', $profil->twitter) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('twitter') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -135,6 +143,7 @@
                                         <input type="text" class="form-control @error('whatsapp') is-invalid @enderror"
                                                placeholder="WhatsApp (Opsional)" name="whatsapp"
                                                value="{{ old('whatsapp', $profil->whatsapp) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('whatsapp') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -143,6 +152,7 @@
                                         <input type="text" class="form-control @error('instagram') is-invalid @enderror"
                                                placeholder="Instagram (Opsional)" name="instagram"
                                                value="{{ old('instagram', $profil->instagram) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('instagram') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -158,9 +168,15 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="foto" id="image">
+                                            <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Logo (Opsional)</label>
                                         </div>
+                                    </div>
+                                    @error('foto')
+                                    <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                                    @enderror
+                                    <div class="form-text font-weight-lighter text-sm">
+                                        Maksimal: 2048KB
                                     </div>
                                 </div>
                                 <img src="{{ $profil->foto ? asset("storage/".$profil->foto) : asset('logo.png') }}"

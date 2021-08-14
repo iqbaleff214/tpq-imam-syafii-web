@@ -49,28 +49,31 @@
                                                class="form-control @error('created_at') is-invalid @enderror"
                                                name="created_at"
                                                value="{{ old('created_at', $presensi->created_at->isoFormat('Y-MM-DD')) }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('created_at') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Nama</label>
                                     <div class="col-sm-10">
-                                        <select name="pengajar_id" id="pengajar_id" class="form-control select2" disabled>
+                                        <select name="pengajar_id" id="pengajar_id" class="custom-select select2 @error('pengajar_id') is-invalid @enderror" disabled>
                                             @foreach($pengajar as $item)
                                                 <option
-                                                    value="{{ $item->id }}" {{ $item->id == $presensi->pengajar_id ? 'selected' : '' }}>{{ $item->nama }}</option>
+                                                    value="{{ $item->id }}" {{ old('pengajar_id', $item->id) == $presensi->pengajar_id ? 'selected' : '' }}>{{ $item->nama }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('pengajar_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
-                                        <select class="custom-select select2" id="keterangan" name="keterangan">
+                                        <select class="custom-select select2 @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan">
                                             <?php $status = ['Hadir', 'Sakit', 'Izin'] ?>
                                             @foreach($status as $item)
-                                                <option value="{{ $item }}" {{ $presensi->keterangan == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                                <option value="{{ $item }}" {{ old('keterangan', $presensi->keterangan) == $item ? 'selected' : '' }}>{{ $item }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row form-waktu">
@@ -78,10 +81,12 @@
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-6">
-                                                <input type="time" name="datang" class="form-control" value="{{ old('datang', $presensi->datang) }}">
+                                                <input type="time" name="datang" class="form-control @error('datang') is-invalid @enderror" value="{{ old('datang', $presensi->datang) }}">
+                                                <span class="error invalid-feedback">{{ $errors->first('datang') }}</span>
                                             </div>
                                             <div class="col-6">
-                                                <input type="time" name="pulang" class="form-control" value="{{ old('pulang', $presensi->pulang) }}">
+                                                <input type="time" name="pulang" class="form-control @error('pulang') is-invalid @enderror" value="{{ old('pulang', $presensi->pulang) }}">
+                                                <span class="error invalid-feedback">{{ $errors->first('pulang') }}</span>
                                             </div>
                                         </div>
                                     </div>

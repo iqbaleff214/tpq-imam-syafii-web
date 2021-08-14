@@ -42,9 +42,15 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="foto" id="image">
+                                            <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
                                             <label class="custom-file-label" for="image">Pilih Gambar</label>
                                         </div>
+                                    </div>
+                                    @error('foto')
+                                    <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                                    @enderror
+                                    <div class="form-text font-weight-lighter text-sm">
+                                        Maksimal: 2048KB
                                     </div>
                                 </div>
                                 <img src="<?= asset('images/gallery.jpg') ?>" class="img-thumbnail img-preview"
@@ -78,16 +84,18 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control @error('judul') is-invalid @enderror"
                                                name="judul" placeholder="Judul" value="{{ old('judul') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('judul') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Kategori</label>
                                     <div class="col-sm-8">
-                                        <select name="kategori_galeri_id" class="form-control select2">
+                                        <select name="kategori_galeri_id" class="custom-select select2 @error('kategori_galeri_id') is-invalid @enderror">
                                             @foreach($kategori as $item)
                                                 <option value="{{ $item->id }}">{{ $item->kategori }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('kategori_galeri_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -96,6 +104,8 @@
                                         <textarea name="keterangan" id="keterangan" cols="30" rows="3"
                                                   placeholder="Keterangan (Opsional)"
                                                   class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan') }}</textarea>
+                                                  
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -121,6 +131,7 @@
 
     <script>
         $(function () {
+            $('.select2').select2();
 
             $('#image').on('change', function () {
                 previewImage();

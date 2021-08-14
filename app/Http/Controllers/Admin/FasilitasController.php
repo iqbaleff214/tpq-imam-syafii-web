@@ -35,7 +35,7 @@ class FasilitasController extends Controller
                             </form>';
                 })
                 ->editColumn('icon', function ($row) {
-                    return '<h1 class="text-center"><i class="'.$row->icon.'"></i></h1>';
+                    return '<h1 class="text-center"><i class="' . $row->icon . '"></i></h1>';
                 })
                 ->rawColumns(['action', 'icon'])
                 ->make(true);
@@ -66,6 +66,7 @@ class FasilitasController extends Controller
     {
         $request->validate([
             'fasilitas' => 'required',
+            'icon' => 'required',
         ]);
 
         try {
@@ -120,6 +121,7 @@ class FasilitasController extends Controller
         $fasilitas = Fasilitas::findOrFail($id);
         $request->validate([
             'fasilitas' => 'required',
+            'icon' => 'required',
         ]);
 
         try {

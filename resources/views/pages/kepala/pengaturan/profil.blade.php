@@ -76,7 +76,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                                     <div class="col-sm-8">
-                                        <select name="jenis_kelamin" id="" class="form-control select2">
+                                        <select name="jenis_kelamin" id="" class="custom-select select2">
                                             <option
                                                 {{ Auth::user()->administrator->jenis_kelamin=='L' ? 'selected' : '' }} value="L">
                                                 Laki-laki

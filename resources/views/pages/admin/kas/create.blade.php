@@ -50,7 +50,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Jenis Uraian</label>
                                     <div class="col-sm-8">
-                                        <select name="jenis" id="jenis_uraian" class="form-control select2">
+                                        <select name="jenis" id="jenis_uraian" class="custom-select select2">
                                             <option value="Pemasukan">Pemasukan</option>
                                             <option value="Pengeluaran">Pengeluaran</option>
                                         </select>
@@ -63,10 +63,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp</span>
                                             </div>
-                                            <input type="number" class="form-control @error('nominal') is-invalid @enderror" id="jumlah-input" placeholder="0" name="nominal" value="{{ old('nominal') }}">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">,00</span>
-                                            </div>
+                                            <input type="text" class="form-control @error('nominal') is-invalid @enderror" id="jumlah-input" placeholder="0" name="nominal" value="{{ old('nominal') }}">
                                             <span class="error invalid-feedback">{{ $errors->first('nominal') }}</span>
                                         </div>
                                     </div>
@@ -135,11 +132,18 @@
 @push('script')
     <!--Select2-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {{-- MaskMoney --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 
     <script>
         $(function() {
             //Initialize Select2 Elements
             $('.select2').select2();
+            
+            $('input[name=nominal]').mask("000.000.000.000", {reverse: true});
+            $("form").submit(function() {
+                $("input[name=nominal]").unmask();
+            });
 
             $('#jenis_uraian').on('change', function() {
                 const jenis = $(this).val();

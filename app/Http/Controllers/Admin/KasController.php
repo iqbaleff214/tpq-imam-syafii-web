@@ -44,12 +44,12 @@ class KasController extends Controller
 
             return DataTables::of($data->get())
                 ->addIndexColumn()
-                ->addColumn('saldo', function($row) {
+                ->addColumn('saldo', function ($row) {
                     global $saldo;
                     $saldo += ($row->pemasukan - $row->pengeluaran);
-                    return "Rp".number_format($saldo, 2, ',', '.');
+                    return "Rp" . number_format($saldo, 2, ',', '.');
                 })
-                ->addColumn('tanggal', function($row){
+                ->addColumn('tanggal', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
                 ->addColumn('action', function ($row) {
@@ -61,11 +61,11 @@ class KasController extends Controller
                                 <button type="submit" class="btn btn-danger btn-xs px-2 delete-data"> Hapus </button>
                             </form>';
                 })
-                ->editColumn('pemasukan', function($row) {
-                    return "Rp".number_format($row->pemasukan, 2, ',', '.');
+                ->editColumn('pemasukan', function ($row) {
+                    return "Rp" . number_format($row->pemasukan, 2, ',', '.');
                 })
-                ->editColumn('pengeluaran', function($row) {
-                    return "Rp".number_format($row->pengeluaran, 2, ',', '.');
+                ->editColumn('pengeluaran', function ($row) {
+                    return "Rp" . number_format($row->pengeluaran, 2, ',', '.');
                 })
                 ->rawColumns(['saldo', 'action'])
                 ->make(true);
@@ -107,7 +107,7 @@ class KasController extends Controller
     {
         $request->validate([
             'uraian' => 'required',
-            'nominal' => 'integer|required',
+            'nominal' => 'numeric|required',
             'foto' => 'image|max:2048'
         ]);
 
@@ -167,12 +167,14 @@ class KasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kas = Kas::findOrFail($id);
         $request->validate([
             'uraian' => 'required',
+            'nominal' => 'numeric|required',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
+            $kas = Kas::findOrFail($id);
             $foto = $kas->bukti;
             if ($request->hasFile('foto')) {
 
@@ -182,13 +184,14 @@ class KasController extends Controller
                 Storage::putFileAs('public', $request->file('foto'), $foto);
             }
 
-            $kas->update([
+            $data = [
                 'uraian' => $request->uraian,
-                'pemasukan' => $request->pemasukan ?: 0,
-                'pengeluaran' => $request->pengeluaran ?: 0,
                 'keterangan' => $request->keterangan,
                 'bukti' => $foto,
-            ]);
+                $kas->pemasukan ? 'pemasukan' : 'pengeluaran' => $request->nominal
+            ];
+
+            $kas->update($data);
 
             return redirect()->back()->with('success', 'Data kas berhasil diedit!');
         } catch (\Throwable $e) {

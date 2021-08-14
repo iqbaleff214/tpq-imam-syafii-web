@@ -41,13 +41,15 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Donatur</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="nama" placeholder="Donatur">
+                                        <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Donatur" value="{{ old('nama') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('nama') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Nomor Telepon</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="no_telp" placeholder="Nomor Telepon">
+                                        <input type="text" class="form-control @error('no_telp') is-invalid @enderror" name="no_telp" placeholder="Nomor Telepon" value={{ old('no_telp') }}>
+                                        <span class="error invalid-feedback">{{ $errors->first('no_telp') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -57,10 +59,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp</span>
                                             </div>
-                                            <input type="number" class="form-control " id="jumlah" placeholder="0" name="jumlah" min="0">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">,00</span>
-                                            </div>
+                                            <input type="text" class="form-control @error('jumlah') is-invalid @enderror" id="jumlah" placeholder="0" name="jumlah" value="{{ old('jumlah') }}">
+                                            <span class="error invalid-feedback">{{ $errors->first('jumlah') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -68,6 +68,7 @@
                                     <label class="col-sm-2 col-form-label">Keterangan</label>
                                     <div class="col-sm-10">
                                         <textarea name="keterangan" placeholder="Keterangan (Opsional)" id="" cols="30" rows="3" class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan') }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -91,4 +92,18 @@
 
     </div>
 @endsection
+
+@push('script')
+    {{-- MaskMoney --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    
+    <script>
+        $(function () {
+            $('input[name=jumlah]').mask("000.000.000.000", {reverse: true});
+            $("form").submit(function() {
+                $("input[name=jumlah]").unmask();
+            });
+        });
+    </script>
+@endpush
 

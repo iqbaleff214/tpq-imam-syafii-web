@@ -11,6 +11,7 @@ use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class KehadiranSantriController extends Controller
@@ -109,6 +110,13 @@ class KehadiranSantriController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'created_at' => 'required|date',
+            'santri_id' => 'required',
+            'keterangan' => 'required',
+            'nilai_adab' => Rule::requiredIf($request->keterangan == 'Hadir'),
+        ]);
+
         try {
             KehadiranSantri::create([
                 'created_at' => $request->created_at,
@@ -162,6 +170,12 @@ class KehadiranSantriController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'created_at' => 'required|date',
+            'keterangan' => 'required',
+            'nilai_adab' => Rule::requiredIf($request->keterangan == 'Hadir'),
+        ]);
+
         try {
             $presensi = KehadiranSantri::findOrFail($id);
             $presensi->update([
