@@ -65,7 +65,7 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
     /*=== KURIKULUM ===*/
     Route::resource('kurikulum', \App\Http\Controllers\Kepala\KurikulumController::class);
     Route::delete('kurikulum.delete', [\App\Http\Controllers\Kepala\KurikulumController::class, 'delete'])->name('kurikulum.delete');
-    Route::post('kurikulum.mod', [\App\Http\Controllers\Kepala\KurikulumController::class, 'add'])->name('kurikulum.mod');
+    Route::post('kurikulum.mod', [\App\Http\Controllers\Kepala\KurikulumController::class, 'add'])->name('kurikulum.add');
     Route::put('kurikulum.mod', [\App\Http\Controllers\Kepala\KurikulumController::class, 'mod'])->name('kurikulum.mod');
 
     /*=== KEUANGAN ===*/

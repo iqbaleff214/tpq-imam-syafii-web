@@ -348,7 +348,7 @@
             const remove = el.find('.removeRow');
             if (input.val() != '') {
                 $.ajax({
-                    url: "{{ route('kepala.kurikulum.mod') }}",
+                    url: "{{ route('kepala.kurikulum.add') }}",
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
