@@ -76,6 +76,7 @@
                         <!-- /.card -->
                     </div>
                     <div class="col-12 col-md-4">
+
                         <div class="card card-solid">
                             <div class="card-header">
                                 <h3 class="card-title">
@@ -86,6 +87,17 @@
                                 <img src="{{ $inventaris->foto ? asset("storage/$inventaris->foto") : asset('images/inventory.jpg') }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">
                             </div>
                         </div>
+
+                        <div class="card card-outline card-maroon">
+                            <div class="card-header">
+                                <h3 class="card-title">Grafik Kondisi</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="doughnutChart"></canvas>
+                                <p class="text-center text-xs mt-3 text-muted"
+                                   id="doughnutChartLabel"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
         </section>
@@ -93,3 +105,25 @@
 
     </div>
 @endsection
+
+@push('script')
+    <!--ChartJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js"
+            integrity="sha512-asxKqQghC1oBShyhiBwA+YgotaSYKxGP1rcSYTDrB0U6DxwlJjU59B67U8+5/++uFjcuVM8Hh5cokLjZlhm3Vg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script !src="">
+        $(function() {
+            const chart = new Chart($('#doughnutChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Baik', 'Rusak'],
+                    datasets: [{
+                        label: 'Rasio Santri',
+                        data: [{{ intval($inventaris->jumlah_baik) }}, {{ intval($inventaris->jumlah_rusak) }}],
+                        backgroundColor: ['#52ad42', '#ec2f2f'],
+                    }]
+                }
+            });
+        });
+    </script>
+@endpush

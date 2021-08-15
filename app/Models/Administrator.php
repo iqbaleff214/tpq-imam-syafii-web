@@ -13,6 +13,11 @@ class Administrator extends Model
     protected $table = 'admin';
     protected $guarded = [];
 
+    public function akun()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function menulis()
     {
         return $this->hasMany(Pengumuman::class, 'admin_id');

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AkunPengajarMail;
 use App\Models\KehadiranPengajar;
 use App\Models\Pengajar;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
@@ -61,7 +64,7 @@ class PengajarController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -91,7 +94,7 @@ class PengajarController extends Controller
                 'peran' => 'Pengajar',
             ]);
 
-            Pengajar::create([
+            $pengajar = Pengajar::create([
                 'nama' => $request->nama,
                 'tempat_lahir' => $request->tempat_lahir,
                 'tanggal_lahir' => $request->tanggal_lahir,
@@ -103,6 +106,7 @@ class PengajarController extends Controller
                 'user_id' => $akun->id,
             ]);
 
+            Mail::to($akun)->send(new AkunPengajarMail($pengajar, ['password' => $request->password]));
             return redirect()->route('admin.pengajar.index')->with('success', 'Data pengajar berhasil ditambahkan!');
         } catch (\Throwable $e) {
 

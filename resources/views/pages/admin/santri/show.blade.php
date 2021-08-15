@@ -113,7 +113,7 @@
                                 <div class="card">
                                     <div class="card-header p-2">
                                         <h3 class="card-title m-2">
-                                            <a href="{{ route('admin.santri.index') }}" class="btn btn-outline-danger">
+                                            <a href="{{ url()->previous() }}" class="btn btn-outline-danger">
                                                 Kembali
                                             </a>
                                         </h3>

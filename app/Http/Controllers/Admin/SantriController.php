@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Alkoumi\LaravelHijriDate\Hijri;
 use App\Http\Controllers\Controller;
+use App\Mail\AkunSantriMail;
 use App\Mail\PenerimaanMail;
 use App\Models\Hafalan;
 use App\Models\KehadiranSantri;
@@ -181,6 +182,7 @@ class SantriController extends Controller
                 ]);
             }
 
+            Mail::to($akun)->send(new AkunSantriMail($santri, ['password' => $request->password]));
             return redirect()->route('admin.santri.index')->with('success', 'Data santri berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
@@ -375,7 +377,7 @@ class SantriController extends Controller
     {
         $pesan = $request->status == 'Aktif' ? 'diterima!' : 'ditolak!';
         try {
-//            $santri->update(['status' => $request->status]);
+            $santri->update(['status' => $request->status]);
             Mail::to(User::find($santri->user_id))->send(new PenerimaanMail($santri));
             return redirect()->back()->with('success', 'Santri berhasil ' . $pesan);
         } catch (\Throwable $e) {

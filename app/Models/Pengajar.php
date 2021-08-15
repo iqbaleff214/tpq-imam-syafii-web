@@ -13,6 +13,11 @@ class Pengajar extends Model
     protected $table = 'pengajar';
     protected $guarded = [];
 
+    public function akun()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function kelas()
     {
         return $this->hasOne(Kelas::class);
