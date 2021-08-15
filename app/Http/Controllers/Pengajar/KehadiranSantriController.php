@@ -10,6 +10,7 @@ use GeniusTS\HijriDate\Hijri;
 use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
 
 class KehadiranSantriController extends Controller
@@ -23,7 +24,7 @@ class KehadiranSantriController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -33,7 +34,7 @@ class KehadiranSantriController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -68,7 +69,7 @@ class KehadiranSantriController extends Controller
      * Display the specified resource.
      *
      * @param $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Request $request, $id)
     {
@@ -92,8 +93,6 @@ class KehadiranSantriController extends Controller
                     foreach ($data['label'] as $item) {
                         $data['data'][] = KehadiranSantri::where('bulan', $item->bulan)->selectRaw("COUNT(CASE WHEN keterangan='Hadir' THEN 1 END) as hadir, COUNT(CASE WHEN keterangan='Izin' THEN 1 END) as izin, COUNT(CASE WHEN keterangan='Sakit' THEN 1 END) as sakit, COUNT(CASE WHEN keterangan='Absen' THEN 1 END) as absen")->where('santri_id', $id)->first();
                     }
-
-//                    $data = KehadiranSantri::where('santri_id', $id)->groupBy('bulan')->selectRaw('COUNT(CASE WHEN keterangan="Hadir" THEN 1 ELSE NULL END) as data, bulan as label')->get();
                     return response()->json($data);
                 }
             }
@@ -123,7 +122,7 @@ class KehadiranSantriController extends Controller
      * Show the form for editing the specified resource.
      *
      * @pa$id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -135,7 +134,7 @@ class KehadiranSantriController extends Controller
      *
      * @param Request $request
      * @param  \App\Models\KehadiranSantri  $kehadiranSantri
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, KehadiranSantri $kehadiranSantri)
     {
@@ -146,7 +145,7 @@ class KehadiranSantriController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\KehadiranSantri  $kehadiranSantri
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(KehadiranSantri $kehadiranSantri)
     {

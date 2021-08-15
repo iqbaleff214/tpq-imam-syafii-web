@@ -27,7 +27,7 @@
                                 <div class="row no-gutters">
                                     <div class="col-md-4">
                                         <img
-                                            src="{{ \App\Helpers\UserHelpers::getUserImage($item->foto, $item->jenis_kelamin) }}"
+                                            src="{{ \App\Helpers\UserHelpers::getSantriImage($item->foto, $item->jenis_kelamin) }}"
                                             alt="{{ $item->nama }}" width="100%">
                                     </div>
                                     <div class="col-md-8">

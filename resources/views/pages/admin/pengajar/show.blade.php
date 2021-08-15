@@ -26,7 +26,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-12">
 
                         <!-- Profile Image -->
                         <div class="card card-maroon card-outline">
@@ -40,7 +40,10 @@
 
                                 <h3 class="profile-username text-center">{{ $pengajar->nama }}</h3>
                                 @if($pengajar->kelas)
-                                    <p class="text-muted text-center">Kelas {{ $pengajar->kelas->nama_kelas }}</p>
+                                    <p class="text-center">
+                                        <a href="{{ route('admin.kelas.show', $pengajar->kelas) }}"
+                                           class="text-maroon">Kelas {{ $pengajar->kelas->nama_kelas }}</a>
+                                    </p>
                                 @endif
 
                             </div>
@@ -80,69 +83,93 @@
                         <!-- /.card -->
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-9">
-                        <div class="card">
-                            <div class="card-header p-2">
-                                <h3 class="card-title m-2">
-                                    <a href="{{ route('admin.pengajar.index') }}" class="btn btn-outline-danger">
-                                        Kembali
-                                    </a>
-                                </h3>
-                                <ul class="nav nav-pills float-right m-2">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#kehadiran" data-toggle="tab">Kehadiran</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#honor" data-toggle="tab">Honor</a>
-                                    </li>
-                                </ul>
-                            </div><!-- /.card-header -->
-                            <div class="card-body">
-                                <div class="tab-content">
-                                    <div class="tab-pane" id="honor">
-                                        <table class="table table-hover table-bordered table-striped" id="table-honor">
-                                            <thead class="text-center">
-                                            <th style="width: 25px">No</th>
-                                            <th>Tanggal</th>
-                                            <th>Bulan</th>
-                                            <th>Nominal</th>
-                                            <th>Status</th>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                    <!-- /.tab-pane -->
-                                    <div class="tab-pane active" id="kehadiran">
+                    <div class="col-md-9 col-12">
 
-                                        <div class="form-group">
-                                            @if($bulan->count())
-                                                <select class="custom-select select2" id="select-bulan"
-                                                        style="width: 100%;">
-                                                    @foreach($bulan as $item)
-                                                        <option
-                                                            value="{{ $item->bulan }}" {{ $loop->last ? 'selected' : '' }}>{{ $item->bulan }}</option>
-                                                    @endforeach
-                                                </select>
-                                            @endif
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header p-2">
+                                        <h3 class="card-title m-2">
+                                            <a href="{{ route('admin.pengajar.index') }}"
+                                               class="btn btn-outline-danger">
+                                                Kembali
+                                            </a>
+                                        </h3>
+                                        <ul class="nav nav-pills float-right m-2">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#kehadiran"
+                                                   data-toggle="tab">Kehadiran</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#honor" data-toggle="tab">Honor</a>
+                                            </li>
+                                        </ul>
+                                    </div><!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane" id="honor">
+                                                <table class="table table-hover table-bordered table-striped"
+                                                       id="table-honor">
+                                                    <thead class="text-center">
+                                                    <th style="width: 25px">No</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Bulan</th>
+                                                    <th>Nominal</th>
+                                                    <th>Status</th>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane active" id="kehadiran">
+
+                                                <div class="form-group">
+                                                    @if($bulan->count())
+                                                        <select class="custom-select select2" id="select-bulan"
+                                                                style="width: 100%;">
+                                                            @foreach($bulan as $item)
+                                                                <option
+                                                                    value="{{ $item->bulan }}" {{ $loop->last ? 'selected' : '' }}>{{ $item->bulan }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                </div>
+
+                                                <table class="table table-hover table-bordered table-striped"
+                                                       id="table-kehadiran">
+                                                    <thead class="text-center">
+                                                    <th style="width: 25px">No</th>
+                                                    <th>Hari</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Hijriah</th>
+                                                    <th>Status</th>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                            <!-- /.tab-pane -->
                                         </div>
-
-                                        <table class="table table-hover table-bordered table-striped" id="table-kehadiran">
-                                            <thead class="text-center">
-                                            <th style="width: 25px">No</th>
-                                            <th>Hari</th>
-                                            <th>Tanggal</th>
-                                            <th>Hijriah</th>
-                                            <th>Status</th>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                    <!-- /.tab-pane -->
+                                        <!-- /.tab-content -->
+                                    </div><!-- /.card-body -->
                                 </div>
-                                <!-- /.tab-content -->
-                            </div><!-- /.card-body -->
+                                <!-- /.card -->
+                            </div>
                         </div>
-                        <!-- /.card -->
+
+                        @if($bulan->count())
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card card-outline card-maroon">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Grafik Kehadiran</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="barChart" width="100%"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <!-- /.col -->
                 </div>
@@ -175,6 +202,10 @@
 @push('script')
     <!--Select2-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!--ChartJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js"
+            integrity="sha512-asxKqQghC1oBShyhiBwA+YgotaSYKxGP1rcSYTDrB0U6DxwlJjU59B67U8+5/++uFjcuVM8Hh5cokLjZlhm3Vg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!--Datatable-->
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
@@ -194,6 +225,46 @@
 
             let bulan = $('#select-bulan').val();
             let pengajar_id = '{{ $pengajar->id }}';
+            var barChart = null;
+
+            @if($bulan->count())
+            var barCanvas = document.getElementById('barChart');
+            barChart = new Chart(barCanvas, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Hadir',
+                            data: [],
+                            backgroundColor: 'green',
+                        },
+                        {
+                            label: 'Izin',
+                            data: [],
+                            backgroundColor: 'blue',
+                        },
+                        {
+                            label: 'Sakit',
+                            data: [],
+                            backgroundColor: 'yellow',
+                        },
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                min: 0,
+                                max: 100,
+                            }
+                        }]
+                    }
+                }
+            });
+            generateBar(barChart);
+            @endif
 
             var table = $('#table-kehadiran').DataTable({
                 ajax: {
@@ -215,7 +286,7 @@
                 dom: 'Bfrtip',
                 buttons: [
                     {
-                       extend: 'copy',
+                        extend: 'copy',
                         action: newExportAction,
                         exportOptions: {
                             columns: ':not(.notexport)'
@@ -263,7 +334,7 @@
                 dom: 'Bfrtip',
                 buttons: [
                     {
-                       extend: 'copy',
+                        extend: 'copy',
                         action: newExportAction,
                         exportOptions: {
                             columns: ':not(.notexport)'
@@ -344,7 +415,28 @@
                 table.draw();
                 table_honor.draw();
             });
-
         });
+
+        function generateBar(chart) {
+            $.ajax({
+                url: "{!! route('admin.kehadiran.pengajar.index') !!}",
+                method: "GET",
+                data: {
+                    chart: chart.config.type ?? true,
+                    pengajar_id: "{{ $pengajar->id }}"
+                },
+                success: function (res) {
+                    res.label.forEach(e => {
+                        chart.data.labels.push(e.bulan);
+                    });
+                    res.data.forEach(e => {
+                        chart.data.datasets[0].data.push(e.hadir);
+                        chart.data.datasets[1].data.push(e.izin);
+                        chart.data.datasets[2].data.push(e.sakit);
+                    });
+                    chart.update();
+                }
+            });
+        }
     </script>
 @endpush

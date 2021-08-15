@@ -75,6 +75,9 @@ class KehadiranSantriController extends Controller
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
+                ->editColumn('nilai_adab', function ($row) {
+                    return $row->nilai_adab ?: '-';
+                })
                 ->addColumn('santri', function ($row) {
                     return $row->santri->nama_lengkap;
                 })
@@ -135,11 +138,36 @@ class KehadiranSantriController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param $id
      * @return Response
+     * @throws \Exception
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        if ($request->ajax()) {
+            $bulan = $request->get('bulan');
+            $chart = $request->get('chart');
+
+            $data = KehadiranSantri::where('bulan', $bulan)->where('santri_id', $id);
+
+            if ($chart) {
+                if ($chart == 'doughnut') {
+                    $data = $data->selectRaw('COUNT(keterangan) as data, keterangan as label')->groupBy('keterangan')->get();
+                    return response()->json($data);
+                } else {
+                    $data = [];
+                    $data['label'] = KehadiranSantri::selectRaw('bulan')->where('santri_id', $id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
+
+                    $data['data'] = [];
+
+                    foreach ($data['label'] as $item) {
+                        $data['data'][] = KehadiranSantri::where('bulan', $item->bulan)->selectRaw("COUNT(CASE WHEN keterangan='Hadir' THEN 1 END) as hadir, COUNT(CASE WHEN keterangan='Izin' THEN 1 END) as izin, COUNT(CASE WHEN keterangan='Sakit' THEN 1 END) as sakit, COUNT(CASE WHEN keterangan='Absen' THEN 1 END) as absen")->where('santri_id', $id)->first();
+                    }
+                    return response()->json($data);
+                }
+            }
+        }
         $presensi = KehadiranSantri::findOrFail($id);
         $title = $this->title;
 

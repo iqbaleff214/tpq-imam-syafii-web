@@ -26,7 +26,37 @@
         <!-- Main content -->
         <section class="content">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-12 col-md-3">
+                        <!-- Profile Image -->
+                        <div class="card card-maroon card-outline">
+                            <div class="card-body box-profile">
+                                <span
+                                    class="badge {{ $presensi->santri->status == 'Aktif' ? 'badge-success' : 'badge-danger' }}">{{ $presensi->santri->status }}</span>
+                                <span
+                                    class="badge bg-maroon float-right mt-1">{{ \Carbon\Carbon::parse($presensi->santri->tanggal_lahir)->age . ' tahun' }}</span>
+                                <div class="text-center image">
+                                    <div class="img-circle img-thumbnail img-fluid mx-auto mb-3"
+                                         style="width: 150px; height: 150px; background-repeat: no-repeat;background-size: 150px; background-position: center; background-image: url('{{ \App\Helpers\UserHelpers::getSantriImage($presensi->santri->foto, $presensi->santri->jenis_kelamin) }}') ;"></div>
+                                </div>
+
+                                <h3 class="profile-username text-center">
+                                    <a href="{{ route('admin.santri.show', $presensi->santri) }}">
+                                    {{ $presensi->santri->nama_panggilan }}
+                                    </a>
+                                </h3>
+                                @if($presensi->santri->kelas)
+                                    <p class="text-center">
+                                        <a href="{{ route('admin.kelas.show', $presensi->santri->kelas) }}"
+                                           class="text-maroon">Kelas {{ $presensi->santri->kelas->nama_kelas }}</a>
+                                    </p>
+                                @endif
+
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <div class="col-12 col-md-9">
                         <!-- Default box -->
                         <div class="card card-solid">
                             <div class="card-header">
@@ -42,10 +72,6 @@
                                     <tr>
                                         <th style="width: 25%;">Tanggal</th>
                                         <td>{{ $presensi->created_at->isoFormat('dddd, D MMMM YYYY') }} / {{ \GeniusTS\HijriDate\Hijri::convertToHijri($presensi->created_at)->format('d M Y') }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width: 25%;">Nama</th>
-                                        <td>{{ $presensi->santri->nama_lengkap }}</td>
                                     </tr>
                                     <tr>
                                         <th style="width: 25%;">Status</th>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Alkoumi\LaravelHijriDate\Hijri;
 use App\Http\Controllers\Controller;
+use App\Mail\PenerimaanMail;
 use App\Models\Hafalan;
 use App\Models\KehadiranSantri;
 use App\Models\Kelas;
@@ -17,6 +18,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
@@ -24,7 +26,7 @@ use Yajra\DataTables\DataTables;
 class SantriController extends Controller
 {
     private $title = 'Santri';
-    private $status = ['Aktif' => 'Aktif', 'Calon' => 'Calon Santri', 'Berhenti' => 'Berhenti', 'Lulus' => 'Lulus', 'Tanpa Keterangan' => 'Tanpa Keterangan'];
+    private $status = ['Aktif' => 'Aktif', 'Berhenti' => 'Berhenti', 'Lulus' => 'Lulus'];
     private $hubungan = ['Ayah', 'Ibu', 'Kakak', 'Paman', 'Bibi', 'Sepupu', 'Kakak Ipar', 'Lainnya'];
 
     /**
@@ -37,7 +39,15 @@ class SantriController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Santri::all())
+
+            $kelas = $request->get('kelas_id');
+            $data = Santri::whereIn('status', $this->status);
+
+            if ($kelas) {
+                $data = $data->where('kelas_id', $kelas);
+            }
+
+            return DataTables::of($data->get())
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     return '<a href="' . route('admin.santri.show', $row) . '" class="btn btn-success btn-xs px-2"> Lihat </a>
@@ -194,7 +204,15 @@ class SantriController extends Controller
     {
         if ($request->ajax()) {
             $bulan = $request->get('bulan');
+            $chart = $request->get('chart');
             $data = Hafalan::where('bulan', $bulan)->where('santri_id', $santri->id);
+
+            if ($chart) {
+                if ($chart == 'doughnut') {
+                    $data = $data->selectRaw('COUNT(keterangan) as data, keterangan as label')->groupBy('keterangan')->get();
+                    return response()->json($data);
+                }
+            }
             return DataTables::of($data->get())
                 ->addIndexColumn()
                 ->addColumn('hari', function ($row) {
@@ -223,7 +241,15 @@ class SantriController extends Controller
     {
         if ($request->ajax()) {
             $bulan = $request->get('bulan');
+            $chart = $request->get('chart');
             $data = Pembelajaran::where('bulan', $bulan)->where('santri_id', $santri->id);
+
+            if ($chart) {
+                if ($chart == 'doughnut') {
+                    $data = $data->selectRaw('COUNT(keterangan) as data, keterangan as label')->groupBy('keterangan')->get();
+                    return response()->json($data);
+                }
+            }
             return DataTables::of($data->get())
                 ->addIndexColumn()
                 ->addColumn('hari', function ($row) {
@@ -342,6 +368,18 @@ class SantriController extends Controller
         } catch (\Throwable $e) {
 
             return redirect()->back()->with('error', 'Data santri gagal diedit!');
+        }
+    }
+
+    public function accept(Request $request, Santri $santri)
+    {
+        $pesan = $request->status == 'Aktif' ? 'diterima!' : 'ditolak!';
+        try {
+//            $santri->update(['status' => $request->status]);
+            Mail::to(User::find($santri->user_id))->send(new PenerimaanMail($santri));
+            return redirect()->back()->with('success', 'Santri berhasil ' . $pesan);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Santri gagal ' . $pesan);
         }
     }
 

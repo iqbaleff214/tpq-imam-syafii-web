@@ -24,6 +24,49 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="callout callout-success">
+                            <h5>Rekap Total</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Tanggal</dt>
+                                <dd class="col-sm-8">{{ $total->min_date . ' s.d. ' . $total->max_date }}</dd>
+                                <dt class="col-sm-4">Donasi</dt>
+                                <dd class="col-sm-8">{{ 'Rp' . number_format($total->jumlah, 2, ',', '.') }}</dd>
+                                <dt class="col-sm-4">Status</dt>
+                                <dd class="col-sm-8">Diterima</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="callout callout-info">
+                            <h5>Rekap Bulan <span id="rekap-bulan"></span></h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Tanggal</dt>
+                                <dd class="col-sm-8"><span id="rekap-dari">{{ $total->min_date }}</span> s.d. <span id="rekap-sampai">{{ $total->max_date }}</span></dd>
+                                <dt class="col-sm-4">Donasi</dt>
+                                <dd class="col-sm-8"><span id="rekap-jumlah">{{ 'Rp' . number_format($sekarang, 2, ',', '.') }}</span> </dd>
+                                <dt class="col-sm-4">Status</dt>
+                                <dd class="col-sm-8">Semua</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="callout callout-info">
+                            <h5>Rekap Bulan {{ \Carbon\Carbon::now()->isoFormat('MMMM Y') }}</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Tanggal</dt>
+                                <dd class="col-sm-8">{{ \Carbon\Carbon::now()->isoFormat('DD-MM-Y') }}</dd>
+                                <dt class="col-sm-4">Donasi</dt>
+                                <dd class="col-sm-8">{{ 'Rp' . number_format($sekarang, 2, ',', '.') }}</dd>
+                                <dt class="col-sm-4">Status</dt>
+                                <dd class="col-sm-8">Diterima</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -154,6 +197,8 @@
             $('.select2').select2();
 
             let bulan = $('#select-bulan').val();
+            $('#rekap-bulan').text(bulan);
+            rekap(bulan);
             let status = null;
 
             var table = $('#datatable-bs').DataTable({
@@ -207,7 +252,7 @@
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
-            
+
 
             function newExportAction(e, dt, button, config) {
                 var self = this;
@@ -251,7 +296,6 @@
                 dt.ajax.reload();
             }
 
-
             $(document).on("click", "button[type=submit].confirm-data", function (e) {
                 e.preventDefault();
                 Swal.fire({
@@ -282,9 +326,27 @@
 
             $(document).on('change', '#select-bulan', function () {
                 bulan = $(this).val();
+                $('#rekap-bulan').text(bulan);
+                rekap(bulan);
                 table.draw();
             });
 
         });
+
+        function rekap(bulan) {
+            $.ajax({
+                url: "{{ url()->current() }}",
+                method: "GET",
+                data: {
+                    bulan: bulan,
+                    rekap: true,
+                },
+                success: function (res) {
+                    $('#rekap-jumlah').text(res.jumlah);
+                    $('#rekap-dari').text(res.min_date);
+                    $('#rekap-sampai').text(res.max_date);
+                }
+            });
+        }
     </script>
 @endpush

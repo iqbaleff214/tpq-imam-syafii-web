@@ -38,6 +38,7 @@ class KehadiranPengajarController extends Controller
         if ($request->ajax()) {
 
             $bulan = $request->get('bulan');
+            $chart = $request->get('chart');
             $pengajar_id = $request->get('pengajar_id');
             $keterangan = $request->get('keterangan');
             $hari = $request->get('hari');
@@ -46,6 +47,17 @@ class KehadiranPengajarController extends Controller
 
             if ($pengajar_id) {
                 $data = $data->where('pengajar_id', $pengajar_id);
+            }
+
+            if ($chart) {
+                $data = [];
+                $data['label'] = KehadiranPengajar::selectRaw('bulan')->where('pengajar_id', $pengajar_id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
+                $data['data'] = [];
+
+                foreach ($data['label'] as $item) {
+                    $data['data'][] = KehadiranPengajar::where('bulan', $item->bulan)->selectRaw("COUNT(CASE WHEN keterangan='Hadir' THEN 1 END) as hadir, COUNT(CASE WHEN keterangan='Izin' THEN 1 END) as izin, COUNT(CASE WHEN keterangan='Sakit' THEN 1 END) as sakit")->where('pengajar_id', $pengajar_id)->first();
+                }
+                return response()->json($data);
             }
 
             if ($hari !== null) {

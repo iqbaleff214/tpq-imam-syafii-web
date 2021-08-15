@@ -26,7 +26,36 @@
         <!-- Main content -->
         <section class="content">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-12 col-md-3">
+
+                        <!-- Profile Image -->
+                        <div class="card card-maroon card-outline">
+                            <div class="card-body box-profile">
+                                <span
+                                    class="badge {{ $presensi->pengajar->status == 'Aktif' ? 'badge-success' : 'badge-danger' }}">{{ $presensi->pengajar->status }}</span>
+                                <div class="text-center image">
+                                    <div class="img-circle img-thumbnail img-fluid mx-auto mb-3"
+                                         style="width: 150px; height: 150px; background-repeat: no-repeat;background-size: 150px; background-position: center; background-image: url('{{ \App\Helpers\UserHelpers::getUserImage($presensi->pengajar->foto, $presensi->pengajar->jenis_kelamin) }}') ;"></div>
+                                </div>
+
+                                <h3 class="profile-username text-center">
+                                    <a href="{{ route('admin.pengajar.show', $presensi->pengajar) }}">
+                                        {{ $presensi->pengajar->nama }}
+                                    </a>
+                                </h3>
+                                @if($presensi->pengajar->kelas)
+                                    <p class="text-center">
+                                        <a href="{{ route('admin.kelas.show', $presensi->pengajar->kelas) }}"
+                                           class="text-maroon">Kelas {{ $presensi->pengajar->kelas->nama_kelas }}</a>
+                                    </p>
+                                @endif
+
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <div class="col-12 col-md-9">
                         <!-- Default box -->
                         <div class="card card-solid">
                             <div class="card-header">
@@ -42,10 +71,6 @@
                                     <tr>
                                         <th style="width: 25%;">Tanggal</th>
                                         <td>{{ $presensi->created_at->isoFormat('dddd, D MMMM YYYY') }} / {{ \GeniusTS\HijriDate\Hijri::convertToHijri($presensi->created_at)->format('d M Y') }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width: 25%;">Nama</th>
-                                        <td>{{ $presensi->pengajar->nama }}</td>
                                     </tr>
                                     <tr>
                                         <th style="width: 25%;">Status</th>

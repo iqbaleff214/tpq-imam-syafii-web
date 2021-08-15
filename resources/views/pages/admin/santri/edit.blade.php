@@ -259,7 +259,7 @@
                                         Maksimal: 2048KB
                                     </div>
                                 </div>
-                                <img src="{{ \App\Helpers\UserHelpers::getUserImage($santri->foto, $santri->jenis_kelamin) }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Santri">
+                                <img src="{{ \App\Helpers\UserHelpers::getSantriImage($santri->foto, $santri->jenis_kelamin) }}" class="img-thumbnail img-preview" style="width: 100%;" alt="Santri">
                                 @if($santri->foto)
                                     <button type="submit" form="unlink" class="btn btn-outline-danger btn-sm position-absolute mt-3 ml-n5"><i class="fas fa-times"></i></button>
                                 @endif

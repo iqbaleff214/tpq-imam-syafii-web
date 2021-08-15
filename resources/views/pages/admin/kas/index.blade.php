@@ -25,44 +25,78 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row">
-                    @if($total['oldest'])
-                        <div class="col-12 col-md-6">
+                @if($total->jml_saldo)
+                    <div class="row">
+                        <div class="col-12 col-md-4">
                             <div class="callout callout-success">
-                                <h5>Rekap</h5>
+                                <h5>Rekap Total</h5>
                                 <dl class="row">
-                                    <dt class="col-sm-4">Bulan</dt>
-                                    <dd class="col-sm-8">{{ $total['oldest']->created_at->isoFormat('MMMM Y') }}
-                                        s.d. {{ $total['latest']->created_at->isoFormat('MMMM Y') }}</dd>
+                                    <dt class="col-sm-4">Tanggal</dt>
+                                    <dd class="col-sm-8">{{ $total->min_date . ' s.d. ' . $total->max_date }}</dd>
                                     <dt class="col-sm-4">Pemasukan</dt>
-                                    <dd class="col-sm-8">Rp{{ number_format($total['pemasukan'], 2, ',', '.') }}</dd>
+                                    <dd class="col-sm-8">{{ 'Rp' . number_format($total->jml_pemasukan, 2, ',', '.') }}</dd>
                                     <dt class="col-sm-4">Pengeluaran</dt>
-                                    <dd class="col-sm-8">Rp{{ number_format($total['pengeluaran'], 2, ',', '.') }}</dd>
+                                    <dd class="col-sm-8">{{ 'Rp' . number_format($total->jml_pengeluaran, 2, ',', '.') }}</dd>
                                     <dt class="col-sm-4">Saldo</dt>
-                                    <dd class="col-sm-8">
-                                        Rp{{ number_format($total['pemasukan'] - $total['pengeluaran'], 2, ',', '.') }}</dd>
+                                    <dd class="col-sm-8">{{ 'Rp' . number_format($total->jml_saldo, 2, ',', '.') }}</dd>
                                 </dl>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6">
-                            <div class="callout callout-danger">
-                                <h5>Rekap Bulan ini</h5>
+                        <div class="col-12 col-md-4">
+                            <div class="callout callout-warning">
+                                <h5>Rekap Berdasarkan Filter</h5>
                                 <dl class="row">
-                                    <dt class="col-sm-4">Bulan</dt>
-                                    <dd class="col-sm-8">{{ \Carbon\Carbon::now()->isoFormat('MMMM Y') }}</dd>
+                                    <dt class="col-sm-4">Tanggal</dt>
+                                    <dd class="col-sm-8"><span id="rekap-dari">{{ $total->min_date }}</span> s.d. <span id="rekap-sampai">{{ $total->max_date }}</span></dd>
                                     <dt class="col-sm-4">Pemasukan</dt>
-                                    <dd class="col-sm-8">Rp{{ number_format($sekarang['pemasukan'], 2, ',', '.') }}</dd>
+                                    <dd class="col-sm-8"><span id="rekap-pemasukan">{{ 'Rp' . number_format($total->jml_pemasukan, 2, ',', '.') }}</span> </dd>
                                     <dt class="col-sm-4">Pengeluaran</dt>
-                                    <dd class="col-sm-8">
-                                        Rp{{ number_format($sekarang['pengeluaran'], 2, ',', '.') }}</dd>
-                                    <dt class="col-sm-4">Saldo</dt>
-                                    <dd class="col-sm-8">
-                                        Rp{{ number_format($sekarang['pemasukan'] - $sekarang['pengeluaran'], 2, ',', '.') }}</dd>
+                                    <dd class="col-sm-8"><span id="rekap-pengeluaran">{{ 'Rp' . number_format($total->jml_pengeluaran, 2, ',', '.') }}</span> </dd>
                                 </dl>
                             </div>
                         </div>
-                    @endif
-                </div>
+                        <div class="col-12 col-md-4">
+                            <div class="callout callout-info">
+                                <h5>Rekap Bulan {{ \Carbon\Carbon::now()->isoFormat('MMMM Y') }}</h5>
+                                <dl class="row">
+                                    <dt class="col-sm-4">Tanggal</dt>
+                                    <dd class="col-sm-8">{{ \Carbon\Carbon::now()->isoFormat('DD-MM-Y') }}</dd>
+                                    <dt class="col-sm-4">Pemasukan</dt>
+                                    <dd class="col-sm-8">{{ 'Rp' . number_format($sekarang->pemasukan, 2, ',', '.') }}</dd>
+                                    <dt class="col-sm-4">Pengeluaran</dt>
+                                    <dd class="col-sm-8">{{ 'Rp' . number_format($sekarang->pengeluaran, 2, ',', '.') }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-widget collapsed-card card-maroon card-outline">
+                                <div class="card-header">
+                                    <div class="user-block">
+                                        <h3 class="card-title" data-card-widget="collapse"
+                                            style="cursor: pointer">
+                                            Tampilkan Bagan
+                                        </h3>
+                                    </div>
+                                    <!-- /.user-block -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="barChart" height="30px" width="100%"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -75,7 +109,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                @if($total['oldest'])
+                                @if($total->jml_saldo)
                                     <div class="card card-widget collapsed-card">
                                         <div class="card-header">
                                             <div class="user-block">
@@ -173,6 +207,10 @@
     <!--Daterangepicker-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <!--ChartJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js"
+            integrity="sha512-asxKqQghC1oBShyhiBwA+YgotaSYKxGP1rcSYTDrB0U6DxwlJjU59B67U8+5/++uFjcuVM8Hh5cokLjZlhm3Vg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!--Datatable-->
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
@@ -192,6 +230,42 @@
             let dari = null;
             let sampai = null;
 
+            @if($total->jml_saldo)
+            var barCanvas = document.getElementById('barChart');
+            var barChart = new Chart(barCanvas, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Pemasukan',
+                            data: [],
+                            backgroundColor: 'green',
+                            borderColor: 'green',
+                        },
+                        {
+                            label: 'Pengeluaran',
+                            data: [],
+                            backgroundColor: 'red',
+                            borderColor: 'red',
+                        },
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                min: 0,
+                                max: 100,
+                            }
+                        }]
+                    }
+                }
+            });
+            generateBar(barChart);
+            @endif
+
             // Date range picker
             $('#select-rentang').daterangepicker({
                 locale: {
@@ -205,6 +279,22 @@
 
             $(document).on('click', '#filter-submit', function () {
                 const selected_jenis = $('#select-jenis').val();
+
+                $.ajax({
+                    url: "{{ url()->current() }}",
+                    method: 'GET',
+                    data: {
+                        filter: true,
+                        dari: dari,
+                        sampai: sampai
+                    },
+                    success: function(res) {
+                        $('#rekap-dari').text(res.min_date);
+                        $('#rekap-sampai').text(res.max_date);
+                        $('#rekap-pemasukan').text(res.jml_pemasukan);
+                        $('#rekap-pengeluaran').text(res.jml_pengeluaran);
+                    }
+                });
 
                 jenis = selected_jenis !== '' ? selected_jenis : null;
                 table.draw();
@@ -220,8 +310,8 @@
             //Initialize Datatables Elements
             const table = $('#datatable-bs').DataTable({
                 lengthMenu: [
-                    [ 10, 25, 50, -1 ],
-                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                    [10, 25, 50, -1],
+                    ['10 rows', '25 rows', '50 rows', 'Show all']
                 ],
                 bLengthChange: true,
                 ajax: {
@@ -240,7 +330,7 @@
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
                 },
-                dom: '<"html5buttons">Bfrtip',      
+                dom: '<"html5buttons">Bfrtip',
                 buttons: [
                     {
                         extend: 'copy',
@@ -317,5 +407,25 @@
                 dt.ajax.reload();
             }
         });
+
+        function generateBar(chart) {
+            $.ajax({
+                url: "{!! url()->current() !!}",
+                method: "GET",
+                data: {
+                    chart: chart.config.type ?? true,
+                },
+                success: function (res) {
+                    res.label.forEach(e => {
+                        chart.data.labels.push(e.bulan);
+                    });
+                    res.data.forEach(e => {
+                        chart.data.datasets[0].data.push(e.pemasukan);
+                        chart.data.datasets[1].data.push(e.pengeluaran);
+                    });
+                    chart.update();
+                }
+            });
+        }
     </script>
 @endpush

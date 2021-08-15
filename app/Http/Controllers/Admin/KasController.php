@@ -23,15 +23,23 @@ class KasController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $saldo = 0;
+
+            if ($request->get('chart')) {
+                $data = [];
+                $data['label'] = Kas::selectRaw('DATE_FORMAT(created_at, "%m/%y") as bulan')->orderByRaw('MAX(created_at)')->groupByRaw('DATE_FORMAT(created_at, "%m/%y")')->get();
+                $data['data'] = [];
+
+                foreach ($data['label'] as $item) {
+                    $data['data'][] = Kas::selectRaw("SUM(pemasukan) as pemasukan, SUM(pengeluaran) as pengeluaran")->whereRaw("DATE_FORMAT(created_at, '%m/%y') = ?", [$item->bulan])->first();
+                }
+                return response()->json($data);
+            }
+
+
             $data = Kas::orderBy('created_at', 'asc');
             $jenis = $request->get('jenis');
             $dari = $request->get('dari');
             $sampai = $request->get('sampai');
-
-            if ($jenis) {
-                $data = $data->where($jenis, '>', 0);
-            }
 
             if ($dari) {
                 $dari = Carbon::createFromFormat('d/m/Y', $dari);
@@ -42,6 +50,19 @@ class KasController extends Controller
                 $data = $data->whereDate('created_at', '<=', $sampai);
             }
 
+            if ($request->get('filter')) {
+                $data = $data->selectRaw('SUM(pemasukan) as jml_pemasukan, SUM(pengeluaran) as jml_pengeluaran, DATE_FORMAT(MIN(created_at), "%d-%m-%Y") as min_date, DATE_FORMAT(MAX(created_at), "%d-%m-%Y") as max_date')->first();
+                $data->jml_pemasukan = 'Rp' . number_format($data->jml_pemasukan, 2, ',', '.');
+                $data->jml_pengeluaran = 'Rp' . number_format($data->jml_pengeluaran, 2, ',', '.');
+                return response()->json($data);
+            }
+
+            if ($jenis) {
+                $data = $data->where($jenis, '>', 0);
+            }
+
+
+            $saldo = 0;
             return DataTables::of($data->get())
                 ->addIndexColumn()
                 ->addColumn('saldo', function ($row) {
@@ -70,19 +91,9 @@ class KasController extends Controller
                 ->rawColumns(['saldo', 'action'])
                 ->make(true);
         }
-        $bulan = Kas::whereMonth('created_at', Carbon::now()->month)->get();
-        $kas = Kas::all();
 
-        $sekarang = [
-            'pemasukan' => $bulan->sum('pemasukan'),
-            'pengeluaran' => $bulan->sum('pengeluaran'),
-        ];
-        $total = [
-            'pemasukan' => $kas->sum('pemasukan'),
-            'pengeluaran' => $kas->sum('pengeluaran'),
-            'latest' => Kas::latest()->first(),
-            'oldest' => Kas::oldest()->first(),
-        ];
+        $total = Kas::selectRaw('SUM(pemasukan) as jml_pemasukan, SUM(pengeluaran) as jml_pengeluaran, (SUM(pemasukan) - SUM(pengeluaran)) as jml_saldo, DATE_FORMAT(MIN(created_at), "%d-%m-%Y") as min_date, DATE_FORMAT(MAX(created_at), "%d-%m-%Y") as max_date')->first();
+        $sekarang = Kas::selectRaw('SUM(pemasukan) as pemasukan, SUM(pengeluaran) as pengeluaran')->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->first();
         $title = $this->title;
         echo view('pages.admin.kas.index', compact('sekarang', 'total', 'title'));
     }

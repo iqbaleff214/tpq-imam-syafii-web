@@ -23,7 +23,8 @@ class KasFactory extends Factory
     {
         return [
             'uraian' => $this->faker->sentence(3),
-            $this->faker->boolean() ? 'pemasukan' : 'pengeluaran' => $this->faker->randomNumber(5)
+            $this->faker->boolean(60) ? 'pemasukan' : 'pengeluaran' => $this->faker->randomNumber(7),
+            'created_at' => $this->faker->dateTimeBetween('-1 years', 'now'),
         ];
     }
 }

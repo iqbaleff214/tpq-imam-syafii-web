@@ -13,6 +13,11 @@ class Santri extends Model
     protected $table = 'santri';
     protected $guarded = [];
 
+    public function akun()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function wali()
     {
         return $this->hasMany(SantriWali::class);

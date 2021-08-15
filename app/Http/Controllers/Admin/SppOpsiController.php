@@ -38,6 +38,9 @@ class SppOpsiController extends Controller
                 ->editColumn('jumlah', function ($row) {
                     return 'Rp' . number_format($row->jumlah, 2, ',', '.') . ' per bulan';
                 })
+                ->editColumn('keterangan', function ($row) {
+                    return $row->keterangan ?: '-';
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }

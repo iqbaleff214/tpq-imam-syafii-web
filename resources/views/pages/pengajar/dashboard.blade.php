@@ -36,6 +36,7 @@
                                             <h6 class="text-right text-muted">{{ \Carbon\Carbon::today()->isoFormat('D MMMM Y') }}</h6>
                                         </div>
                                     </div>
+                                    @if(Auth::user()->pengajar->status == 'Aktif')
                                     <div class="row mt-4">
                                         @if($presensi)
                                             @if($presensi->datang)
@@ -94,6 +95,7 @@
                                             </div>
                                         @endif
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div><!-- /.card -->

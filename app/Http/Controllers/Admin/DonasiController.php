@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Donasi;
 use Carbon\Carbon;
+use GeniusTS\HijriDate\Date;
 use GeniusTS\HijriDate\Hijri;
+use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,6 +17,13 @@ use Illuminate\Validation\Rule;
 class DonasiController extends Controller
 {
     private $title = 'Donasi';
+
+    public function __construct()
+    {
+        parent::__construct();
+        Hijri::setDefaultAdjustment(-1);
+        Date::setTranslation(new Indonesian());
+    }
 
     /**
      * Display a listing of the resource.
@@ -29,6 +38,13 @@ class DonasiController extends Controller
             $status = $request->get('status');
 
             $data = Donasi::where('bulan', $bulan);
+
+            if ($request->get('rekap')) {
+                $data = $data->selectRaw('SUM(jumlah) as jumlah, DATE_FORMAT(MIN(created_at), "%d-%m-%Y") as min_date, DATE_FORMAT(MAX(created_at), "%d-%m-%Y") as max_date')->first();
+                $data->jumlah = 'Rp'.number_format($data->jumlah, 2,',', '.');
+//                $data = $data->first();
+                return \response()->json($data);
+            }
 
             if ($status != null) {
                 $data = $data->where('status', $status);
@@ -77,7 +93,11 @@ class DonasiController extends Controller
         $title = $this->title;
         $bulan = Donasi::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        echo view('pages.admin.donasi.index', compact('title', 'bulan'));
+        $sekarang = Donasi::where('status', 1)->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->sum('jumlah');
+        $total = Donasi::selectRaw('SUM(jumlah) as jumlah, DATE_FORMAT(MIN(created_at), "%d-%m-%Y") as min_date, DATE_FORMAT(MAX(created_at), "%d-%m-%Y") as max_date')->where('status', 1)->first();
+
+
+        echo view('pages.admin.donasi.index', compact('title', 'bulan', 'total', 'sekarang'));
     }
 
     /**

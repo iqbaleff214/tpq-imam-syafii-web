@@ -78,6 +78,17 @@ class LembagaController extends Controller
         }
     }
 
+    public function registration(Request $request, Lembaga $lembaga)
+    {
+        $pesan = $request->input('is_pendaftaran') ? 'dibuka!' : 'ditutup!';
+        try {
+            $lembaga->update([ 'is_pendaftaran' => $request->input('is_pendaftaran') ]);
+            return redirect()->back()->with('success', 'Pendaftaran berhasil ' . $pesan);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Pendaftaran berhasil ' . $pesan);
+        }
+    }
+
     public function unlink()
     {
         try {

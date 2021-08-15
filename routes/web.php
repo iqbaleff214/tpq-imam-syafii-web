@@ -24,6 +24,8 @@ Route::get('/galeri', [\App\Http\Controllers\HomeController::class, 'galeri'])->
 Route::get('/donasi', [\App\Http\Controllers\HomeController::class, 'donasi'])->name('donasi');
 Route::post('/donasi', [\App\Http\Controllers\HomeController::class, 'store_donasi'])->name('donasi.store');
 Route::get('/pendaftaran', [\App\Http\Controllers\HomeController::class, 'pendaftaran'])->name('pendaftaran');
+Route::post('/pendaftaran-final', [\App\Http\Controllers\HomeController::class, 'next_pendaftaran'])->name('pendaftaran.next');
+Route::post('/pendaftaran', [\App\Http\Controllers\HomeController::class, 'post_pendaftaran'])->name('pendaftaran.post');
 Route::get('/struktur', [\App\Http\Controllers\HomeController::class, 'struktur'])->name('struktur');
 Route::get('/hubungi-kami', [\App\Http\Controllers\HomeController::class, 'hubungi'])->name('hubungi');
 Route::post('/hubungi-kami', [\App\Http\Controllers\HomeController::class, 'store_hubungi'])->name('hubungi.store');
@@ -107,6 +109,7 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     Route::get('hafalan/{santri}', [\App\Http\Controllers\Admin\SantriController::class, 'show_hafalan'])->name('santri.hafalan');
     Route::get('pembelajaran/{santri}', [\App\Http\Controllers\Admin\SantriController::class, 'show_pembelajaran'])->name('santri.pembelajaran');
     Route::post('wali', [\App\Http\Controllers\Admin\SantriController::class, 'wali'])->name('santri.wali');
+    Route::put('accept/{santri}', [\App\Http\Controllers\Admin\SantriController::class, 'accept'])->name('santri.accept');
 
     /*=== KALENDER ===*/
     Route::get('kalender', [\App\Http\Controllers\Admin\PageController::class, 'kalender'])->name('kalender.index');
@@ -182,6 +185,7 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->as('admin.')-
     /*=== LEMBAGA ===*/
     Route::resource('lembaga', \App\Http\Controllers\Admin\LembagaController::class);
     Route::delete('lembaga', [\App\Http\Controllers\Admin\LembagaController::class, 'unlink'])->name('lembaga.unlink');
+    Route::put('pendaftaran/{lembaga}', [\App\Http\Controllers\Admin\LembagaController::class, 'registration'])->name('pendaftaran.update');
 });
 
 /*=== ROLE: PENGAJAR (OK) ===*/

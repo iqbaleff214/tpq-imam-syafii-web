@@ -38,6 +38,14 @@ class UserHelpers
         return asset($foto);
     }
 
+    public static function getSantriImage($image, $gender = null)
+    {
+        $foto = 'images/ikhwan-santri.svg';
+        if ($gender == 'P') $foto = 'images/akhwat-santri.svg';
+        if ($image) $foto = "storage/$image";
+        return asset($foto);
+    }
+
     public static function getInfoImage($image)
     {
         return asset($image ? "storage/$image" : "images/info.jpg");

@@ -13,12 +13,19 @@ use App\Models\Lembaga;
 use App\Models\Pengajar;
 use App\Models\Pengumuman;
 use App\Models\Santri;
+use App\Models\SantriWali;
 use App\Models\SppOpsi;
+use App\Models\User;
+use App\Rules\CheckAge;
 use Carbon\Carbon;
+use GeniusTS\HijriDate\Date;
 use GeniusTS\HijriDate\Hijri;
+use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class HomeController extends Controller
 {
@@ -39,6 +46,14 @@ class HomeController extends Controller
                 break;
             case 'Pengajar':
                 return redirect()->to('/pengajar');
+                break;
+            default:
+                echo view('mails.pendaftaran', [
+                    'nama' => 'M. Iqbal Effendi',
+                    'peran' => 'Pengajar',
+                    'username' => 'username',
+                    'password' => 'password'
+                ]);
                 break;
         }
     }
@@ -113,6 +128,8 @@ class HomeController extends Controller
 
     public function store_donasi(Request $request)
     {
+        Hijri::setDefaultAdjustment(-1);
+        Date::setTranslation(new Indonesian());
         try {
             Donasi::create([
                 'nama' => $request->input('nama'),
@@ -129,6 +146,9 @@ class HomeController extends Controller
 
     public function pendaftaran()
     {
+        Hijri::setDefaultAdjustment(-1);
+        Date::setTranslation(new Indonesian());
+
         $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Pendaftaran Santri';
 
@@ -141,6 +161,83 @@ class HomeController extends Controller
             default: $class_spp = 'col-lg-4 col-md-6 col-12'; break;
         }
         echo view('pages.frontend.pendaftaran', compact('spp', 'class_spp', 'profil', 'title'));
+    }
+
+    public function next_pendaftaran(Request $request)
+    {
+        $request->validate([
+            'nama_lengkap' => 'required',
+            'nama_panggilan' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => ['required', 'date', new CheckAge()],
+            'alamat' => 'required',
+            'anak_ke' => 'required|numeric',
+            'jumlah_saudara' => 'required|numeric',
+            'nama_wali' => 'required',
+            'no_telp' => 'required|max:15',
+            'spp_opsi_id' => 'required',
+        ]);
+
+        $newNis = $request->jenis_kelamin == 'L' ? 'I' : 'A';
+        # $newNis .= '-';
+        $newNis .= \Alkoumi\LaravelHijriDate\Hijri::Date('ym');
+        $no = Santri::withTrashed()->where('nis', 'like', '%' . $newNis . '%')->count() + 1;
+        $nis = sprintf("$newNis%02d", $no);
+
+        return redirect()->back()->with('nis', $nis)->withInput();
+    }
+
+    public function post_pendaftaran(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nis' => ['required', Rule::unique('santri')],
+            'nama_lengkap' => 'required',
+            'nama_panggilan' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => ['required', 'date', new CheckAge()],
+            'alamat' => 'required',
+            'anak_ke' => 'required|numeric',
+            'jumlah_saudara' => 'required|numeric',
+            'nama_wali' => 'required',
+            'no_telp' => 'required|max:15',
+            'spp_opsi_id' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed',
+        ]);
+        if ($validator->fails()) return redirect()->back()->with('nis', $request->nis)->withInput()->withErrors($validator);
+
+        try {
+            $akun = User::create([
+                'username' => $request->nis,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'peran' => 'Santri',
+            ]);
+            $santri = Santri::create([
+                'nis' => $request->nis,
+                'nama_lengkap' => $request->nama_lengkap,
+                'nama_panggilan' => $request->nama_panggilan ?: $request->nama_lengkap,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'anak_ke' => $request->anak_ke ?: 1,
+                'jumlah_saudara' => $request->jumlah_saudara ?: 1,
+                'alamat' => $request->alamat,
+                'status' => "Calon",
+                'user_id' => $akun->id,
+                'spp_opsi_id' => $request->spp_opsi_id,
+            ]);
+            SantriWali::create([
+                'nama_wali' => $request->nama_wali,
+                'hubungan' => "Ayah",
+                'no_telp' => $request->no_telp,
+                'santri_id' => $santri->id
+            ]);
+
+            return redirect()->route('pendaftaran')->with('success', 'Pendaftaran berhasil!');
+        } catch (\Throwable $e) {
+            return redirect()->route('pendaftaran')->with('error', 'Pendaftaran gagal!');
+        }
     }
 
     public function struktur()

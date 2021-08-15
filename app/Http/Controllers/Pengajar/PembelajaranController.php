@@ -46,7 +46,16 @@ class PembelajaranController extends Controller
     {
         if ($request->ajax()) {
             $bulan = $request->get('bulan');
+            $chart = $request->get('chart');
             $data = Pembelajaran::where('bulan', $bulan)->where('santri_id', $id);
+
+            if ($chart) {
+                if ($chart == 'doughnut') {
+                    $data = $data->selectRaw('COUNT(keterangan) as data, keterangan as label')->groupBy('keterangan')->get();
+                    return response()->json($data);
+                }
+            }
+
             return DataTables::of($data->get())
                 ->addIndexColumn()
                 ->addColumn('hari', function ($row) {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Alkoumi\LaravelHijriDate\Hijri;
+use App\Models\Donasi;
+use App\Models\Lembaga;
 use GeniusTS\HijriDate as TSHijri;
 use App\Http\Controllers\Controller;
 use App\Models\Kalender;
@@ -22,14 +24,50 @@ class PageController extends Controller
 
     public function index(Request $request)
     {
-        $count = [
-            'santri' => Santri::count(),
-            'pengajar' => Pengajar::count(),
-            'saldo' => Kas::sum('pemasukan') - Kas::sum('pengeluaran')
-        ];
-        $title = 'Dasbor';
+        if ($request->ajax()) {
+            if ($request->get('calon')) {
+                $data = Santri::where('status', 'Calon');
+                return DataTables::of($data->get())
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        return '<form class="d-inline" method="POST" action="' . route('admin.santri.accept', $row) . '">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" name="status" value="Aktif">
+                                    <input type="hidden" name="_token" value="' . csrf_token() . '" />
+                                    <button type="submit" class="btn bg-maroon btn-xs px-2 btn-confirm"> Terima </button>
+                                </form>
+                                <form class="d-inline" method="POST" action="' . route('admin.santri.accept', $row) . '">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" name="status" value="Ditolak">
+                                    <input type="hidden" name="_token" value="' . csrf_token() . '" />
+                                    <button type="submit" class="btn btn-outline-danger btn-xs px-2 btn-confirm"> Tolak </button>
+                                </form>';
+                    })
+                    ->editColumn('jenis_kelamin', function ($row) {
+                        return $row->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan';
+                    })
+                    ->addColumn('umur', function ($row) {
+                        return Carbon::parse($row->tanggal_lahir)->age . ' tahun';
+                    })
+                    ->addColumn('kelas', function ($row) {
+                        return $row->kelas ? $row->kelas->nama_kelas : 'Belum Masuk';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+        }
 
-        return view('pages.admin.dashboard', compact('count', 'title'));
+        $count = [
+            'santri' => Santri::where('status', 'Aktif')->count(),
+            'pengajar' => Pengajar::where('status', 'Aktif')->count(),
+            'saldo' => Kas::selectRaw('SUM(pemasukan) - SUM(pengeluaran) as saldo')->first()->saldo,
+            'donasi' => Donasi::selectRaw('SUM(jumlah) as jumlah')->where('status', 1)->first()->jumlah,
+        ];
+
+        $title = 'Dasbor';
+        $profil = Lembaga::where('is_active', 1)->first();
+
+        return view('pages.admin.dashboard', compact('count', 'title', 'profil'));
     }
 
     public function profil()
