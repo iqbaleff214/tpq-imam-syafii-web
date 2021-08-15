@@ -46,16 +46,10 @@
                                     <div class="team-social-icon">
                                         <ul class="social-link">
                                             <li>
-                                                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                                                <a href="{{ 'https://wa.me/' . substr_replace($item->no_telp, '62', 0, 1) }}"><i class="fab fa-whatsapp"></i></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fas fa-phone"></i></a>
+                                                <a href="{{ 'tel:' . substr_replace($item->no_telp, '62', 0, 1) }}"><i class="fas fa-phone"></i></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -90,23 +84,17 @@
                                     <div class="team-social-icon">
                                         <ul class="social-link">
                                             <li>
-                                                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                                                <a href="{{ 'https://wa.me/' . substr_replace($item->no_telp, '62', 0, 1) }}"><i class="fab fa-whatsapp"></i></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fas fa-phone"></i></a>
+                                                <a href="{{ 'tel:' . substr_replace($item->no_telp, '62', 0, 1) }}"><i class="fas fa-phone"></i></a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="content">
                                     <h3>{{ $item->nama }}</h3>
-                                    <span>Kelas Iqro 3-4 Ikhwan</span>
+                                    <span>{{ 'Kelas ' . $item->kelas->nama_kelas . ' ' . $item->kelas->jenis_kelas }}</span>
                                 </div>
                             </div>
                         </div>
@@ -134,23 +122,17 @@
                                     <div class="team-social-icon">
                                         <ul class="social-link">
                                             <li>
-                                                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                                                <a href="{{ 'https://wa.me/' . substr_replace($item->no_telp, '62', 0, 1) }}"><i class="fab fa-whatsapp"></i></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fas fa-phone"></i></a>
+                                                <a href="{{ 'tel:' . substr_replace($item->no_telp, '62', 0, 1) }}"><i class="fas fa-phone"></i></a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="content">
                                     <h3>{{ $item->nama }}</h3>
-                                    <span>Kelas Iqro 3-4 Ikhwan</span>
+                                    <span>{{ 'Kelas ' . $item->kelas->nama_kelas . ' ' . $item->kelas->jenis_kelas }}</span>
                                 </div>
                             </div>
                         </div>
