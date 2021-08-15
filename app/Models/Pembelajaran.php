@@ -17,4 +17,9 @@ class Pembelajaran extends Model
     {
         return $this->belongsTo(Santri::class);
     }
+
+    public function bacaan()
+    {
+        return $this->belongsTo(Materi::class, 'materi_id');
+    }
 }

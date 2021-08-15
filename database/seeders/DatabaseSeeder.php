@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Administrator;
 use App\Models\Icon;
+use App\Models\Kurikulum;
 use App\Models\Lembaga;
 use App\Models\Materi;
 use App\Models\SppOpsi;
@@ -292,5 +293,26 @@ class DatabaseSeeder extends Seeder
             'Mandi' => 'DOA',
         ];
         foreach ($materials as $materi => $jenis) Materi::create(['materi' => $materi, 'jenis' => $jenis]);
+
+        # Kurikulum
+        $kurikulum = [
+            'Iqro Jilid 1' => 'santri mampu membaca dengan lancar seluruh halaman Iqro Jilid 1 dan menguasai beberapa Hafalan Surah pendek Al Qur’an, Gerakan dan Bacaan Shalat, Doa – doa sehari – hari dan Hafalan Hadits',
+            'Iqro Jilid 2' => 'santri mampu membaca dengan lancar seluruh halaman Iqro Jilid 2 dan menguasai beberapa Hafalan Surah pendek Al Qur’an, Gerakan dan Bacaan Shalat, Doa – doa sehari – hari dan Hafalan Hadits',
+            'Iqro Jilid 3' => 'santri mampu membaca dengan lancar seluruh halaman Iqro Jilid 3 dan menguasai beberapa Hafalan Surah pendek Al Qur’an, Gerakan dan Bacaan Shalat, Doa – doa sehari – hari dan Hafalan Hadits',
+            'Iqro Jilid 4' => 'santri mampu membaca dengan lancar seluruh halaman Iqro Jilid 4 dan menguasai beberapa Hafalan Surah pendek Al Qur’an, Gerakan dan Bacaan Shalat, Doa – doa sehari – hari dan Hafalan Hadits',
+            'Iqro Jilid 5' => 'santri mampu membaca dengan lancar seluruh halaman Iqro Jilid 5 dan menguasai beberapa Hafalan Surah pendek Al Qur’an, Gerakan dan Bacaan Shalat, Doa – doa sehari – hari dan Hafalan Hadits',
+            'Iqro Jilid 6' => 'santri mampu membaca dengan lancar seluruh halaman Iqro Jilid 6 dan menguasai beberapa Hafalan Surah pendek Al Qur’an, Gerakan dan Bacaan Shalat, Doa – doa sehari – hari dan Hafalan Hadits',
+            'Al-Qur\'an 1' => 'santri mampu membaca dengan lancar seuai dengan adab dan kaidah membaca al Qur’an, juga memahami tajwidnya.',
+            'Al-Qur\'an 2' => 'santri mampu membaca dengan lancar seuai dengan adab dan kaidah membaca al Qur’an, juga memahami tajwidnya.',
+            'Al-Qur\'an 3' => 'santri mampu membaca dengan lancar seuai dengan adab dan kaidah membaca al Qur’an, juga memahami tajwidnya.',
+            'Al-Qur\'an 4' => 'santri mampu membaca dengan lancar seuai dengan adab dan kaidah membaca al Qur’an, juga memahami tajwidnya.',
+        ];
+        foreach ($kurikulum as $tingkat => $target) Kurikulum::create([
+                'tingkat' => $tingkat,
+                'mulai' => 'Senin',
+                'selesai' => 'Kamis',
+                'target' => $target,
+                'keterangan' => 'Evaluasi dilakukan setiap selesai pembacaan, pertemuan berikutnya diulangi untuk materi yang sama, dan boleh lanjut setelah dinyatakan lanjut (L).'
+            ]);
     }
 }

@@ -207,15 +207,15 @@
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <div class="form-group">
-                                                                            <label for="bacaan">Bacaan</label>
+                                                                            <label for="materi_id">Bacaan</label>
                                                                             <input type="hidden" name="santri_id"
                                                                                    value="{{ $santri->id }}">
                                                                             <select class="custom-select select2"
-                                                                                    id="bacaan"
-                                                                                    name="bacaan" style="width: 100%">
+                                                                                    id="materi_id"
+                                                                                    name="materi_id" style="width: 100%">
                                                                                 @foreach($bacaan as $item)
                                                                                     <option
-                                                                                        value="{{ $item->materi }}">{{ $item->jenis == 'QURAN' ? 'Q.S.' : 'Iqro' }} {{ $item->materi }}</option>
+                                                                                        value="{{ $item->id }}">{{ $item->jenis == 'QURAN' ? 'Q.S.' : 'Iqro' }} {{ $item->materi }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
@@ -321,15 +321,15 @@
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <div class="form-group">
-                                                                            <label for="bacaan">Hafalan</label>
+                                                                            <label for="materi_id">Hafalan</label>
                                                                             <input type="hidden" name="santri_id"
                                                                                    value="{{ $santri->id }}">
                                                                             <select class="custom-select select2"
                                                                                     id="hafalan"
-                                                                                    name="hafalan" style="width: 100%">
+                                                                                    name="materi_id" style="width: 100%">
                                                                                 @foreach($hafalan as $item)
                                                                                     <option
-                                                                                        value="{{ $item->jenis == 'QURAN' ? 'Q.S.' : ucwords(strtolower($item->jenis)) }} {{ $item->materi }}"
+                                                                                        value="{{ $item->id }}"
                                                                                         data-jenis="{{ $item->jenis }}">{{ $item->jenis == 'QURAN' ? 'Q.S.' : ucwords(strtolower($item->jenis)) }} {{ $item->materi }}</option>
                                                                                 @endforeach
                                                                             </select>

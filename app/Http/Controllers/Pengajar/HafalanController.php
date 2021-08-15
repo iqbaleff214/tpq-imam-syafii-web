@@ -54,7 +54,7 @@ class HafalanController extends Controller
         try {
             $data = [
                 'santri_id' => $request->input('santri_id'),
-                'hafalan' => $request->input('hafalan'),
+                'materi_id' => $request->input('materi_id'),
                 'nilai' => $request->input('nilai'),
                 'mulai' => $request->input('mulai'),
                 'selesai' => $request->input('selesai') ?? $request->input('mulai'),
@@ -104,10 +104,11 @@ class HafalanController extends Controller
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
                 ->addColumn('ayat', function ($row) {
+                    $jenis = $row->hafalan->jenis == 'QURAN' ? 'Q.S.' : ucfirst(strtolower($row->hafalan->jenis));
                     if ($row->mulai == $row->selesai)
-                        return $row->hafalan . ( $row->mulai ? ': ' . $row->mulai : '');
+                        return $jenis . ' ' . $row->hafalan->materi . ( $row->mulai ? ': ' . $row->mulai : '');
                     else
-                        return $row->hafalan . ': ' . $row->mulai . '-' . $row->selesai;
+                        return $jenis . ' ' . $row->hafalan->materi . ': ' . $row->mulai . '-' . $row->selesai;
                 })
                 ->addColumn('santri', function ($row) {
                     return $row->santri->nama_lengkap;

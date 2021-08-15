@@ -32,7 +32,7 @@ class HafalanController extends Controller
             return ResponseFormatter::error(null, 'Tidak ada santri yang dipilih!', 404);
         }
 
-        $data = Hafalan::where('santri_id', $santri_id);
+        $data = Hafalan::where('santri_id', $santri_id)->with(['hafalan']);
 
         if ($id) {
             $data = $data->find($id);
@@ -61,9 +61,9 @@ class HafalanController extends Controller
             }
         }
 
-        if ($q) {
-            $data = $data->where('hafalan', 'like', "%{$q}%");
-        }
+//        if ($q) {
+//            $data = $data->where('hafalan', 'like', "%{$q}%");
+//        }
 
         if ($keterangan) {
             $data = $data->where('keterangan', $keterangan);

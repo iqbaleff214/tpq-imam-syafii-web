@@ -17,4 +17,9 @@ class Hafalan extends Model
     {
         return $this->belongsTo(Santri::class);
     }
+
+    public function hafalan()
+    {
+        return $this->belongsTo(Materi::class, 'materi_id');
+    }
 }

@@ -184,7 +184,7 @@
                 @endif
 
 
-                @if($bulan)
+                @if($bulan->count())
                     <div class="row">
                         <div class="col-12">
                             <div class="card card-outline card-maroon">

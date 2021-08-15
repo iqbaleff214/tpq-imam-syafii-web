@@ -25,7 +25,7 @@ class PembelajaranController extends Controller
         try {
             $data = [
                 'santri_id' => $request->input('santri_id'),
-                'bacaan' => $request->input('bacaan'),
+                'materi_id' => $request->input('materi_id'),
                 'nilai' => $request->input('nilai'),
                 'mulai' => $request->input('mulai'),
                 'selesai' => $request->input('selesai') ?? $request->input('mulai'),
@@ -35,7 +35,6 @@ class PembelajaranController extends Controller
             ];
 
             Pembelajaran::create($data);
-
             return redirect()->back()->with('success', 'Berhasil mengisi evaluasi pembelajaran');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Gagal melakukan evaluasi pembelajaran');
@@ -68,10 +67,11 @@ class PembelajaranController extends Controller
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
                 ->addColumn('ayat', function ($row) {
+                    $jenis = $row->bacaan->jenis == 'QURAN' ? 'Q.S.' : ucfirst(strtolower($row->bacaan->jenis));
                     if ($row->mulai == $row->selesai)
-                        return $row->bacaan . ': ' . $row->mulai;
+                        return $jenis . ' ' . $row->bacaan->materi . ': ' . $row->mulai;
                     else
-                        return $row->bacaan . ': ' . $row->mulai . '-' . $row->selesai;
+                        return $jenis . ' ' . $row->bacaan->materi . ': ' . $row->mulai . '-' . $row->selesai;
                 })
                 ->addColumn('santri', function ($row) {
                     return $row->santri->nama_lengkap;

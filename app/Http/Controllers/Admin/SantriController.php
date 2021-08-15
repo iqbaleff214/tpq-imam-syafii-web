@@ -227,10 +227,11 @@ class SantriController extends Controller
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
                 ->addColumn('ayat', function ($row) {
+                    $jenis = $row->hafalan->jenis == 'QURAN' ? 'Q.S.' : ucfirst(strtolower($row->hafalan->jenis));
                     if ($row->mulai == $row->selesai)
-                        return $row->hafalan . ($row->mulai ? ': ' . $row->mulai : '');
+                        return $jenis . ' ' . $row->hafalan->materi . ( $row->mulai ? ': ' . $row->mulai : '');
                     else
-                        return $row->hafalan . ': ' . $row->mulai . '-' . $row->selesai;
+                        return $jenis . ' ' . $row->hafalan->materi . ': ' . $row->mulai . '-' . $row->selesai;
                 })
                 ->addColumn('santri', function ($row) {
                     return $row->santri->nama_lengkap;
@@ -264,10 +265,11 @@ class SantriController extends Controller
                     return $row->created_at->isoFormat('DD-MM-Y');
                 })
                 ->addColumn('ayat', function ($row) {
+                    $jenis = $row->bacaan->jenis == 'QURAN' ? 'Q.S.' : ucfirst(strtolower($row->bacaan->jenis));
                     if ($row->mulai == $row->selesai)
-                        return $row->bacaan . ': ' . $row->mulai;
+                        return $jenis . ' ' . $row->bacaan->materi . ': ' . $row->mulai;
                     else
-                        return $row->bacaan . ': ' . $row->mulai . '-' . $row->selesai;
+                        return $jenis . ' ' . $row->bacaan->materi . ': ' . $row->mulai . '-' . $row->selesai;
                 })
                 ->addColumn('santri', function ($row) {
                     return $row->santri->nama_lengkap;

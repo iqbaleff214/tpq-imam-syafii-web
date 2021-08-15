@@ -41,7 +41,7 @@
                                             <p class="card-text mt-4">
                                                 <small class="text-muted d-block">{{ $item->nis }}</small>
                                                 @if($bacaan = $item->pembelajaran()->orderBy('created_at', 'desc')->first())
-                                                <small class="text-muted">{{ $bacaan->bacaan . ': ' . ($bacaan->mulai==$bacaan->selesai ? $bacaan->mulai : "{$bacaan->mulai}-{$bacaan->selesai}") }}</small>
+                                                <small class="text-muted">{{ $bacaan->bacaan->materi . ': ' . ($bacaan->mulai==$bacaan->selesai ? $bacaan->mulai : "{$bacaan->mulai}-{$bacaan->selesai}") }}</small>
                                                 @endif
                                             </p>
                                         </div>

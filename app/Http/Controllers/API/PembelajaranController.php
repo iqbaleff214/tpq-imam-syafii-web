@@ -32,7 +32,7 @@ class PembelajaranController extends Controller
             return ResponseFormatter::error(null, 'Tidak ada santri yang dipilih!', 404);
         }
 
-        $data = Pembelajaran::where('santri_id', $santri_id);
+        $data = Pembelajaran::where('santri_id', $santri_id)->with(['bacaan']);
 
         if ($id) {
             $data = $data->find($id);
@@ -61,9 +61,9 @@ class PembelajaranController extends Controller
             }
         }
 
-        if ($q) {
-            $data = $data->where('bacaan', 'like', "%{$q}%");
-        }
+//        if ($q) {
+//            $data = $data->where('bacaan', 'like', "%{$q}%");
+//        }
 
         if ($keterangan) {
             $data = $data->where('keterangan', $keterangan);

@@ -194,6 +194,7 @@ class KelasController extends Controller
     public function destroy($id)
     {
         try {
+            Santri::where('kelas_id', $id)->update(['kelas_id' => null]);
             Kelas::findOrFail($id)->delete();
             return redirect()->back()->with('success', 'Data kelas berhasil dihapus!');
         } catch (\Throwable $e) {
