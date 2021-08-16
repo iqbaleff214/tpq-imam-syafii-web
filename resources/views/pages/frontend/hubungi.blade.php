@@ -52,6 +52,19 @@
                     </div>
                     <div class="col-xl-7 col-lg-7 col-md-8 col-12">
                         <div class="contact-wrapper wow fadeInRight" data-wow-delay="0.6s">
+                            @if(session('success'))
+                                <div class="alert alert-success" role="alert">
+                                    <h4 class="alert-heading">Pesan Berhasil Terkirim!</h4>
+                                    <p class="mb-0">Jazakumullahu khayran wa barakallahu fiikum.</p>
+                                </div>
+                            @elseif(session('error'))
+                                <div class="alert alert-danger" role="alert">
+                                    <h4 class="alert-heading">Pesan Gagal Dikirim!</h4>
+                                    <p>{{ session('error') }}</p>
+                                    <hr>
+                                    <p class="mb-0">Jazakumullahu khayran wa barakallahu fiikum.</p>
+                                </div>
+                            @else
                             <form class="contacts-form" method="post" action="{{ route('hubungi.store') }}">
                                 @csrf
                                 <div class="row">
@@ -106,6 +119,7 @@
                                     </div>
                                 </div>
                             </form>
+                            @endif
                         </div>
                     </div>
                 </div>
