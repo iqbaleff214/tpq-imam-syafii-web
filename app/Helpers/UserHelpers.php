@@ -21,12 +21,15 @@ class UserHelpers
                 $foto = Auth::user()->pengajar->foto;
                 $jk = Auth::user()->pengajar->jenis_kelamin;
                 break;
-            case 'Santri':
-                $foto = Auth::user()->santri->foto;
-                $jk = Auth::user()->santri->jenis_kelamin;
-                break;
         }
         $foto = $foto ? "storage/$foto" : (($jk == 'L') ? 'images/ikhwan.svg' : 'images/akhwat.svg');
+        return asset($foto);
+    }
+    public static function getAuthSantriImage(): String
+    {
+        $foto = Auth::user()->santri->foto;
+        $jk = Auth::user()->santri->jenis_kelamin;
+        $foto = $foto ? "storage/$foto" : (($jk == 'L') ? 'images/ikhwan-santri.svg' : 'images/akhwat-santri.svg');
         return asset($foto);
     }
 

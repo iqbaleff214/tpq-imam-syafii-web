@@ -1,21 +1,16 @@
-@extends('layouts.admin')
+@extends('layouts.santri')
 
 @section('body')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Santri</h1>
+                        <h1 class="m-0"> {{ $title }}</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.santri.index') }}">Santri</a></li>
-                            <li class="breadcrumb-item active">Detail</li>
-                            <!-- <li class="breadcrumb-item active">santriistrator</li> -->
-                        </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -23,11 +18,10 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
+        <div class="content">
+            <div class="container">
                 <div class="row">
-                    <div class="col-md-3 col-12">
-
+                    <div class="col-12 col-md-3">
                         <!-- Profile Image -->
                         <div class="card card-maroon card-outline">
                             <div class="card-body box-profile">
@@ -42,19 +36,15 @@
 
                                 <h3 class="profile-username text-center">{{ $santri->nama_panggilan }}</h3>
                                 @if($santri->kelas)
-                                    <p class="text-center">
-                                        <a href="{{ route('admin.kelas.show', $santri->kelas) }}"
-                                           class="text-maroon">Kelas {{ $santri->kelas->nama_kelas }}</a>
-                                    </p>
+                                    <p class="text-muted text-center">Kelas {{ $santri->kelas->nama_kelas }}</p>
                                 @endif
 
                             </div>
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-
                         <!-- About Me Box -->
-                        <div class="card card-maroon card-outline">
+                        <div class="card card-maroon">
                             <div class="card-header">
                                 <h3 class="card-title">Biodata</h3>
                             </div>
@@ -104,19 +94,91 @@
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
+                        <!-- About Me Box -->
+                        @foreach($santri->wali as $item)
+                            <div class="card card-maroon">
+                                <div class="card-header">
+                                    <h3 class="card-title">Wali Santri</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <h6 class="font-weight-bold">Nama</h6>
+                                        <p class="text-muted">{{ $item->nama_wali }}</p>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <h6 class="font-weight-bold">Hubungan</h6>
+                                        <p class="text-muted">{{ $item->hubungan }}</p>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <h6 class="font-weight-bold">Nomor Telepon</h6>
+                                        <p class="text-muted">{{ $item->no_telp }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+
                     </div>
-                    <!-- /.col -->
-                    <div class="col-md-9 col-12">
+                    <div class="col-12 col-md-9">
+                        {{--                        Tanggal--}}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-maroon card-outline">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <h4>{{ \Carbon\Carbon::today()->isoFormat('dddd') }}</h4>
+                                                    @if($santri->status == 'Aktif')
+                                                        <h5 class="text-muted">{{ $presensi->keterangan ?? 'Belum ada keterangan.' }}</h5>
+                                                    @endif
+                                                </div>
+                                                <div class="col-6">
+                                                    <h5 class="text-right">{{ \GeniusTS\HijriDate\Date::today()->format(' d F o') }}</h5>
+                                                    <h6 class="text-right text-muted">{{ \Carbon\Carbon::today()->isoFormat('D MMMM Y') }}</h6>
+                                                </div>
+                                            </div>
+                                            @if($santri->status == 'Aktif' and ($presensi->keterangan ?? false == 'Hadir'))
+                                                <div class="row mt-3">
+                                                    <div class="col">
+                                                        <table class="table table-bordered">
+                                                            <tr>
+                                                                <td style="width: 30%">Bacaan terakhir</td>
+                                                                <td>
+                                                                    @if($bacaan = $santri->pembelajaran()->orderBy('created_at', 'desc')->first())
+                                                                        {{ $bacaan->bacaan->materi . ': ' . ($bacaan->mulai==$bacaan->selesai ? $bacaan->mulai : "{$bacaan->mulai}-{$bacaan->selesai}") }}
+                                                                    @else
+                                                                        -
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Hafalan terakhir</td>
+                                                                <td>
+                                                                    @if($hafalan = $santri->hafalan()->orderBy('created_at', 'desc')->first())
+                                                                        {{ ( $hafalan->hafalan->jenis == 'QURAN' ? 'Q.S.' : ucfirst(strtolower($hafalan->hafalan->jenis)) ) . ' ' . $hafalan->hafalan->materi . ($hafalan->hafalan->jenis == 1 ? ': ' . ($hafalan->mulai==$hafalan->selesai ? $hafalan->mulai : "{$hafalan->mulai}-{$hafalan->selesai}") : '') }}
+                                                                    @else
+                                                                        -
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div><!-- /.card -->
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="row">
                             <div class="col">
-                                <div class="card">
+                                <div class="card card-maroon card-outline">
                                     <div class="card-header p-2">
-                                        <h3 class="card-title m-2">
-                                            <a href="{{ url()->previous() }}" class="btn btn-outline-danger">
-                                                Kembali
-                                            </a>
-                                        </h3>
+                                        <h3 class="card-title m-3">Kegiatan Pembelajaran</h3>
                                         <ul class="nav nav-pills float-right m-2">
                                             <li class="nav-item">
                                                 <a class="nav-link active" href="#kehadiran"
@@ -248,63 +310,14 @@
                                 </div>
                             </div>
                         @endif
-
-                        <div class="row">
-                            <div class="col">
-                                <div class="card card-maroon card-outline">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Wali Santri</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-12 {{ $santri->wali->count() > 1 ? 'col-md-6' : '' }}">
-                                                <div>
-                                                    <h6 class="font-weight-bold">Nama</h6>
-                                                    <p class="text-muted">{{ $santri->wali[0]->nama_wali }}</p>
-                                                </div>
-                                                <hr>
-                                                <div>
-                                                    <h6 class="font-weight-bold">Hubungan</h6>
-                                                    <p class="text-muted">{{ $santri->wali[0]->hubungan }}</p>
-                                                </div>
-                                                <hr>
-                                                <div>
-                                                    <h6 class="font-weight-bold">Nomor Telepon</h6>
-                                                    <p class="text-muted">{{ $santri->wali[0]->no_telp }}</p>
-                                                </div>
-                                            </div>
-                                            @if($santri->wali->count() > 1)
-                                                <div class="col-12 col-md-6">
-                                                    <div>
-                                                        <h6 class="font-weight-bold">Nama</h6>
-                                                        <p class="text-muted">{{ $santri->wali[1]->nama_wali }}</p>
-                                                    </div>
-                                                    <hr>
-                                                    <div>
-                                                        <h6 class="font-weight-bold">Hubungan</h6>
-                                                        <p class="text-muted">{{ $santri->wali[1]->hubungan }}</p>
-                                                    </div>
-                                                    <hr>
-                                                    <div>
-                                                        <h6 class="font-weight-bold">Nomor Telepon</h6>
-                                                        <p class="text-muted">{{ $santri->wali[1]->no_telp }}</p>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
+        </div>
     </div>
+    <!-- /.content-wrapper -->
 @endsection
 
 @push('link')
@@ -361,7 +374,7 @@
 
             @if($bulan->count())
 
-                doughnutUrl = "{!! route('admin.kehadiran.santri.show', $santri->id) !!}";
+                doughnutUrl = "{!! route('santri.kehadiran') !!}";
             var doughnutCanvas = document.getElementById('doughnutChart');
             doughnutChart = new Chart(doughnutCanvas, {
                 type: 'doughnut',
@@ -376,7 +389,7 @@
             });
             generateChart(bulan, doughnutChart, doughnutUrl);
 
-            doughnutHafalanUrl = "{!! route('admin.santri.hafalan', $santri) !!}";
+            doughnutHafalanUrl = "{!! route('santri.hafalan') !!}";
             var doughnutHafalanCanvas = document.getElementById('doughnutHafalanChart');
             doughnutHafalanChart = new Chart(doughnutHafalanCanvas, {
                 type: 'doughnut',
@@ -391,7 +404,7 @@
             });
             generateChart(bulan, doughnutHafalanChart, doughnutHafalanUrl);
 
-            doughnutBelajarUrl = "{!! route('admin.santri.pembelajaran', $santri) !!}";
+            doughnutBelajarUrl = "{!! route('santri.pembelajaran') !!}";
             var doughnutBelajarCanvas = document.getElementById('doughnutBelajarChart');
             doughnutBelajarChart = new Chart(doughnutBelajarCanvas, {
                 type: 'doughnut',
@@ -456,7 +469,7 @@
 
             var table_kehadiran = $('#datatable-kehadiran').DataTable({
                 ajax: {
-                    url: "{!! route('admin.kehadiran.santri.index') !!}",
+                    url: "{!! route('santri.kehadiran') !!}",
                     data: function (d) {
                         d.bulan = bulan;
                         d.santri_id = santri_id;
@@ -505,7 +518,7 @@
             });
             var table_pembelajaran = $('#datatable-pembelajaran').DataTable({
                 ajax: {
-                    url: "{!! route('admin.santri.pembelajaran', $santri) !!}",
+                    url: "{!! route('santri.pembelajaran', $santri) !!}",
                     data: function (d) {
                         d.bulan = bulan;
                     }
@@ -554,7 +567,7 @@
             });
             var table_hafalan = $('#datatable-hafalan').DataTable({
                 ajax: {
-                    url: "{!! route('admin.santri.hafalan', $santri) !!}",
+                    url: "{!! route('santri.hafalan') !!}",
                     data: function (d) {
                         d.bulan = bulan;
                     }
@@ -694,7 +707,7 @@
 
         function generateBar(chart) {
             $.ajax({
-                url: "{!! route('admin.kehadiran.santri.show', $santri->id) !!}",
+                url: "{!! route('santri.kehadiran', $santri->id) !!}",
                 method: "GET",
                 data: {
                     chart: chart.config.type ?? true,

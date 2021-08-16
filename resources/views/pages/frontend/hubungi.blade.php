@@ -55,53 +55,46 @@
                             <form class="contacts-form" method="post" action="{{ route('hubungi.store') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-lg-6 col-12">
+                                    <div class="col-lg-6 col-12 mb-3">
                                         <div class="contacts-icon contactss-name">
-                                            <input
-                                                type="text"
-                                                name="nama"
-                                                placeholder="Nama"
-                                                required="required"
-                                                autofocus
-                                            />
+                                            <input type="text" name="nama"
+                                                   class="@error('nama') is-invalid @enderror"
+                                                   placeholder="Nama" value="{{ old('nama') }}" autofocus/>
+                                            <small class="is-invalid-text">{{ $errors->first('nama') }}</small>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-12">
+                                    <div class="col-lg-6 col-12 mb-3">
                                         <div class="contacts-icon contactss-name">
-                                            <input
-                                                type="text"
-                                                name="no_telp"
-                                                placeholder="Nomor Telepon/WhatsApp"
-                                                required="required"
-                                            />
+                                            <input type="text" name="no_telp"
+                                                   class="@error('no_telp') is-invalid @enderror"
+                                                   placeholder="Nomor Telepon/WhatsApp" value="{{ old('no_telp') }}"/>
+                                            <small class="is-invalid-text">{{ $errors->first('no_telp') }}</small>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="contacts-icon contactss-email">
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                placeholder="Surel"
-                                                required="required"
-                                            />
+                                    <div class="col-lg-6 col-12 mb-3">
+                                        <div class="contacts-icon contactss-name">
+                                            <input type="email" name="email"
+                                                   class="@error('email') is-invalid @enderror"
+                                                   placeholder="Surel/Email" value="{{ old('email') }}"/>
+                                            <small class="is-invalid-text">{{ $errors->first('email') }}</small>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-12">
+                                    <div class="col-lg-6 col-12 mb-3">
                                         <div class="contacts-icon contactss-name">
-                                            <input
-                                                type="text"
-                                                name="subyek"
-                                                placeholder="Subyek"
-                                                required="required"
-                                            />
+                                            <input type="text" name="subjek"
+                                                   class="@error('subjek') is-invalid @enderror"
+                                                   placeholder="Subjek" value="{{ old('subjek') }}"/>
+                                            <small class="is-invalid-text">{{ $errors->first('subjek') }}</small>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="contacts-icon contactss-message">
-										<textarea
-                                            name="pesan"
-                                            rows="8"
-                                            placeholder="Pesan"></textarea>
+										    <textarea
+                                                name="pesan"
+                                                class="@error('pesan') is-invalid @enderror"
+                                                rows="8"
+                                                placeholder="Pesan">{{ old('pesan') }}</textarea>
+                                            <small class="is-invalid-text">{{ $errors->first('subjek') }}</small>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -130,26 +123,45 @@
                         width="100%"
                         height="500"
                         id="gmap_canvas"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.9721893999626!2d114.61346541475793!3d-3.356957097556321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2de4238e8f81e633%3A0xd6935b9a9783d52!2sMasjid%20Imam%20Syafi&#39;i%20Banjarmasin!5e0!3m2!1sen!2sid!4v1619350719411!5m2!1sen!2sid"
-                        frameborder="0"
-                        scrolling="no"
-                        marginheight="0"
-                        marginwidth="0"></iframe>
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.9721893999626!2d114.61346541475793!3d-3.356957097556321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2de4238e8f81e633%3A0xd6935b9a9783d52!2sMasjid%20Imam%20Syafi&#39;i%20Banjarmasin!5e0!3m2!1sen!2sid!4v1619350719411!5m2!1sen!2sid"></iframe>
                 </div>
-                <style>
-                    .mapouter {
-                        position: relative;
-                        text-align: right;
-                    }
-
-                    .gmap_canvas {
-                        overflow: hidden;
-                        background: none !important;
-                    }
-                </style>
-            </div>
         </div>
     </section>
     <!-- End Google-map Area -->
-
 @endsection
+
+@push('link')
+    <style>
+        .mapouter {
+            position: relative;
+            text-align: right;
+        }
+
+        .gmap_canvas {
+            overflow: hidden;
+            background: none !important;
+        }
+
+        input.is-invalid, textarea.is-invalid, select.is-invalid {
+            border-color: #b6003d !important;
+            color: #b6003d !important;
+        }
+
+        small.is-invalid-text {
+            color: #b6003d !important;
+        }
+
+        .call-action .contact-form-box select {
+            height: 50px;
+            width: 100%;
+            border: 1px solid #eee;
+            border-radius: 0;
+            margin-bottom: 10px;
+            color: #333;
+            background-color: transparent;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0px 20px;
+        }
+    </style>
+@endpush

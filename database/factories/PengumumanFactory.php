@@ -27,7 +27,7 @@ class PengumumanFactory extends Factory
         return [
             'judul' => $judul,
             'slug' => $slug,
-            'konten' => $this->faker->text(10000),
+            'konten' => $this->faker->text(5000),
             'admin_id' => 2,
         ];
     }

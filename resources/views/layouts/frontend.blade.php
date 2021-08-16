@@ -168,20 +168,19 @@
                 </div>
             </div>
             <div class="col-lg-6 col-12">
-                <div class="subscribe-form wow fadeInRight" data-wow-delay=".5s">
+                <div class="subscribe-form wow fadeInRight mt-md-4 float-md-end" data-wow-delay=".5s">
                     <form
                         action="{{ route('donasi') }}"
                         method="get"
                         class="newsletter-inner">
                         <input
-                            name="donasi"
+                            name="jumlah"
                             placeholder="Rp0"
                             class="common-input text-white"
                             onfocus="this.placeholder = 'Rp0'"
                             onblur="this.placeholder = 'Rp0'"
                             required=""
-                            min="0"
-                            type="number"
+                            type="text"
                             autocomplete="off"/>
                         <div class="button">
                             <button class="btn mouse-dir white-bg">
@@ -299,8 +298,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-<!--Sweet alert 2-->
-@include('sweetalert::alert')
 <script src="{{ asset('bizfinity/js/count-up.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"
         integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g=="
@@ -311,6 +308,10 @@
 <script src="{{ asset('bizfinity/js/glightbox.min.js') }}"></script>
 <script src="{{ asset('bizfinity/js/imagesloaded.min.js') }}"></script>
 <script src="{{ asset('bizfinity/js/main.js') }}"></script>
+{{-- MaskMoney --}}
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 <!--Overlay Scrollbars-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/js/OverlayScrollbars.min.js"
         integrity="sha512-B1xv1CqZlvaOobTbSiJWbRO2iM0iii3wQ/LWnXWJJxKfvIRRJa910sVmyZeOrvI854sLDsFCuFHh4urASj+qgw=="
@@ -318,6 +319,11 @@
 @stack('script')
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
+
+        $('input[name=jumlah]').mask("000.000.000.000", {reverse: true});
+        $("form").submit(function() {
+            $("input[name=jumlah]").unmask();
+        });
 
         //========= glightbox
         GLightbox({

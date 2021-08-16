@@ -26,7 +26,6 @@ class PageController extends Controller
         Hijri::setDefaultAdjustment(-1);
 
         $title = 'Beranda';
-
         $presensi = KehadiranPengajar::where('pengajar_id', Auth::user()->pengajar->id)->whereDate('created_at', Carbon::today());
         $ngaji = $presensi->where('keterangan', 'Hadir')->first();
         $presensi = $presensi->first();
@@ -131,6 +130,7 @@ class PageController extends Controller
     {
         $request->validate([
             'username' => ['required', Rule::unique('users')->ignore(Auth::user()->id)],
+            'email' => ['required', 'email', Rule::unique('users')->ignore(Auth::user()->id)],
             'password_lama' => 'required',
             'password' => 'nullable|confirmed',
         ]);

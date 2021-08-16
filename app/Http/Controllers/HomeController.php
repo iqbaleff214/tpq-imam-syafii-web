@@ -47,13 +47,12 @@ class HomeController extends Controller
             case 'Pengajar':
                 return redirect()->to('/pengajar');
                 break;
+            case 'Santri':
+                return redirect()->to('/santri');
+                break;
             default:
-                echo view('mails.pendaftaran', [
-                    'nama' => 'M. Iqbal Effendi',
-                    'peran' => 'Pengajar',
-                    'username' => 'username',
-                    'password' => 'password'
-                ]);
+                Auth::logout();
+                return redirect()->to('/logout');
                 break;
         }
     }
@@ -121,18 +120,23 @@ class HomeController extends Controller
         $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Donasi';
 
-        $donasi = $request->get('donasi');
+        $donasi = $request->get('jumlah');
 
         echo view('pages.frontend.donasi', compact('profil', 'title', 'donasi'));
     }
 
     public function store_donasi(Request $request)
     {
+        $request->validate([
+            'nama' => 'required',
+            'no_telp' => 'required|max:15',
+            'jumlah' => 'required|numeric|integer|min:0'
+        ]);
         Hijri::setDefaultAdjustment(-1);
         Date::setTranslation(new Indonesian());
         try {
             Donasi::create([
-                'nama' => $request->input('nama'),
+                'nama' => $request->input('nama') ?: 'Hamba Allah',
                 'no_telp' => $request->input('no_telp'),
                 'jumlah' => $request->input('jumlah'),
                 'keterangan' => $request->input('keterangan'),
@@ -261,12 +265,19 @@ class HomeController extends Controller
 
     public function store_hubungi(Request $request)
     {
+        $request->validate([
+            'nama' => 'required',
+            'no_telp' => 'required|max:15',
+            'subjek' => 'required',
+            'email' => 'required|email',
+            'pesan' => 'required'
+        ]);
         try {
             Kontak::create([
                 'nama' => $request->input('nama'),
                 'no_telp' => $request->input('no_telp'),
                 'email' => $request->input('email'),
-                'subyek' => $request->input('subyek'),
+                'subyek' => $request->input('subjek'),
                 'pesan' => $request->input('pesan'),
             ]);
             return redirect()->back()->with('success', 'Berhasil mengirimkan pesan!');

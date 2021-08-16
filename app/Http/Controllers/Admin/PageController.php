@@ -85,7 +85,6 @@ class PageController extends Controller
                 return response()->json($data);
             }
         }
-
         $count = [
             'santri' => Santri::where('status', 'Aktif')->count(),
             'pengajar' => Pengajar::where('status', 'Aktif')->count(),
@@ -156,22 +155,34 @@ class PageController extends Controller
     {
         $request->validate([
             'username' => ['required', Rule::unique('users')->ignore(Auth::user()->id)],
+            'email' => ['required', 'email', Rule::unique('users')->ignore(Auth::user()->id)],
             'password_lama' => 'required',
             'password' => 'nullable|confirmed',
         ]);
 
         try {
-
-            if (!password_verify($request->input('password_old'), Auth::user()->getAuthPassword())) return redirect()->back()->with('error', 'Kata sandi salah!');
+            if (!password_verify($request->input('password_lama'), Auth::user()->getAuthPassword())) {
+                return redirect()->back()->with('error', 'Kata sandi salah!');
+            }
 
             $data = [
                 'username' => $request->input('username'),
             ];
 
+            $checkEmail = Auth::user()->email != $request->email;
+
+            if ($checkEmail) {
+                $data['email'] = $request->email;
+                $data['email_verified_at'] = null;
+            }
+
             if ($request->input('password')) $data['password'] = password_hash($request->input('password'), PASSWORD_DEFAULT);
 
             Auth::user()->update($data);
-            return redirect()->back()->with('success', 'Akun berhasil diperbarui!');
+            if ($checkEmail)
+                return redirect()->route('home')->with('success', 'Akun berhasil diperbarui!');
+            else
+                return redirect()->back()->with('success', 'Akun berhasil diperbarui!');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Akun gagal diperbarui!');
         }

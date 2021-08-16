@@ -46,9 +46,10 @@
                                     <label class="col-sm-2 col-form-label">Email</label>
                                     <div class="col-sm-10">
                                         <input type="email"
+                                               name="email"
                                                class="form-control @error('email') is-invalid @enderror"
                                                placeholder="Surel" autocomplete="off"
-                                               value="{{ old('email', Auth::user()->email) }}" disabled>
+                                               value="{{ old('email', Auth::user()->email) }}">
                                         <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                                     </div>
                                 </div>
