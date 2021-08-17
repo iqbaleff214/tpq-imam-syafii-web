@@ -173,6 +173,28 @@
                             </div>
                         </div>
 
+                        @if($spp)
+                        <div class="row">
+                            <div class="col">
+                                <div class="card card-maroon card-outline">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Tagihan SPP</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-bordered table-stripped table-hover" id="datatable-spp">
+                                            <thead>
+                                            <th style="width: 20px">No</th>
+                                            <th>Bulan</th>
+                                            <th>Nominal</th>
+                                            <th style="width: 20px">Aksi</th>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="row">
                             <div class="col">
@@ -612,6 +634,30 @@
                     {data: 'ayat', name: 'ayat'},
                     {data: 'nilai', name: 'nilai'},
                     {data: 'keterangan', name: 'keterangan'},
+                ]
+            });
+            var table_spp = $('#datatable-spp').DataTable({
+                ajax: {
+                    url: "{!! route('santri.spp.index') !!}",
+                    data: function (d) {
+                        d.bulan = bulan;
+                        d.status = 0;
+                    }
+                },
+                autoWidth: false,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                searching: false,
+                lengthChange: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'bulan', name: 'bulan'},
+                    {data: 'jumlah', name: 'jumlah'},
+                    {data: 'action', name: 'action'},
                 ]
             });
 

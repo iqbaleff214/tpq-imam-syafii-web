@@ -8,6 +8,7 @@ use App\Models\KehadiranSantri;
 use App\Models\Kurikulum;
 use App\Models\Pembelajaran;
 use App\Models\Santri;
+use App\Models\Spp;
 use Carbon\Carbon;
 use GeniusTS\HijriDate\Date;
 use GeniusTS\HijriDate\Hijri;
@@ -28,8 +29,9 @@ class PageController extends Controller
         $santri = Auth::user()->santri;
         $presensi = $santri->kehadiran()->whereDate('created_at', Carbon::today())->first();
         $bulan = KehadiranSantri::selectRaw('bulan')->where('santri_id', $santri->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
+        $spp = Spp::where('santri_id', $santri->id)->where('status', 0)->count();
 
-        echo view('pages.santri.dashboard', ['title' => 'Beranda', 'santri' => $santri, 'presensi' => $presensi, 'bulan' => $bulan ]);
+        echo view('pages.santri.dashboard', ['title' => 'Beranda', 'santri' => $santri, 'presensi' => $presensi, 'bulan' => $bulan, 'spp' => $spp ]);
     }
 
     public function show_kehadiran(Request $request)

@@ -28,6 +28,10 @@
                             <a href="{{ route('santri.kelas') }}"
                                class="nav-link {{ Route::is('santri.kelas') ? 'active' : '' }}">Kelas</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('santri.spp.index') }}"
+                               class="nav-link {{ Route::is('santri.spp.*') ? 'active' : '' }}">SPP</a>
+                        </li>
                     @endif
                     <li class="nav-item">
                         <a href="{{ route('santri.pengumuman.index') }}"

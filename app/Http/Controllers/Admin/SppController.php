@@ -14,6 +14,7 @@ use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
 class SppController extends Controller
@@ -65,6 +66,7 @@ class SppController extends Controller
                                     <input type="hidden" name="_method" value="PUT">
                                     <input type="hidden" name="_token" value="' . csrf_token() . '" />
                                     <input type="hidden" name="status" value="2">
+                                    <input type="hidden" name="jumlah" value="' . $row->jumlah . '">
                                     <button type="submit" class="btn bg-maroon btn-xs px-2 mx-1 confirm-data"> Terima </button>
                                 </form>';
                     }
@@ -91,6 +93,7 @@ class SppController extends Controller
                         case 2:
                             return '<span class="badge badge-success">Diterima</span>';
                     }
+                    return false;
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
@@ -151,7 +154,7 @@ class SppController extends Controller
         ]);
         try {
             if (Spp::where('santri_id', $request->santri_id)->where('bulan', $request->bulan)->first()) {
-                return redirect()->route('admin.spp.index')->with('error', 'SPP sudah dibayarkan/ditagih!');
+                return redirect()->back()->with('error', 'SPP sudah dibayarkan/ditagih!');
             }
 
             Spp::create([
@@ -174,6 +177,9 @@ class SppController extends Controller
      */
     public function show(Spp $spp)
     {
+        $title = $this->title;
+
+        echo view('pages.admin.spp.show', compact('title', 'spp'));
     }
 
     /**
@@ -204,9 +210,15 @@ class SppController extends Controller
             'jumlah' => 'required|numeric',
         ]);
         try {
-            $spp->update([
+            $data = [
                 'jumlah' => $request->jumlah,
-            ]);
+            ];
+
+            if ($request->status) {
+                $data['status'] = $request->status;
+            }
+
+            $spp->update($data);
             return redirect()->back()->with('success', 'Data spp berhasil diedit!');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Data spp gagal diedit!');
@@ -222,6 +234,8 @@ class SppController extends Controller
     public function destroy(Spp $spp): RedirectResponse
     {
         try {
+            if ($spp->bukti) Storage::delete("public/$spp->bukti");
+            $spp->update(['bukti' => null]);
             $spp->delete();
             return redirect()->back()->with('success', 'Berhasil menghapus SPP!');
         } catch (Exception $exception) {

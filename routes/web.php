@@ -232,6 +232,9 @@ Route::middleware(['santri', 'auth'])->prefix('santri')->as('santri.')->group(fu
     Route::get('kehadiran', [\App\Http\Controllers\Santri\PageController::class, 'show_kehadiran'])->name('kehadiran');
 
     /*=== PEMBELAJARAN ===*/
+    Route::resource('spp', \App\Http\Controllers\Santri\SppController::class);
+
+    /*=== PEMBELAJARAN ===*/
     Route::get('pembelajaran', [\App\Http\Controllers\Santri\PageController::class, 'show_pembelajaran'])->name('pembelajaran');
 
     /*=== HAFALAN ===*/
