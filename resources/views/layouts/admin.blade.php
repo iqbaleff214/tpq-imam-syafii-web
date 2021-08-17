@@ -155,8 +155,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('kepala.keuangan.honor') }}"
-                                   class="nav-link {{ Route::is('kepala.keuangan.honor') ? 'active' : '' }}">
+                                <a href="{{ route('admin.spp.index') }}"
+                                   class="nav-link {{ Route::is('admin.spp.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Pembayaran</p>
                                 </a>

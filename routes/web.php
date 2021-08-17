@@ -130,17 +130,17 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
 
         /*=== HONOR ===*/
         Route::resource('honor', \App\Http\Controllers\Admin\HonorController::class);
+        Route::post('honor/collect', [\App\Http\Controllers\Admin\HonorController::class, 'collect'])->name('honor.collect');
 
         /*=== Donasi ===*/
         Route::resource('donasi', \App\Http\Controllers\Admin\DonasiController::class);
     });
 
     /*=== SPP ===*/
-    Route::prefix('spp')->as('spp.')->group(function () {
-
-        /*=== OPSI ===*/
-        Route::resource('opsi', \App\Http\Controllers\Admin\SppOpsiController::class);
-    });
+    Route::resource('spp', \App\Http\Controllers\Admin\SppController::class);
+    Route::post('spp/collect', [\App\Http\Controllers\Admin\SppController::class, 'collect'])->name('spp.collect');
+    /*=== SPP OPSI ===*/
+    Route::resource('ssp/opsi', \App\Http\Controllers\Admin\SppOpsiController::class, ['as' => 'spp']);
 
     /*=== KEHADIRAN ===*/
     Route::prefix('kehadiran')->as('kehadiran.')->group(function () {
@@ -165,12 +165,8 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
     /*=== PESAN ===*/
     Route::resource('pesan', \App\Http\Controllers\Admin\KontakController::class);
 
-    /*=== GALERI KEGIATAN ===*/
-    Route::prefix('galeri')->as('galeri.')->group(function () {
-
-        /*=== KATEGORI ===*/
-        Route::resource('kategori', \App\Http\Controllers\Admin\KategoriGaleriController::class);
-    });
+    /*=== GALERI KATEGORI ===*/
+    Route::resource('galeri/kategori', \App\Http\Controllers\Admin\KategoriGaleriController::class, ['as' => 'galeri']);
 
     /*=== GALERI ===*/
     Route::resource('galeri', \App\Http\Controllers\Admin\GaleriController::class);

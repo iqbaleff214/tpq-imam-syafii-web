@@ -40,7 +40,7 @@
                                             <h5 class="card-title text-muted">{{ $item->nama_lengkap }}</h5>
                                             <p class="card-text mt-4">
                                                 <small class="text-muted d-block">{{ $item->nis }}</small>
-                                                @if($bacaan = $item->pembelajaran()->orderBy('created_at', 'desc')->first())
+                                                @if($bacaan = $item->latestBacaan)
                                                 <small class="text-muted">{{ $bacaan->bacaan->materi . ': ' . ($bacaan->mulai==$bacaan->selesai ? $bacaan->mulai : "{$bacaan->mulai}-{$bacaan->selesai}") }}</small>
                                                 @endif
                                             </p>

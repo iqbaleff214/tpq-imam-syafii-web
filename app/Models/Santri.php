@@ -23,9 +23,14 @@ class Santri extends Model
         return $this->hasMany(SantriWali::class);
     }
 
-    public function spp()
+    public function sppOpsi()
     {
         return $this->belongsTo(SppOpsi::class, 'spp_opsi_id');
+    }
+
+    public function spp()
+    {
+        return $this->hasMany(Spp::class, 'santri_id');
     }
 
     public function kelas()
@@ -43,8 +48,18 @@ class Santri extends Model
         return $this->hasMany(Pembelajaran::class);
     }
 
+    public function latestBacaan()
+    {
+        return $this->hasOne(Pembelajaran::class, 'santri_id')->latestOfMany();
+    }
+
     public function hafalan()
     {
         return $this->hasMany(Hafalan::class);
+    }
+
+    public function latestHafalan()
+    {
+        return $this->hasOne(Hafalan::class, 'santri_id')->latestOfMany();
     }
 }

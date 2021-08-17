@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Honor;
 use App\Models\KehadiranPengajar;
 use App\Models\Pengajar;
+use Exception;
 use GeniusTS\HijriDate\Date;
 use GeniusTS\HijriDate\Hijri;
 use GeniusTS\HijriDate\Translations\Indonesian;
@@ -133,6 +134,24 @@ class HonorController extends Controller
             return redirect()->route('admin.keuangan.honor.index')->with('success', 'Data honor berhasil ditambahkan!');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Data honor gagal ditambahkan!');
+        }
+    }
+
+    public function collect(Request $request)
+    {
+        try {
+            $pengajar = Pengajar::where('status', 'Aktif')->get();
+            foreach ($pengajar as $item) {
+                $item->honor()->create([
+                    'bulan' => Date::today()->format('F o'),
+                    'jumlah' => $request->jumlah,
+                    'status' => 0,
+                    'keterangan' => 'Honor a.n. ' . $item->nama . ' bulan ' . Date::today()->format('F o'),
+                ]);
+            }
+            return redirect()->back()->with('success', 'Berhasil membayarkan honor!');
+        } catch (Exception $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
         }
     }
 

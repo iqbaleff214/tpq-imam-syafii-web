@@ -98,6 +98,19 @@
                                             <h6 class="text-right text-muted">{{ \Carbon\Carbon::today()->isoFormat('D MMMM Y') }}</h6>
                                         </div>
                                     </div>
+                                    @if(!$spp)
+                                    <form action="{{ route('admin.spp.collect') }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        <button type="submit" class="btn btn-confirm bg-maroon">Tagih SPP {{ \GeniusTS\HijriDate\Date::today()->format('F o') }}</button>
+                                    </form>
+                                    @endif
+                                    @if(!$honor)
+                                    <form action="{{ route('admin.keuangan.honor.collect') }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        <input type="hidden" name="jumlah" value="500000">
+                                        <button type="submit" class="btn btn-honor bg-maroon">Bayar Honor {{ \GeniusTS\HijriDate\Date::today()->format('F o') }}</button>
+                                    </form>
+                                    @endif
                                     <form action="{{ route('admin.pendaftaran.update', $profil) }}" method="POST" class="d-inline-block">
                                         @csrf
                                         @method('PUT')
@@ -280,6 +293,21 @@
                         $(this).parent('form').submit();
                     }
                 });
+                return false;
+            });
+
+            $(document).on("click", "button[type=submit].btn-honor", async function (e) {
+                e.preventDefault();
+                const {value: nilai} = await Swal.fire({
+                    title: 'Nominal Honor',
+                    input: 'number',
+                    inputLabel: 'Silakan masukkan nominal honor!',
+                    inputPlaceholder: 'Rp0'
+                })
+                if (nilai) {
+                    $(this).parent('form').find('input[name=jumlah]').val(nilai);
+                    $(this).parent('form.d-inline-block').submit();
+                }
                 return false;
             });
 

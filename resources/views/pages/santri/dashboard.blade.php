@@ -146,7 +146,7 @@
                                                             <tr>
                                                                 <td style="width: 30%">Bacaan terakhir</td>
                                                                 <td>
-                                                                    @if($bacaan = $santri->pembelajaran()->orderBy('created_at', 'desc')->first())
+                                                                    @if($bacaan = $santri->latestBacaan)
                                                                         {{ $bacaan->bacaan->materi . ': ' . ($bacaan->mulai==$bacaan->selesai ? $bacaan->mulai : "{$bacaan->mulai}-{$bacaan->selesai}") }}
                                                                     @else
                                                                         -
@@ -156,7 +156,7 @@
                                                             <tr>
                                                                 <td>Hafalan terakhir</td>
                                                                 <td>
-                                                                    @if($hafalan = $santri->hafalan()->orderBy('created_at', 'desc')->first())
+                                                                    @if($hafalan = $santri->latestHafalan)
                                                                         {{ ( $hafalan->hafalan->jenis == 'QURAN' ? 'Q.S.' : ucfirst(strtolower($hafalan->hafalan->jenis)) ) . ' ' . $hafalan->hafalan->materi . ($hafalan->hafalan->jenis == 1 ? ': ' . ($hafalan->mulai==$hafalan->selesai ? $hafalan->mulai : "{$hafalan->mulai}-{$hafalan->selesai}") : '') }}
                                                                     @else
                                                                         -

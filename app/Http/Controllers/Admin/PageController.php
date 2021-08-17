@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use Alkoumi\LaravelHijriDate\Hijri;
 use App\Models\Donasi;
+use App\Models\Honor;
 use App\Models\KehadiranPengajar;
 use App\Models\KehadiranSantri;
 use App\Models\Kelas;
 use App\Models\Lembaga;
+use App\Models\Spp;
 use GeniusTS\HijriDate as TSHijri;
 use App\Http\Controllers\Controller;
 use App\Models\Kalender;
@@ -15,6 +17,7 @@ use App\Models\Kas;
 use App\Models\Pengajar;
 use App\Models\Santri;
 use Carbon\Carbon;
+use GeniusTS\HijriDate\Translations\Indonesian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
@@ -24,6 +27,12 @@ use Yajra\DataTables\DataTables;
 
 class PageController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        TSHijri\Hijri::setDefaultAdjustment(-1);
+        TSHijri\Date::setTranslation(new Indonesian());
+    }
 
     public function index(Request $request)
     {
@@ -101,7 +110,10 @@ class PageController extends Controller
         $profil = Lembaga::where('is_active', 1)->first();
         $bulan = KehadiranPengajar::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        return view('pages.admin.dashboard', compact('count', 'title', 'profil', 'rasio', 'bulan'));
+        $spp = Spp::where('bulan', TSHijri\Date::today()->format('F o'))->count();
+        $honor = Honor::where('bulan', TSHijri\Date::today()->format('F o'))->count();
+
+        return view('pages.admin.dashboard', compact('count', 'title', 'profil', 'rasio', 'bulan', 'spp', 'honor'));
     }
 
     public function profil()
