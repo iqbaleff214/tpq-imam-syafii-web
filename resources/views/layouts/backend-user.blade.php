@@ -97,6 +97,17 @@
 @stack('script')
 <script !src="">
     $(function () {
+
+        if (localStorage.getItem('tema')) {
+            const theme = localStorage.getItem('tema');
+            const el = ['bg', 'text', 'card', 'navbar', 'sidebar-light'];
+            el.forEach(function(e) {
+                const selector = $('.' + e + '-maroon');
+                selector.addClass(e + '-' + theme);
+                selector.removeClass(e + '-maroon');
+            });
+        }
+
         $(document).on('click', '#logout-button', function (e) {
             e.preventDefault();
             Swal.fire({

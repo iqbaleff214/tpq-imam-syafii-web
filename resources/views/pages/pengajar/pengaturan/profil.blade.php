@@ -23,6 +23,58 @@
                     @method('PUT')
                     <div class="row">
                         <div class="col-12 col-md-8">
+                            <div class="card card-widget collapsed-card card-maroon card-outline">
+                                <div class="card-header">
+                                    <div class="user-block">
+                                        <h3 class="card-title" data-card-widget="collapse"
+                                            style="cursor: pointer">
+                                            Profil Warna
+                                        </h3>
+                                    </div>
+                                    <!-- /.user-block -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        @foreach(['navy', 'indigo', 'purple', 'fuchsia', 'olive', 'teal', 'lime', 'pink', 'orange', 'danger', 'primary', 'success', 'warning', 'black', 'dark', 'gray', 'light'] as $item)
+                                            <div class="col-md-2 col-3">
+                                                <div class="card">
+                                                    <div
+                                                        class="card-header py-1 bg-{{ $item }} text-center">{{ ucfirst($item) }}</div>
+                                                    <div class="card-body text-center py-2 my-0">
+                                                        <button type="button" data-tema="{{ $item }}"
+                                                                class="btn btn-xs btn-theme mx-auto bg-{{ $item }}">
+                                                            Terapkan
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <div class="col-md-2 col-3">
+                                            <div class="card">
+                                                <div
+                                                    class="card-header py-1 text-center text-white"
+                                                    style="background-color: #d81b60">Default
+                                                </div>
+                                                <div class="card-body text-center py-2 my-0">
+                                                    <button type="button" data-tema="maroon"
+                                                            class="btn btn-xs btn-theme mx-auto text-white"
+                                                            style="background-color: #d81b60">Terapkan
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Default box -->
                             <div class="card card-maroon card-outline">
                                 <div class="card-body mb-3">
@@ -194,6 +246,16 @@
 
             $('#image').on('change', function () {
                 previewImage();
+            });
+
+            $(document).on('click', '.btn-theme', function (e) {
+                const tema = $(this).data('tema');
+                if (tema === 'maroon') {
+                    localStorage.clear();
+                } else {
+                    localStorage.setItem('tema', tema);
+                }
+                location.reload();
             });
         });
 

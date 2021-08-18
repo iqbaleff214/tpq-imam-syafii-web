@@ -74,16 +74,31 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
     Route::prefix('keuangan')->as('keuangan.')->group(function () {
 
         /*=== KAS ===*/
-        Route::get('kas', [\App\Http\Controllers\Kepala\KasController::class, 'index'])->name('kas.index');
-        Route::get('kas/{kas}', [\App\Http\Controllers\Kepala\KasController::class, 'show'])->name('kas.show');
+        Route::get('kas', [\App\Http\Controllers\Kepala\KeuanganController::class, 'kas'])->name('kas.index');
 
-        Route::get('honor', [LaporanController::class, 'honor'])->name('honor');
-        Route::get('spp', [LaporanController::class, 'spp'])->name('spp');
+        /*=== HONOR PENGAJAR ===*/
+        Route::get('honor', [\App\Http\Controllers\Kepala\KeuanganController::class, 'honor'])->name('honor.index');
+
+        /*=== SPP SANTRI ===*/
+        Route::get('spp', [\App\Http\Controllers\Kepala\KeuanganController::class, 'spp'])->name('spp.index');
+
+        /*=== DONASI ===*/
+        Route::get('donasi', [\App\Http\Controllers\Kepala\KeuanganController::class, 'donasi'])->name('donasi.index');
+
+    });
+
+    /*=== KEHADIRAN ===*/
+    Route::prefix('kehadiran')->as('kehadiran.')->group(function() {
+
+        /*=== PENGAJAR ===*/
+        Route::get('pengajar', [\App\Http\Controllers\Kepala\KehadiranController::class, 'pengajar'])->name('pengajar.index');
+
+        /*=== SANTRI ===*/
+        Route::get('santri', [\App\Http\Controllers\Kepala\KehadiranController::class, 'santri'])->name('santri.index');
     });
 
     /*=== INVENTARIS ===*/
-    Route::get('inventaris', [\App\Http\Controllers\Kepala\InventarisController::class, 'index'])->name('inventaris.index');
-    Route::get('inventaris/{inventaris}', [\App\Http\Controllers\Kepala\InventarisController::class, 'show'])->name('inventaris.show');
+    Route::get('inventaris', [\App\Http\Controllers\Kepala\PageController::class, 'inventaris'])->name('inventaris.index');
 
     /*=== PENGATURAN ===*/
     Route::get('akun', [\App\Http\Controllers\Kepala\PageController::class, 'akun'])->name('akun');
@@ -91,9 +106,14 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
     Route::get('profil', [\App\Http\Controllers\Kepala\PageController::class, 'profil'])->name('profil');
     Route::put('profil', [\App\Http\Controllers\Kepala\PageController::class, 'update'])->name('profil.update');
     Route::delete('profil', [\App\Http\Controllers\Kepala\PageController::class, 'unlink'])->name('profil.unlink');
+
+    /*=== LEMBAGA ===*/
+    Route::resource('lembaga', \App\Http\Controllers\Kepala\LembagaController::class);
+    Route::delete('lembaga', [\App\Http\Controllers\Kepala\LembagaController::class, 'unlink'])->name('lembaga.unlink');
+    Route::put('pendaftaran/{lembaga}', [\App\Http\Controllers\Kepala\LembagaController::class, 'registration'])->name('pendaftaran.update');
 });
 
-/*=== ROLE: ADMIN ===*/
+/*=== ROLE: ADMIN (OK) ===*/
 Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(function () {
 
     /*=== DASHBOARD ===*/
@@ -223,7 +243,7 @@ Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->gr
     Route::delete('profil', [\App\Http\Controllers\Pengajar\PageController::class, 'unlink'])->name('profil.unlink');
 });
 
-/*=== ROLE: SANTRI ===*/
+/*=== ROLE: SANTRI (OK) ===*/
 Route::middleware(['santri', 'auth'])->prefix('santri')->as('santri.')->group(function () {
     /*=== DASHBOARD ===*/
     Route::get('/', [\App\Http\Controllers\Santri\PageController::class, 'index'])->name('dashboard');

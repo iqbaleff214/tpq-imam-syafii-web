@@ -133,34 +133,44 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('kepala.keuangan.honor') }}"
-                                   class="nav-link {{ Route::is('kepala.keuangan.honor') ? 'active' : '' }}">
+                                <a href="{{ route('kepala.keuangan.honor.index') }}"
+                                   class="nav-link {{ Route::is('kepala.keuangan.honor.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Honor Pengajar</p>
+                                    <p>Honor</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('kepala.keuangan.spp.index') }}"
+                                   class="nav-link {{ Route::is('kepala.keuangan.spp.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>SPP Santri</p>
+                                    <p>SPP</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('kepala.keuangan.donasi.index') }}"
+                                   class="nav-link {{ Route::is('kepala.keuangan.donasi.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Donasi</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item {{ Route::is('kepala.kehadiran.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('kepala.kehadiran.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-table"></i>
                             <p> Kehadiran <i class="fas fa-angle-left right"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="pages/tables/simple.html" class="nav-link">
+                                <a href="{{ route('kepala.kehadiran.pengajar.index') }}"
+                                   class="nav-link {{ Route::is('kepala.kehadiran.pengajar.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Pengajar</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/tables/data.html" class="nav-link">
+                                <a href="{{ route('kepala.kehadiran.santri.index') }}"
+                                   class="nav-link {{ Route::is('kepala.kehadiran.santri.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Santri</p>
                                 </a>
@@ -174,12 +184,12 @@
                             <p>Inventaris Barang</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-handshake"></i>
-                            <p>Rapat</p>
-                        </a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="#" class="nav-link">--}}
+{{--                            <i class="nav-icon fas fa-handshake"></i>--}}
+{{--                            <p>Rapat</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
 
                     <li class="nav-header">PENGATURAN</li>
                     <li class="nav-item">

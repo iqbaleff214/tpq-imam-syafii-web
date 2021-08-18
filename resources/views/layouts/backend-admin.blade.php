@@ -61,6 +61,16 @@
         //The passed argument has to be at least a empty object or a object with your desired options
         $("body").overlayScrollbars({});
 
+        if (localStorage.getItem('tema')) {
+            const theme = localStorage.getItem('tema');
+            const el = ['bg', 'text', 'card', 'navbar', 'sidebar-light'];
+            el.forEach(function(e) {
+                const selector = $('.' + e + '-maroon');
+                selector.addClass(e + '-' + theme);
+                selector.removeClass(e + '-maroon');
+            });
+        }
+
         $(document).on("click", "button[type=submit].delete-data", function (e) {
             Swal.fire({
                 title: 'Anda yakin ingin menghapus?',
