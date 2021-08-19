@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Kepala;
 
 use App\Http\Controllers\Controller;
 use App\Models\Administrator;
+use App\Models\Pengumuman;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class AdministratorController extends Controller
@@ -119,8 +121,21 @@ class AdministratorController extends Controller
      * @param Administrator $admin
      * @return Response
      */
-    public function show(Administrator $admin)
+    public function show(Request $request, Administrator $admin)
     {
+        if ($request->ajax()) {
+            $data = Pengumuman::where('admin_id', $admin->id);
+            return DataTables::of($data->get())
+                ->addIndexColumn()
+                ->editColumn('konten', function ($row) {
+                    return Str::limit(strip_tags($row->konten), 155) . '...';
+                })
+                ->addColumn('tanggal', function ($row) {
+                    return $row->created_at->isoFormat('DD-MM-Y');
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
         $title = $this->title;
         echo view('pages.kepala.administrator.show', compact('admin', 'title'));
     }
