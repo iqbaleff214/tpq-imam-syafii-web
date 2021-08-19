@@ -71,12 +71,13 @@ class AdministratorController extends Controller
             'nama' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
-            'no_telp' => 'required',
+            'no_telp' => 'required|max:15',
             'alamat' => 'required',
 
             'username' => 'unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
@@ -105,11 +106,9 @@ class AdministratorController extends Controller
                 'foto' => $foto,
                 'user_id' => $akun->id,
             ]);
-
             return redirect()->route('kepala.admin.index')->with('success', 'Data administrator berhasil ditambahkan!');
         } catch (\Throwable $e) {
-
-            return redirect()->route('kepala.admin.index')->with('error', 'Data administrator gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data administrator gagal ditambahkan!');
         }
 
     }
@@ -153,6 +152,7 @@ class AdministratorController extends Controller
             'tanggal_lahir' => 'required|date',
             'no_telp' => 'required',
             'alamat' => 'required',
+            'foto' => 'image|max:2048'
         ]);
 
         try {
@@ -177,10 +177,10 @@ class AdministratorController extends Controller
                 'foto' => $foto,
             ]);
 
-            return redirect()->route('kepala.admin.index')->with('success', 'Data administrator berhasil diedit!');
+            return redirect()->back()->with('success', 'Data administrator berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('kepala.admin.index')->with('error', 'Data administrator gagal diedit!');
+            return redirect()->back()->with('error', 'Data administrator gagal diedit!');
         }
 
     }
@@ -199,10 +199,22 @@ class AdministratorController extends Controller
             User::find($admin->user_id)->delete();
             $admin->delete();
 
-            return redirect()->route('kepala.admin.index')->with('success', 'Data administrator berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data administrator berhasil dihapus!');
         } catch (\Throwable $th) {
 
-            return redirect()->route('kepala.admin.index')->with('error', 'Data administrator gagal dihapus!');
+            return redirect()->back()->with('error', 'Data administrator gagal dihapus!');
+        }
+    }
+
+    public function unlink(Administrator $administrator)
+    {
+        try {
+            if ($administrator->foto) Storage::delete("public/$administrator->foto");
+
+            $administrator->update(['foto' => null]);
+            return redirect()->back()->with('success', 'Foto administrator berhasil dihapus!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Foto administrator gagal dihapus!');
         }
     }
 }

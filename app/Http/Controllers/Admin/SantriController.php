@@ -121,11 +121,6 @@ class SantriController extends Controller
 
         try {
             $nis = $request->nis;
-
-            $nama_wali = $request->nama_wali;
-            $hubungan = $request->hubungan;
-            $no_telp = $request->no_telp;
-
             if (!$nis) {
                 $newNis = $request->jenis_kelamin == 'L' ? 'I' : 'A';
                 # $newNis .= '-';

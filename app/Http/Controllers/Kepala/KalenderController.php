@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Kalender;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class KalenderController extends Controller
@@ -59,7 +60,8 @@ class KalenderController extends Controller
     {
         $request->validate([
             'keterangan' => 'required',
-            'mulai' => 'required|date'
+            'mulai' => 'required|date',
+            'selesai' => [Rule::requiredIf(!$request->satu_hari), 'date']
         ]);
 
         try {
@@ -68,9 +70,9 @@ class KalenderController extends Controller
                 'mulai' => $request->mulai,
                 'selesai' => $request->selesai ?: $request->mulai,
             ]);
-            return redirect()->route('kepala.kalender.index')->with('success', 'Data kalender pendidikan berhasil ditambahkan!');
+            return redirect()->back()->with('success', 'Data kalender pendidikan berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            return redirect()->route('kepala.kalender.index')->with('error', 'Data kalender pendidikan gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data kalender pendidikan gagal ditambahkan!');
         }
     }
 
@@ -78,9 +80,9 @@ class KalenderController extends Controller
     {
         try {
             $kalender->delete();
-            return redirect()->route('kepala.kalender.index')->with('success', 'Data kalender pendidikan berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data kalender pendidikan berhasil dihapus!');
         } catch (\Throwable $e) {
-            return redirect()->route('kepala.kalender.index')->with('error', 'Data kalender pendidikan gagal dihapus!');
+            return redirect()->back()->with('error', 'Data kalender pendidikan gagal dihapus!');
         }
     }
 }

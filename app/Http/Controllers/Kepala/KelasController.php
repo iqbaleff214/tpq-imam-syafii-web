@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Kepala;
 
 use App\Http\Controllers\Controller;
+use App\Models\KehadiranPengajar;
+use App\Models\KehadiranSantri;
 use App\Models\Kelas;
 use App\Models\Kurikulum;
 use App\Models\Pengajar;
+use App\Models\Santri;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -104,7 +107,7 @@ class KelasController extends Controller
             ]);
             return redirect()->route('kepala.kelas.index')->with('success', 'Data kelas berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            return redirect()->route('kepala.kelas.index')->with('error', 'Data kelas gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data kelas gagal ditambahkan!');
         }
     }
 
@@ -114,11 +117,27 @@ class KelasController extends Controller
      * @param $id
      * @return Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        if ($request->ajax()) {
+            $chart = $request->get('chart');
+            $bulan = $request->get('bulan');
+            if ($chart) {
+                $data = [];
+                $santri = Santri::where('status', 'Aktif')->where('kelas_id', $id)->get();
+                foreach ($santri as $item) {
+                    $data['label'][] = $item->nama_panggilan;
+                    $hadir = KehadiranSantri::where('santri_id', $item->id)->selectRaw("COUNT(CASE WHEN keterangan='Hadir' THEN 1 END) as hadir, COUNT(CASE WHEN keterangan='Izin' THEN 1 END) as izin, COUNT(CASE WHEN keterangan='Sakit' THEN 1 END) as sakit, COUNT(CASE WHEN keterangan='Absen' THEN 1 END) as absen");
+                    if ($bulan) $hadir = $hadir->where('bulan', $bulan);
+                    $data['data'][] = $hadir->first();
+                }
+                return response()->json($data);
+            }
+        }
         $kelas = Kelas::findOrFail($id);
         $title = $this->title;
-        echo view('pages.kepala.kelas.show', compact('kelas', 'title'));
+        $bulan = KehadiranPengajar::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->where('pengajar_id', $kelas->pengajar_id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
+        echo view('pages.kepala.kelas.show', compact('kelas', 'title', 'bulan'));
     }
 
     /**
@@ -148,7 +167,6 @@ class KelasController extends Controller
         $kelas = Kelas::findOrFail($id);
         $request->validate([
             'nama_kelas' => 'required',
-            'jenis_kelas' => 'required',
             'pengajar_id' => 'required',
             'kurikulum_id' => 'required',
         ]);
@@ -157,14 +175,13 @@ class KelasController extends Controller
             $kelas->update([
                 'nama_kelas' => $request->nama_kelas,
                 'kurikulum_id' => $request->kurikulum_id,
-                'jenis_kelas' => $request->jenis_kelas,
                 'pengajar_id' => $request->pengajar_id,
             ]);
 
-            return redirect()->route('kepala.kelas.index')->with('success', 'Data kelas berhasil diedit!');
+            return redirect()->back()->with('success', 'Data kelas berhasil diedit!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('kepala.kelas.index')->with('error', 'Data kelas gagal diedit!');
+            return redirect()->back()->with('error', 'Data kelas gagal diedit!');
         }
     }
 
@@ -178,9 +195,9 @@ class KelasController extends Controller
     {
         try {
             Kelas::findOrFail($id)->delete();
-            return redirect()->route('kepala.kelas.index')->with('success', 'Data kelas berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data kelas berhasil dihapus!');
         } catch (\Throwable $e) {
-            return redirect()->route('kepala.kelas.index')->with('error', 'Data kelas gagal dihapus!');
+            return redirect()->back()->with('error', 'Data kelas gagal dihapus!');
         }
     }
 }

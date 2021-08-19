@@ -205,7 +205,7 @@
                         </a>
                     </li>
                     <li class="nav-item mb-5">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('kepala.lembaga.index') }}" class="nav-link {{ Route::is('kepala.lembaga.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-building"></i>
                             <p>Lembaga</p>
                         </a>

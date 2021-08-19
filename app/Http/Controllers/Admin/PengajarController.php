@@ -121,7 +121,7 @@ class PengajarController extends Controller
      * @param Pengajar $pengajar
      * @return Response
      */
-    public function show(Request $request, Pengajar $pengajar)
+    public function show(Pengajar $pengajar)
     {
         $title = $this->title;
         $bulan = KehadiranPengajar::selectRaw('bulan')->where('pengajar_id', $pengajar->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();

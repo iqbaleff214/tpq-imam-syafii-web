@@ -67,9 +67,11 @@ class KurikulumController extends Controller
         $request->validate([
             'tingkat' => 'required',
             'target' => 'required',
-            'keterangan' => 'required',
+            'catatan' => 'required',
+            'mulai' => 'required',
+            'selesai' => 'required',
+            'bahan' => 'required',
         ]);
-
 
         try {
             $kurikulum = Kurikulum::create([
@@ -77,7 +79,7 @@ class KurikulumController extends Controller
                 'mulai' => $request->mulai,
                 'selesai' => $request->selesai,
                 'target' => $request->target,
-                'keterangan' => $request->keterangan,
+                'keterangan' => $request->catatan,
             ]);
 
             foreach ($request->bahan as $bahan) {
@@ -103,8 +105,7 @@ class KurikulumController extends Controller
 
             return redirect()->route('kepala.kurikulum.index')->with('success', 'Data kurikulum berhasil ditambahkan!');
         } catch (\Throwable $e) {
-
-            return redirect()->route('kepala.kurikulum.index')->with('error', 'Data kurikulum gagal ditambahkan!');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -145,7 +146,9 @@ class KurikulumController extends Controller
         $request->validate([
             'tingkat' => 'required',
             'target' => 'required',
-            'keterangan' => 'required',
+            'catatan' => 'required',
+            'mulai' => 'required',
+            'selesai' => 'required',
         ]);
 
         try {
@@ -154,13 +157,13 @@ class KurikulumController extends Controller
                 'mulai' => $request->mulai,
                 'selesai' => $request->selesai,
                 'target' => $request->target,
-                'keterangan' => $request->keterangan,
+                'keterangan' => $request->catatan,
             ]);
 
-            return redirect()->route('kepala.kurikulum.index')->with('success', 'Data kurikulum berhasil ditambahkan!');
+            return redirect()->back()->with('success', 'Data kurikulum berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('kepala.kurikulum.index')->with('error', 'Data kurikulum gagal ditambahkan!');
+            return redirect()->back()->with('error', 'Data kurikulum gagal ditambahkan!');
         }
     }
 
@@ -174,10 +177,10 @@ class KurikulumController extends Controller
     {
         try {
             $kurikulum->delete();
-            return redirect()->route('kepala.kurikulum.index')->with('success', 'Data kurikulum berhasil dihapus!');
+            return redirect()->back()->with('success', 'Data kurikulum berhasil dihapus!');
         } catch (\Throwable $e) {
 
-            return redirect()->route('kepala.kurikulum.index')->with('error', 'Data kurikulum gagal dihapus!');
+            return redirect()->back()->with('error', 'Data kurikulum gagal dihapus!');
         }
     }
 

@@ -42,6 +42,7 @@
                                     <label class="col-sm-2 col-form-label">Tingkat</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control @error('tingkat') is-invalid @enderror" name="tingkat" placeholder="Tingkat" value="{{ old('tingkat') }}">
+                                        <span class="error invalid-feedback">{{ $errors->first('tingkat') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -54,6 +55,7 @@
                                                         <option value="{{ $day }}" {{ $day=='Senin' ? 'selected' : '' }}>{{ $day }}</option>
                                                     @endforeach
                                                 </select>
+                                                <span class="error invalid-feedback">{{ $errors->first('mulai') }}</span>
                                             </div>
                                             <div class="col-sm-2">
                                                 <input type="text" value="s.d." class="form-control" readonly>
@@ -64,6 +66,7 @@
                                                         <option value="{{ $day }}" {{ $day=='Kamis' ? 'selected' : '' }}>{{ $day }}</option>
                                                     @endforeach
                                                 </select>
+                                                <span class="error invalid-feedback">{{ $errors->first('selesai') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -72,12 +75,14 @@
                                     <label class="col-sm-2 col-form-label">Target</label>
                                     <div class="col-sm-10">
                                         <textarea name="target" rows="5" class="form-control @error('target') is-invalid @enderror" placeholder="Target">{{ old('target') }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('target') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Catatan</label>
                                     <div class="col-sm-10">
-                                        <textarea name="keterangan" rows="5" class="form-control @error('keterangan') is-invalid @enderror" placeholder="Catatan">{{ old('keterangan') }}</textarea>
+                                        <textarea name="catatan" rows="5" class="form-control @error('catatan') is-invalid @enderror" placeholder="Catatan">{{ old('catatan') }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('catatan') }}</span>
                                     </div>
                                 </div>
 

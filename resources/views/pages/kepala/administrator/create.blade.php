@@ -43,48 +43,55 @@
                             <label class="col-sm-4 col-form-label">Nama</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama" value="{{ old('nama') }}">
+                                <span class="error invalid-feedback">{{ $errors->first('nama') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Jabatan</label>
                             <div class="col-sm-8">
-                                <select name="jabatan" id="" class="custom-select select2">
+                                <select name="jabatan" id="" class="custom-select select2 @error('jabatan') is-invalid @enderror">
                                     <option value="Sekretaris">Sekretaris</option>
                                     <option value="Bendahara">Bendahara</option>
                                 </select>
+                                <span class="error invalid-feedback">{{ $errors->first('nama') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Tempat Lahir</label>
                             <div class="col-sm-8">
                                 <input type="text" name="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror" placeholder="Tempat Lahir" value="{{ old('tempat_lahir') }}">
+                                <span class="error invalid-feedback">{{ $errors->first('tempat_lahir') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-8">
                                 <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
+                                <span class="error invalid-feedback">{{ $errors->first('tanggal_lahir') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-8">
-                                <select name="jenis_kelamin" id="jenis_kelamin" class="custom-select select2">
+                                <select name="jenis_kelamin" id="jenis_kelamin" class="custom-select select2 @error('jenis_kelamin') is-invalid @enderror">
                                     <option value="L">Laki-laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>
+                                <span class="error invalid-feedback">{{ $errors->first('jenis_kelamin') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Nomor Telepon</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control @error('no_telp') is-invalid @enderror" placeholder="Nomor Telepon" name="no_telp" value="{{ old('no_telp') }}">
+                                <span class="error invalid-feedback">{{ $errors->first('no_telp') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Alamat</label>
                             <div class="col-sm-8">
                                 <textarea name="alamat" id="" cols="30" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat') }}</textarea>
+                                <span class="error invalid-feedback">{{ $errors->first('alamat') }}</span>
                             </div>
                         </div>
 
@@ -114,24 +121,28 @@
                             <label class="col-sm-4 col-form-label">Username</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control @error('username') is-invalid @enderror" placeholder="Pengguna" name="username" autocomplete="off" value="{{ old('username') }}">
+                                <span class="error invalid-feedback">{{ $errors->first('username') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8">
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Surel" name="email" autocomplete="off" value="{{ old('email') }}">
+                                <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Kata Sandi</label>
                             <div class="col-sm-8">
                                 <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Kata Sandi" name="password" autocomplete="off">
+                                <span class="error invalid-feedback">{{ $errors->first('password') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Konfirmasi</label>
                             <div class="col-sm-8">
                                 <input type="password" class="form-control" placeholder="Konfirmasi Kata Sandi" name="password_confirmation">
+                                <span class="error invalid-feedback">{{ $errors->first('password') }}</span>
                             </div>
                         </div>
                     </div>
@@ -146,9 +157,15 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="foto" id="image">
-                                    <label class="custom-file-label" for="image">Pilih foto</label>
+                                    <input type="file" class="custom-file-input @error('foto') is-invalid @enderror" name="foto" id="image">
+                                    <label class="custom-file-label" for="image">Pilih Foto (Opsional)</label>
                                 </div>
+                            </div>
+                            @error('foto')
+                            <span class="text-danger text-sm">{{ $errors->first('foto') }}</span>
+                            @enderror
+                            <div class="form-text font-weight-lighter text-sm">
+                                Maksimal: 2048KB
                             </div>
                         </div>
                         <img src="<?= asset('images/ikhwan.svg') ?>" class="img-thumbnail img-preview" style="width: 100%;" alt="Administrator">

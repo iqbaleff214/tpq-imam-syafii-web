@@ -40,7 +40,7 @@ Auth::routes([
 /*=== ROLE ROUTING ===*/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/*=== ROLE: KEPALA ===*/
+/*=== ROLE: KEPALA (OKE) ===*/
 Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.')->group(function () {
 
     /*=== DASHBOARD ===*/
@@ -48,13 +48,18 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
 
     /*=== ADMINISTRATOR ===*/
     Route::resource('admin', \App\Http\Controllers\Kepala\AdministratorController::class);
+    Route::delete('admin/{administrator}/foto', [\App\Http\Controllers\Kepala\AdministratorController::class, 'unlink'])->name('admin.unlink');
 
     /*=== PENGAJAR ===*/
     Route::resource('pengajar', \App\Http\Controllers\Kepala\PengajarController::class);
+    Route::delete('pengajar/{pengajar}/foto', [\App\Http\Controllers\Kepala\PengajarController::class, 'unlink'])->name('pengajar.unlink');
 
-    /*=== PENGAJAR ===*/
+    /*=== SANTRI ===*/
     Route::get('santri', [\App\Http\Controllers\Kepala\SantriController::class, 'index'])->name('santri.index');
     Route::get('santri/{santri}', [\App\Http\Controllers\Kepala\SantriController::class, 'show'])->name('santri.show');
+    Route::get('santri/hafalan/{santri}', [\App\Http\Controllers\Kepala\SantriController::class, 'show_hafalan'])->name('santri.hafalan');
+    Route::get('santri/kehadiran/{santri}', [\App\Http\Controllers\Kepala\SantriController::class, 'show_kehadiran'])->name('santri.kehadiran');
+    Route::get('santri/pembelajaran/{santri}', [\App\Http\Controllers\Kepala\SantriController::class, 'show_pembelajaran'])->name('santri.pembelajaran');
 
     /*=== KALENDER PENDIDIKAN ===*/
     Route::get('kalender', [\App\Http\Controllers\Kepala\KalenderController::class, 'index'])->name('kalender.index');

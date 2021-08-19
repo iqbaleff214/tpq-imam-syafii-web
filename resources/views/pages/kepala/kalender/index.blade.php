@@ -36,16 +36,19 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="tes">Kegiatan</label>
-                                        <input type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan" placeholder="Kegiatan">
+                                        <input type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan" placeholder="Kegiatan" autofocus>
+                                        <span class="error invalid-feedback">{{ $errors->first('keterangan') }}</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="tes">Mulai</label>
                                         <input type="date" class="form-control @error('mulai') is-invalid @enderror" id="mulai" name="mulai">
+                                        <span class="error invalid-feedback">{{ $errors->first('mulai') }}</span>
                                     </div>
 
                                     <div class="form-group mx-4">
                                         <div class="icheck-primary">
-                                            <input class="form-check-input" type="checkbox" id="satu_hari" checked>
+                                            <input class="form-check-input" type="checkbox" id="satu_hari" name="satu_hari"
+                                                   {{ old('satu_hari') ? 'checked' : '' }}>
                                             <label for="satu_hari">
                                                 Satu hari
                                             </label>
@@ -54,7 +57,8 @@
 
                                     <div class="form-group">
                                         <label for="tes">Selesai</label>
-                                        <input type="date" class="form-control" id="selesai" name="selesai" disabled>
+                                        <input type="date" class="form-control @error('selesai') is-invalid @enderror" id="selesai" name="selesai" value="{{ old('selesai') }}" {{ old('satu_hari') ? 'disabled' : '' }}>
+                                        <span class="error invalid-feedback">{{ $errors->first('selesai') }}</span>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -165,6 +169,7 @@
                 m    = date.getMonth(),
                 y    = date.getFullYear()
             const Calendar = FullCalendar.Calendar;
+            const calendarEvent = {!! $kalender !!};
             const containerEl = document.getElementById('external-events');
             const calendarEl = document.getElementById('calendar');
             const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -174,19 +179,21 @@
                     center: 'title',
                     right : 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
+                noEventsContent: 'No event found !!!!!!',
                 themeSystem: 'bootstrap',
                 eventDidMount: function(info) {
-                    console.log(info.event.extendedProps.title)
+                    console.log(info.event.extendedProps)
                     $(info.el).tooltip({
                         // title: info.event.extendedProps.description,
-                        title: `Heyo`,
+                        // title: ((info.event || {}).extendedProps || {}).description,
+                        title: `Judul`,
                         placement: "top",
                         trigger: "hover",
                         container: "body",
                         html: true
                     });
                 },
-                events: {!! $kalender !!},
+                events: calendarEvent,
             });
             calendar.render();
         });

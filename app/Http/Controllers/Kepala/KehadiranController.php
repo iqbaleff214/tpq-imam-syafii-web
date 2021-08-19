@@ -89,6 +89,7 @@ class KehadiranController extends Controller
         if ($request->ajax()) {
 
             $bulan = $request->get('bulan');
+            $chart = $request->get('chart');
             $santri_id = $request->get('santri_id');
             $keterangan = $request->get('keterangan');
             $hari = $request->get('hari');
@@ -98,6 +99,24 @@ class KehadiranController extends Controller
             if ($santri_id) {
                 $data = $data->where('santri_id', $santri_id);
             }
+
+            if ($chart) {
+                if ($chart == 'doughnut') {
+                    $data = $data->selectRaw('COUNT(keterangan) as data, keterangan as label')->groupBy('keterangan')->get();
+                    return response()->json($data);
+                } else {
+                    $data = [];
+                    $data['label'] = KehadiranSantri::selectRaw('bulan')->where('santri_id', $santri_id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
+
+                    $data['data'] = [];
+
+                    foreach ($data['label'] as $item) {
+                        $data['data'][] = KehadiranSantri::where('bulan', $item->bulan)->selectRaw("COUNT(CASE WHEN keterangan='Hadir' THEN 1 END) as hadir, COUNT(CASE WHEN keterangan='Izin' THEN 1 END) as izin, COUNT(CASE WHEN keterangan='Sakit' THEN 1 END) as sakit, COUNT(CASE WHEN keterangan='Absen' THEN 1 END) as absen")->where('santri_id', $santri_id)->first();
+                    }
+                    return response()->json($data);
+                }
+            }
+
 
             if ($hari !== null) {
                 $data = $data->whereRaw('WEEKDAY(created_at) = ?', [$hari]);

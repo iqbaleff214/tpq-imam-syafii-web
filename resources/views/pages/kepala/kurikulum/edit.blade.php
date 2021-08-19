@@ -242,6 +242,7 @@
                 `;
                 $('#container-bahan').append(newRow);
             });
+
             $('#add-materi').click(function () {
                 const newRow = `
                     <div class="input-group mb-3 newRow">
@@ -282,34 +283,52 @@
         });
 
         $(document).on('click', '.removeRow', function () {
-            if (!confirm('Yakin ingin menghapus?')) return false;
-            const el = $(this).closest('.newRow');
-            if ($(this).attr('data-id')) {
-                const id = $(this).data('id');
-                const type = $(this).data('type');
-                $.ajax({
-                    url: "{{ route('kepala.kurikulum.delete') }}",
-                    type: 'DELETE',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        id: id,
-                        type: type
-                    },
-                    success: function (response) {
-                        if (response) {
-                            el.remove();
-                        } else {
-                            Swal.fire({
-                                title: 'Gagal menghapus!',
-                                icon: 'error',
-                                showConfirmButton: false
-                            })
-                        }
+            Swal.fire({
+                title: 'Anda yakin ingin menghapus?',
+                text: "Tindakan tidak dapat dibatalkan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Iya, saya yakin!',
+                cancelButtonText: 'Batalkan',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const el = $(this).closest('.newRow');
+                    if ($(this).attr('data-id')) {
+                        const id = $(this).data('id');
+                        const type = $(this).data('type');
+                        $.ajax({
+                            url: "{{ route('kepala.kurikulum.delete') }}",
+                            type: 'DELETE',
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                id: id,
+                                type: type
+                            },
+                            success: function (response) {
+                                if (response) {
+                                    Swal.fire({
+                                        title: 'Berhasil menghapus!',
+                                        icon: 'success',
+                                        showConfirmButton: false
+                                    })
+                                    el.remove();
+                                } else {
+                                    Swal.fire({
+                                        title: 'Gagal menghapus!',
+                                        icon: 'error',
+                                        showConfirmButton: false
+                                    })
+                                }
+                            }
+                        });
+                    } else {
+                        el.remove();
                     }
-                });
-            } else {
-                el.remove();
-            }
+                }
+            });
+
         });
 
         $(document).on('click', '.editRow', function () {
@@ -334,7 +353,13 @@
                                 icon: 'error',
                                 showConfirmButton: false
                             })
+                            return false;
                         }
+                        Swal.fire({
+                            title: 'Berhasil mengedit!',
+                            icon: 'success',
+                            showConfirmButton: false
+                        })
                     }
                 });
             }
@@ -361,6 +386,11 @@
                             button.removeClass('btn-success addRow').addClass('btn-outline-success editRow');
                             button.attr('data-id', response);
                             remove.attr('data-id', response);
+                            Swal.fire({
+                                title: 'Berhasil menambahkan!',
+                                icon: 'success',
+                                showConfirmButton: false
+                            })
                         } else {
                             Swal.fire({
                                 title: 'Gagal menambahkan!',
