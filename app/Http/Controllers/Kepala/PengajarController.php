@@ -45,7 +45,7 @@ class PengajarController extends Controller
         }
         $title = $this->title;
 
-        echo view('pages.kepala.pengajar.index', compact('title'));
+        return view('pages.kepala.pengajar.index', compact('title'));
     }
 
     /**
@@ -56,7 +56,7 @@ class PengajarController extends Controller
     public function create()
     {
         $title = $this->title;
-        echo view('pages.kepala.pengajar.create', compact('title'));
+        return view('pages.kepala.pengajar.create', compact('title'));
     }
 
     /**
@@ -124,7 +124,7 @@ class PengajarController extends Controller
     {
         $title = $this->title;
         $bulan = KehadiranPengajar::selectRaw('bulan')->where('pengajar_id', $pengajar->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
-        echo view('pages.kepala.pengajar.show', compact('pengajar', 'title', 'bulan'));
+        return view('pages.kepala.pengajar.show', compact('pengajar', 'title', 'bulan'));
     }
 
     /**
@@ -136,7 +136,7 @@ class PengajarController extends Controller
     public function edit(Pengajar $pengajar)
     {
         $title = $this->title;
-        echo view('pages.kepala.pengajar.edit', compact('pengajar', 'title'));
+        return view('pages.kepala.pengajar.edit', compact('pengajar', 'title'));
     }
 
     /**

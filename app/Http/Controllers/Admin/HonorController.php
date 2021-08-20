@@ -90,7 +90,7 @@ class HonorController extends Controller
         $pengajar = Pengajar::all();
         $bulan = Honor::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        echo view('pages.admin.honor.index', compact('title', 'bulan', 'pengajar', 'hari'));
+        return view('pages.admin.honor.index', compact('title', 'bulan', 'pengajar', 'hari'));
     }
 
     /**
@@ -104,7 +104,7 @@ class HonorController extends Controller
         $pengajar = Pengajar::all();
         $bulan = KehadiranPengajar::select('bulan')->groupBy('bulan')->get();
 
-        echo view('pages.admin.honor.create', compact('title', 'pengajar', 'bulan'));
+        return view('pages.admin.honor.create', compact('title', 'pengajar', 'bulan'));
     }
 
     /**
@@ -164,7 +164,7 @@ class HonorController extends Controller
     public function show(Honor $honor)
     {
         $title = $this->title;
-        echo view('pages.admin.honor.show', compact('title', 'honor'));
+        return view('pages.admin.honor.show', compact('title', 'honor'));
     }
 
     /**
@@ -176,7 +176,7 @@ class HonorController extends Controller
     public function edit(Honor $honor)
     {
         $title = $this->title;
-        echo view('pages.admin.honor.edit', compact('title', 'honor'));
+        return view('pages.admin.honor.edit', compact('title', 'honor'));
     }
 
     /**

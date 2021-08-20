@@ -65,7 +65,7 @@ class SppController extends Controller
         }
 
         $title = $this->title;
-        echo view('pages.santri.spp.index', compact('title'));
+        return view('pages.santri.spp.index', compact('title'));
     }
 
     /**
@@ -78,7 +78,7 @@ class SppController extends Controller
     {
         $title = $this->title;
 
-        echo view('pages.santri.spp.show', compact('spp', 'title'));
+        return view('pages.santri.spp.show', compact('spp', 'title'));
     }
 
     /**
@@ -91,7 +91,7 @@ class SppController extends Controller
     {
         $title = $this->title;
 
-        echo view('pages.santri.spp.edit', compact('spp', 'title'));
+        return view('pages.santri.spp.edit', compact('spp', 'title'));
     }
 
     /**

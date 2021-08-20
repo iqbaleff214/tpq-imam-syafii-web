@@ -43,7 +43,7 @@ class KategoriGaleriController extends Controller
                 ->make(true);
         }
 
-        echo view('pages.admin.kategori_galeri.index', ['title' => $this->title]);
+        return view('pages.admin.kategori_galeri.index', ['title' => $this->title]);
     }
 
     /**
@@ -53,7 +53,7 @@ class KategoriGaleriController extends Controller
      */
     public function create()
     {
-        echo view('pages.admin.kategori_galeri.create', ['title' => $this->title]);
+        return view('pages.admin.kategori_galeri.create', ['title' => $this->title]);
     }
 
     /**
@@ -88,7 +88,7 @@ class KategoriGaleriController extends Controller
      */
     public function show($id)
     {
-        echo view('pages.admin.kategori_galeri.show', ['title' => $this->title, 'kategori' => KategoriGaleri::findOrFail($id)]);
+        return view('pages.admin.kategori_galeri.show', ['title' => $this->title, 'kategori' => KategoriGaleri::findOrFail($id)]);
     }
 
     /**
@@ -99,7 +99,7 @@ class KategoriGaleriController extends Controller
      */
     public function edit($id)
     {
-        echo view('pages.admin.kategori_galeri.edit', ['title' => $this->title, 'kategori' => KategoriGaleri::findOrFail($id)]);
+        return view('pages.admin.kategori_galeri.edit', ['title' => $this->title, 'kategori' => KategoriGaleri::findOrFail($id)]);
     }
 
     /**

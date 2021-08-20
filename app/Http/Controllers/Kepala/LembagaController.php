@@ -24,7 +24,7 @@ class LembagaController extends Controller
         $title = $this->title;
         $profil = Lembaga::where('is_active', 1)->firstOrFail();
 
-        echo view('pages.kepala.pengaturan.lembaga', compact('title', 'profil'));
+        return view('pages.kepala.pengaturan.lembaga', compact('title', 'profil'));
     }
 
     /**

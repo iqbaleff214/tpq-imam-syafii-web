@@ -33,7 +33,7 @@ class KurikulumController extends Controller
                 ->rawColumns(['action', 'jadwal'])
                 ->make(true);
         }
-        echo view('pages.admin.kurikulum.index', ['title' => $this->title]);
+        return view('pages.admin.kurikulum.index', ['title' => $this->title]);
     }
 
     /**
@@ -45,6 +45,6 @@ class KurikulumController extends Controller
     public function show(Kurikulum $kurikulum)
     {
         $title = $this->title;
-        echo view('pages.admin.kurikulum.show', compact('kurikulum', 'title'));
+        return view('pages.admin.kurikulum.show', compact('kurikulum', 'title'));
     }
 }

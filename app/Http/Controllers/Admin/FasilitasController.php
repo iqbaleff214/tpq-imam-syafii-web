@@ -41,7 +41,7 @@ class FasilitasController extends Controller
                 ->make(true);
         }
 
-        echo view('pages.admin.fasilitas.index', ['title' => $this->title]);
+        return view('pages.admin.fasilitas.index', ['title' => $this->title]);
     }
 
     /**
@@ -53,7 +53,7 @@ class FasilitasController extends Controller
     {
         $title = $this->title;
         $icon = Icon::all();
-        echo view('pages.admin.fasilitas.create', compact('title', 'icon'));
+        return view('pages.admin.fasilitas.create', compact('title', 'icon'));
     }
 
     /**
@@ -92,7 +92,7 @@ class FasilitasController extends Controller
     {
         $fasilitas = Fasilitas::findOrFail($id);
         $title = $this->title;
-        echo view('pages.admin.fasilitas.show', compact('title', 'fasilitas'));
+        return view('pages.admin.fasilitas.show', compact('title', 'fasilitas'));
     }
 
     /**
@@ -106,7 +106,7 @@ class FasilitasController extends Controller
         $fasilitas = Fasilitas::findOrFail($id);
         $title = $this->title;
         $icon = Icon::all();
-        echo view('pages.admin.fasilitas.edit', compact('title', 'icon', 'fasilitas'));
+        return view('pages.admin.fasilitas.edit', compact('title', 'icon', 'fasilitas'));
     }
 
     /**

@@ -216,7 +216,7 @@ class PageController extends Controller
                 ->make(true);
         }
         $title = 'Inventaris';
-        echo view('pages.kepala.laporan.inventaris', ['title' => $title]);
+        return view('pages.kepala.laporan.inventaris', ['title' => $title]);
     }
 
 }

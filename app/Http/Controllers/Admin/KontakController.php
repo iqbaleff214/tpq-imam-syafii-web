@@ -44,7 +44,7 @@ class KontakController extends Controller
                 ->make(true);
         }
         $title = $this->title;
-        echo view('pages.admin.kontak.index', compact('title'));
+        return view('pages.admin.kontak.index', compact('title'));
     }
 
     /**
@@ -58,7 +58,7 @@ class KontakController extends Controller
         $kontak = Kontak::findOrFail($id);
         if ($kontak->dibaca == 0) $kontak->update(['dibaca' => 1]);
         $title = $this->title;
-        echo view('pages.admin.kontak.show', compact('title', 'kontak'));
+        return view('pages.admin.kontak.show', compact('title', 'kontak'));
     }
 
     /**

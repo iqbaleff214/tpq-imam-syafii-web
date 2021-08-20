@@ -45,7 +45,7 @@ class SantriController extends Controller
                 ->make(true);
         }
 
-        echo view('pages.kepala.santri.index', ['title' => $this->title]);
+        return view('pages.kepala.santri.index', ['title' => $this->title]);
     }
 
     /**
@@ -57,7 +57,7 @@ class SantriController extends Controller
     public function show(Santri $santri)
     {
         $bulan = KehadiranSantri::selectRaw('bulan')->where('santri_id', $santri->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
-        echo view('pages.kepala.santri.show', ['title' => $this->title, 'santri' => $santri, 'bulan' => $bulan]);
+        return view('pages.kepala.santri.show', ['title' => $this->title, 'santri' => $santri, 'bulan' => $bulan]);
     }
 
     public function show_hafalan(Request $request, Santri $santri)

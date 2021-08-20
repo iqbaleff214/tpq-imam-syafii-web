@@ -47,7 +47,7 @@ class AdministratorController extends Controller
         }
         $title = $this->title;
 
-        echo view('pages.kepala.administrator.index', compact('title'));
+        return view('pages.kepala.administrator.index', compact('title'));
     }
 
     /**
@@ -58,7 +58,7 @@ class AdministratorController extends Controller
     public function create()
     {
         $title = $this->title;
-        echo view('pages.kepala.administrator.create', compact('title'));
+        return view('pages.kepala.administrator.create', compact('title'));
     }
 
     /**
@@ -137,7 +137,7 @@ class AdministratorController extends Controller
                 ->make(true);
         }
         $title = $this->title;
-        echo view('pages.kepala.administrator.show', compact('admin', 'title'));
+        return view('pages.kepala.administrator.show', compact('admin', 'title'));
     }
 
     /**
@@ -149,7 +149,7 @@ class AdministratorController extends Controller
     public function edit(Administrator $admin)
     {
         $title = $this->title;
-        echo view('pages.kepala.administrator.edit', compact('admin', 'title'));
+        return view('pages.kepala.administrator.edit', compact('admin', 'title'));
     }
 
     /**

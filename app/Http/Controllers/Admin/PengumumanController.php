@@ -51,7 +51,7 @@ class PengumumanController extends Controller
                 ->make(true);
         }
 
-        echo view('pages.admin.pengumuman.index', ['title' => $this->title]);
+        return view('pages.admin.pengumuman.index', ['title' => $this->title]);
     }
 
     /**
@@ -61,7 +61,7 @@ class PengumumanController extends Controller
      */
     public function create()
     {
-        echo view('pages.admin.pengumuman.create', ['title' => $this->title]);
+        return view('pages.admin.pengumuman.create', ['title' => $this->title]);
     }
 
     /**
@@ -110,7 +110,7 @@ class PengumumanController extends Controller
     public function show(Pengumuman $pengumuman)
     {
         $title = $this->title;
-        echo view('pages.admin.pengumuman.show', compact('pengumuman', 'title'));
+        return view('pages.admin.pengumuman.show', compact('pengumuman', 'title'));
     }
 
     /**
@@ -122,7 +122,7 @@ class PengumumanController extends Controller
     public function edit(Pengumuman $pengumuman)
     {
         $title = $this->title;
-        echo view('pages.admin.pengumuman.edit', compact('pengumuman', 'title'));
+        return view('pages.admin.pengumuman.edit', compact('pengumuman', 'title'));
     }
 
     /**

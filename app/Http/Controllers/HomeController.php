@@ -72,7 +72,7 @@ class HomeController extends Controller
         $pengumuman = Pengumuman::limit(3)->orderBy('created_at', 'desc')->get();
         $fasilitas = Fasilitas::all();
 
-        echo view('pages.frontend.index', compact('count', 'pengumuman', 'profil', 'title', 'fasilitas'));
+        return view('pages.frontend.index', compact('count', 'pengumuman', 'profil', 'title', 'fasilitas'));
     }
 
     public function pengumuman(Request $request)
@@ -88,7 +88,7 @@ class HomeController extends Controller
 
         $newest = Pengumuman::limit(3)->orderBy('created_at', 'desc')->get();
 
-        echo view('pages.frontend.pengumuman', compact('pengumuman', 'newest', 'title', 'profil'));
+        return view('pages.frontend.pengumuman', compact('pengumuman', 'newest', 'title', 'profil'));
     }
 
     public function show_pengumuman($slug)
@@ -102,7 +102,7 @@ class HomeController extends Controller
         $next = Pengumuman::where('id', '>', $pengumuman->id)->orderBy('id')->first();
         $newest = Pengumuman::limit(3)->orderBy('created_at', 'desc')->get();
 
-        echo view('pages.frontend.pengumuman-lihat', compact('pengumuman', 'newest', 'prev', 'next', 'profil', 'title'));
+        return view('pages.frontend.pengumuman-lihat', compact('pengumuman', 'newest', 'prev', 'next', 'profil', 'title'));
     }
 
     public function galeri()
@@ -112,7 +112,7 @@ class HomeController extends Controller
 
         $galeri = Galeri::all();
         $kategori = KategoriGaleri::all();
-        echo view('pages.frontend.galeri', compact('galeri', 'kategori', 'profil', 'title'));
+        return view('pages.frontend.galeri', compact('galeri', 'kategori', 'profil', 'title'));
     }
 
     public function donasi(Request $request)
@@ -122,7 +122,7 @@ class HomeController extends Controller
 
         $donasi = $request->get('jumlah');
 
-        echo view('pages.frontend.donasi', compact('profil', 'title', 'donasi'));
+        return view('pages.frontend.donasi', compact('profil', 'title', 'donasi'));
     }
 
     public function store_donasi(Request $request)
@@ -164,7 +164,7 @@ class HomeController extends Controller
             case 4: $class_spp = 'col-lg-3 col-md-6 col-12'; break;
             default: $class_spp = 'col-lg-4 col-md-6 col-12'; break;
         }
-        echo view('pages.frontend.pendaftaran', compact('spp', 'class_spp', 'profil', 'title'));
+        return view('pages.frontend.pendaftaran', compact('spp', 'class_spp', 'profil', 'title'));
     }
 
     public function next_pendaftaran(Request $request)
@@ -252,7 +252,7 @@ class HomeController extends Controller
         $pengelola = Administrator::all();
         $ustaz = Pengajar::where('jenis_kelamin', 'L')->where('status', 'Aktif')->get();
         $ustazah = Pengajar::where('jenis_kelamin', 'P')->where('status', 'Aktif')->get();
-        echo view('pages.frontend.struktur', compact('pengelola', 'ustaz', 'ustazah', 'profil', 'title'));
+        return view('pages.frontend.struktur', compact('pengelola', 'ustaz', 'ustazah', 'profil', 'title'));
     }
 
     public function hubungi()
@@ -260,7 +260,7 @@ class HomeController extends Controller
         $profil = Lembaga::where('is_active', true)->firstOrFail();
         $title = 'Hubungi Kami';
 
-        echo view('pages.frontend.hubungi', compact('profil', 'title'));
+        return view('pages.frontend.hubungi', compact('profil', 'title'));
     }
 
     public function store_hubungi(Request $request)

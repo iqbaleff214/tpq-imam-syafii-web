@@ -97,7 +97,7 @@ class DonasiController extends Controller
         $total = Donasi::selectRaw('SUM(jumlah) as jumlah, DATE_FORMAT(MIN(created_at), "%d-%m-%Y") as min_date, DATE_FORMAT(MAX(created_at), "%d-%m-%Y") as max_date')->where('status', 1)->first();
 
 
-        echo view('pages.admin.donasi.index', compact('title', 'bulan', 'total', 'sekarang'));
+        return view('pages.admin.donasi.index', compact('title', 'bulan', 'total', 'sekarang'));
     }
 
     /**
@@ -109,7 +109,7 @@ class DonasiController extends Controller
     {
         $title = $this->title;
 
-        echo view('pages.admin.donasi.create', compact('title'));
+        return view('pages.admin.donasi.create', compact('title'));
     }
 
     /**
@@ -150,7 +150,7 @@ class DonasiController extends Controller
     public function show(Donasi $donasi)
     {
         $title = $this->title;
-        echo view('pages.admin.donasi.show', compact('title', 'donasi'));
+        return view('pages.admin.donasi.show', compact('title', 'donasi'));
     }
 
     /**
@@ -162,7 +162,7 @@ class DonasiController extends Controller
     public function edit(Donasi $donasi)
     {
         $title = $this->title;
-        echo view('pages.admin.donasi.edit', compact('title', 'donasi'));
+        return view('pages.admin.donasi.edit', compact('title', 'donasi'));
     }
 
     /**

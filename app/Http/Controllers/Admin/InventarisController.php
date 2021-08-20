@@ -41,7 +41,7 @@ class InventarisController extends Controller
                 ->make(true);
         }
 
-        echo view('pages.admin.inventaris.index', ['title' => $this->title]);
+        return view('pages.admin.inventaris.index', ['title' => $this->title]);
     }
 
     /**
@@ -53,7 +53,7 @@ class InventarisController extends Controller
     {
         $title = 'Inventaris Barang';
 
-        echo view('pages.admin.inventaris.create', ['title' => $this->title]);
+        return view('pages.admin.inventaris.create', ['title' => $this->title]);
     }
 
     /**
@@ -108,7 +108,7 @@ class InventarisController extends Controller
     {
         $inventaris = Inventaris::findOrFail($id);
         $title = $this->title;
-        echo view('pages.admin.inventaris.show', compact('inventaris', 'title'));
+        return view('pages.admin.inventaris.show', compact('inventaris', 'title'));
     }
 
     /**
@@ -121,7 +121,7 @@ class InventarisController extends Controller
     {
         $inventaris = Inventaris::findOrFail($id);
         $title = $this->title;
-        echo view('pages.admin.inventaris.edit', compact('inventaris', 'title'));
+        return view('pages.admin.inventaris.edit', compact('inventaris', 'title'));
     }
 
     /**

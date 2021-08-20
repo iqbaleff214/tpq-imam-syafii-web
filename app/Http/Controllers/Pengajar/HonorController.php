@@ -66,7 +66,7 @@ class HonorController extends Controller
         }
 
         $title = $this->title;
-        echo view('pages.pengajar.honor.index', compact('title'));
+        return view('pages.pengajar.honor.index', compact('title'));
     }
 
     /**
@@ -78,7 +78,7 @@ class HonorController extends Controller
     public function show(Honor $honor)
     {
         $title = $this->title;
-        echo view('pages.pengajar.honor.show', compact('title', 'honor'));
+        return view('pages.pengajar.honor.show', compact('title', 'honor'));
     }
 
     /**

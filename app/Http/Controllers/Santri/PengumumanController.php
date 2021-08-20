@@ -23,7 +23,7 @@ class PengumumanController extends Controller
             return response()->json($data);
         }
         $title = $this->title;
-        echo view('pages.santri.pengumuman.index', compact('title'));
+        return view('pages.santri.pengumuman.index', compact('title'));
     }
 
     /**
@@ -37,6 +37,6 @@ class PengumumanController extends Controller
         $pengumuman = Pengumuman::where('slug', $slug)->firstOrFail();
         $pengumuman->increment('seen');
         $title = $this->title;
-        echo view('pages.santri.pengumuman.show', compact('title', 'pengumuman'));
+        return view('pages.santri.pengumuman.show', compact('title', 'pengumuman'));
     }
 }

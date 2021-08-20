@@ -89,7 +89,7 @@ class KehadiranSantriController extends Controller
         $santri = Santri::all();
         $bulan = KehadiranSantri::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        echo view('pages.admin.kehadiran_santri.index', compact('title', 'bulan', 'santri', 'hari'));
+        return view('pages.admin.kehadiran_santri.index', compact('title', 'bulan', 'santri', 'hari'));
     }
 
     /**
@@ -102,7 +102,7 @@ class KehadiranSantriController extends Controller
         $title = $this->title;
         $santri = Santri::all();
 
-        echo view('pages.admin.kehadiran_santri.create', compact('title', 'santri'));
+        return view('pages.admin.kehadiran_santri.create', compact('title', 'santri'));
     }
 
     /**
@@ -171,7 +171,7 @@ class KehadiranSantriController extends Controller
         $presensi = KehadiranSantri::findOrFail($id);
         $title = $this->title;
 
-        echo view('pages.admin.kehadiran_santri.show', compact('title', 'presensi'));
+        return view('pages.admin.kehadiran_santri.show', compact('title', 'presensi'));
     }
 
     /**
@@ -186,7 +186,7 @@ class KehadiranSantriController extends Controller
         $title = $this->title;
         $santri = Santri::all();
 
-        echo view('pages.admin.kehadiran_santri.edit', compact('title', 'santri', 'presensi'));
+        return view('pages.admin.kehadiran_santri.edit', compact('title', 'santri', 'presensi'));
     }
 
     /**

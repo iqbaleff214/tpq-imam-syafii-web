@@ -105,6 +105,9 @@
                                     <a href="{{ route('admin.keuangan.kas.create') }}" class="btn bg-maroon">
                                         Uraian Baru
                                     </a>
+                                    <a href="{{ route('admin.keuangan.kas.upload') }}" class="btn bg-maroon">
+                                        Import
+                                    </a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -362,7 +365,7 @@
                     {data: 'pengeluaran', name: 'pengeluaran', orderable: false},
                     {data: 'saldo', name: 'saldo', orderable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                ]
+                ],
             });
 
             function newExportAction(e, dt, button, config) {

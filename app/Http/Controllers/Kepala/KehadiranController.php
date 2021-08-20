@@ -81,7 +81,7 @@ class KehadiranController extends Controller
         $pengajar = Pengajar::all();
         $bulan = KehadiranPengajar::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        echo view('pages.kepala.kehadiran.pengajar', compact('title', 'bulan', 'pengajar', 'hari'));
+        return view('pages.kepala.kehadiran.pengajar', compact('title', 'bulan', 'pengajar', 'hari'));
     }
 
     public function santri(Request $request)
@@ -151,6 +151,6 @@ class KehadiranController extends Controller
         $santri = Santri::all();
         $bulan = KehadiranSantri::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        echo view('pages.kepala.kehadiran.santri', compact('title', 'bulan', 'santri', 'hari'));
+        return view('pages.kepala.kehadiran.santri', compact('title', 'bulan', 'santri', 'hari'));
     }
 }

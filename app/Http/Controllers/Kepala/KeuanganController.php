@@ -92,7 +92,7 @@ class KeuanganController extends Controller
         $total = Kas::selectRaw('SUM(pemasukan) as jml_pemasukan, SUM(pengeluaran) as jml_pengeluaran, (SUM(pemasukan) - SUM(pengeluaran)) as jml_saldo, DATE_FORMAT(MIN(created_at), "%d-%m-%Y") as min_date, DATE_FORMAT(MAX(created_at), "%d-%m-%Y") as max_date')->first();
         $sekarang = Kas::selectRaw('SUM(pemasukan) as pemasukan, SUM(pengeluaran) as pengeluaran')->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->first();
         $title = 'Kas';
-        echo view('pages.kepala.keuangan.kas', compact('sekarang', 'total', 'title'));
+        return view('pages.kepala.keuangan.kas', compact('sekarang', 'total', 'title'));
     }
 
     public function honor(Request $request)
@@ -153,7 +153,7 @@ class KeuanganController extends Controller
         $pengajar = Pengajar::all();
         $bulan = Honor::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        echo view('pages.kepala.keuangan.honor', compact('title', 'bulan', 'pengajar', 'hari'));
+        return view('pages.kepala.keuangan.honor', compact('title', 'bulan', 'pengajar', 'hari'));
     }
 
     public function donasi(Request $request)
@@ -205,7 +205,7 @@ class KeuanganController extends Controller
         $total = Donasi::selectRaw('SUM(jumlah) as jumlah, DATE_FORMAT(MIN(created_at), "%d-%m-%Y") as min_date, DATE_FORMAT(MAX(created_at), "%d-%m-%Y") as max_date')->where('status', 1)->first();
 
 
-        echo view('pages.kepala.keuangan.donasi', compact('title', 'bulan', 'total', 'sekarang'));
+        return view('pages.kepala.keuangan.donasi', compact('title', 'bulan', 'total', 'sekarang'));
     }
 
     public function spp(Request $request)
@@ -277,6 +277,6 @@ class KeuanganController extends Controller
         $bulan = Spp::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
         $santri = Santri::where('status', 'Aktif')->get();
 
-        echo view('pages.kepala.keuangan.spp', compact('title', 'bulan', 'santri'));
+        return view('pages.kepala.keuangan.spp', compact('title', 'bulan', 'santri'));
     }
 }

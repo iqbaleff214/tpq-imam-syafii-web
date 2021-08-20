@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\KasImport;
 use App\Models\Kas;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class KasController extends Controller
@@ -95,17 +100,17 @@ class KasController extends Controller
         $total = Kas::selectRaw('SUM(pemasukan) as jml_pemasukan, SUM(pengeluaran) as jml_pengeluaran, (SUM(pemasukan) - SUM(pengeluaran)) as jml_saldo, DATE_FORMAT(MIN(created_at), "%d-%m-%Y") as min_date, DATE_FORMAT(MAX(created_at), "%d-%m-%Y") as max_date')->first();
         $sekarang = Kas::selectRaw('SUM(pemasukan) as pemasukan, SUM(pengeluaran) as pengeluaran')->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->first();
         $title = $this->title;
-        echo view('pages.admin.kas.index', compact('sekarang', 'total', 'title'));
+        return view('pages.admin.kas.index', compact('sekarang', 'total', 'title'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Application|Factory|View|Response
      */
     public function create()
     {
-        echo view('pages.admin.kas.create', ['title' => $this->title]);
+        return view('pages.admin.kas.create', ['title' => $this->title]);
     }
 
     /**
@@ -146,14 +151,14 @@ class KasController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Kas $kas
-     * @return Response
+     * @param $id
+     * @return Application|Factory|View
      */
     public function show($id)
     {
         $kas = Kas::findOrFail($id);
         $title = $this->title;
-        echo view('pages.admin.kas.show', compact('kas', 'title'));
+        return view('pages.admin.kas.show', compact('kas', 'title'));
     }
 
     /**
@@ -166,7 +171,7 @@ class KasController extends Controller
     {
         $kas = Kas::findOrFail($id);
         $title = $this->title;
-        echo view('pages.admin.kas.edit', compact('kas', 'title'));
+        return view('pages.admin.kas.edit', compact('kas', 'title'));
     }
 
     /**
@@ -231,6 +236,7 @@ class KasController extends Controller
             return redirect()->back()->with('error', 'Data kas gagal dihapus!');
         }
     }
+
     public function unlink($id)
     {
         try {
@@ -242,6 +248,24 @@ class KasController extends Controller
         } catch (\Throwable $th) {
 
             return redirect()->back()->with('error', 'Bukti kas gagal dihapus!');
+        }
+    }
+
+    public function upload()
+    {
+        return view('pages.admin.kas.import', ['title' => $this->title]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'berkas' => 'required|mimes:csv,xls,xlsx,ods|max:2048'
+        ]);
+        try {
+            Excel::import(new KasImport('Hasil Import'), request()->file('berkas'));
+            return redirect()->route('admin.keuangan.kas.index')->with('success', 'Berhasil mengimport!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal import! ' . $e->getMessage());
         }
     }
 }

@@ -51,7 +51,7 @@ class KelasController extends Controller
                 ->make(true);
         }
         $title = $this->title;
-        echo view('pages.kepala.kelas.index', compact('title'));
+        return view('pages.kepala.kelas.index', compact('title'));
     }
 
     /**
@@ -80,7 +80,7 @@ class KelasController extends Controller
         $kurikulum = Kurikulum::all();
         $title = $this->title;
 
-        echo view('pages.kepala.kelas.create', compact('pengajar', 'kurikulum', 'title'));
+        return view('pages.kepala.kelas.create', compact('pengajar', 'kurikulum', 'title'));
     }
 
     /**
@@ -137,7 +137,7 @@ class KelasController extends Controller
         $kelas = Kelas::findOrFail($id);
         $title = $this->title;
         $bulan = KehadiranPengajar::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->where('pengajar_id', $kelas->pengajar_id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
-        echo view('pages.kepala.kelas.show', compact('kelas', 'title', 'bulan'));
+        return view('pages.kepala.kelas.show', compact('kelas', 'title', 'bulan'));
     }
 
     /**
@@ -152,7 +152,7 @@ class KelasController extends Controller
         $pengajar = Pengajar::where('jenis_kelamin', $kelas->pengajar->jenis_kelamin)->get();
         $kurikulum = Kurikulum::all();
         $title = $this->title;
-        echo view('pages.kepala.kelas.edit', compact('kelas', 'pengajar', 'kurikulum', 'title'));
+        return view('pages.kepala.kelas.edit', compact('kelas', 'pengajar', 'kurikulum', 'title'));
     }
 
     /**

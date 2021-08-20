@@ -41,7 +41,7 @@ class KurikulumController extends Controller
                 ->make(true);
         }
         $title = $this->title;
-        echo view('pages.kepala.kurikulum.index', compact('title'));
+        return view('pages.kepala.kurikulum.index', compact('title'));
     }
 
     /**
@@ -53,7 +53,7 @@ class KurikulumController extends Controller
     {
         $title = $this->title;
         $days = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        echo view('pages.kepala.kurikulum.create', compact('days', 'title'));
+        return view('pages.kepala.kurikulum.create', compact('days', 'title'));
     }
 
     /**
@@ -118,7 +118,7 @@ class KurikulumController extends Controller
     public function show(Kurikulum $kurikulum)
     {
         $title = $this->title;
-        echo view('pages.kepala.kurikulum.show', compact('kurikulum', 'title'));
+        return view('pages.kepala.kurikulum.show', compact('kurikulum', 'title'));
     }
 
     /**
@@ -131,7 +131,7 @@ class KurikulumController extends Controller
     {
         $title = $this->title;
         $days = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        echo view('pages.kepala.kurikulum.edit', compact('days', 'kurikulum', 'title'));
+        return view('pages.kepala.kurikulum.edit', compact('days', 'kurikulum', 'title'));
     }
 
     /**

@@ -40,7 +40,7 @@ Auth::routes([
 /*=== ROLE ROUTING ===*/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/*=== ROLE: KEPALA (OKE) ===*/
+/*=== ROLE: KEPALA (OK) ===*/
 Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.')->group(function () {
 
     /*=== DASHBOARD ===*/
@@ -150,6 +150,8 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
     Route::prefix('keuangan')->as('keuangan.')->group(function () {
 
         /*=== KAS ===*/
+        Route::get('kas/import', [\App\Http\Controllers\Admin\KasController::class, 'upload'])->name('kas.upload');
+        Route::post('kas/import', [\App\Http\Controllers\Admin\KasController::class, 'import'])->name('kas.import');
         Route::resource('kas', \App\Http\Controllers\Admin\KasController::class);
         Route::delete('kas/{kas}/foto', [\App\Http\Controllers\Admin\KasController::class, 'unlink'])->name('kas.unlink');
 

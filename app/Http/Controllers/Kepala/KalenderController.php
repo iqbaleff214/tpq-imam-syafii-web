@@ -53,7 +53,7 @@ class KalenderController extends Controller
 
         $kalender = json_encode($kalender);
         $title = $this->title;
-        echo view('pages.kepala.kalender.index', compact('title', 'kalender'));
+        return view('pages.kepala.kalender.index', compact('title', 'kalender'));
     }
 
     public function store(Request $request)

@@ -31,7 +31,7 @@ class PageController extends Controller
         $bulan = KehadiranSantri::selectRaw('bulan')->where('santri_id', $santri->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
         $spp = Spp::where('santri_id', $santri->id)->where('status', 0)->count();
 
-        echo view('pages.santri.dashboard', ['title' => 'Beranda', 'santri' => $santri, 'presensi' => $presensi, 'bulan' => $bulan, 'spp' => $spp ]);
+        return view('pages.santri.dashboard', ['title' => 'Beranda', 'santri' => $santri, 'presensi' => $presensi, 'bulan' => $bulan, 'spp' => $spp ]);
     }
 
     public function show_kehadiran(Request $request)

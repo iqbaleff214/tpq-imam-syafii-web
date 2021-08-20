@@ -232,6 +232,6 @@ class PageController extends Controller
         }
 
         $kalender = json_encode($kalender);
-        echo view('pages.admin.kalender.index', compact('title', 'kalender'));
+        return view('pages.admin.kalender.index', compact('title', 'kalender'));
     }
 }

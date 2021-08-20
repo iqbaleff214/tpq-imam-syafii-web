@@ -37,6 +37,10 @@ Route::middleware('auth:sanctum')->group(function() {
     /*=== SANTRI ===*/
     Route::get('santri', [\App\Http\Controllers\API\SantriController::class, 'all']);
 
+    /*=== SPP ===*/
+    Route::get('spp', [\App\Http\Controllers\API\SppController::class, 'all']);
+    Route::post('spp', [\App\Http\Controllers\API\SppController::class, 'store']);
+
     /*=== KEHADIRAN SANTRI ===*/
     Route::get('santri/kehadiran', [\App\Http\Controllers\API\KehadiranSantriController::class, 'all']);
     Route::post('santri/kehadiran', [\App\Http\Controllers\API\KehadiranSantriController::class, 'store']);

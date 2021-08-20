@@ -83,7 +83,7 @@ return [
         'string' => 'Kolom :attribute tidak boleh lebih dari :max karakter.',
         'array' => 'Kolom :attribute must not have more than :max items.',
     ],
-    'mimes' => 'The :attribute must be a file of type: :values.',
+    'mimes' => 'Kolom :attribute harus memiliki format: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
         'numeric' => 'Kolom :attribute bernilai minimal :min.',
@@ -119,7 +119,7 @@ return [
     'string' => 'The :attribute must be a string.',
     'timezone' => 'The :attribute must be a valid timezone.',
     'unique' => 'Nilai :attribute telah digunakan.',
-    'uploaded' => 'The :attribute failed to upload.',
+    'uploaded' => ':attribute gagal diunggah.',
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
 

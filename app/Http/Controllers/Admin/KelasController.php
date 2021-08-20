@@ -50,7 +50,7 @@ class KelasController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        echo view('pages.admin.kelas.index', ['title' => $this->title]);
+        return view('pages.admin.kelas.index', ['title' => $this->title]);
     }
 
     /**
@@ -79,7 +79,7 @@ class KelasController extends Controller
         $kurikulum = Kurikulum::all();
         $title = $this->title;
 
-        echo view('pages.admin.kelas.create', compact('pengajar', 'kurikulum', 'title'));
+        return view('pages.admin.kelas.create', compact('pengajar', 'kurikulum', 'title'));
     }
 
     /**
@@ -138,7 +138,7 @@ class KelasController extends Controller
         $kelas = Kelas::findOrFail($id);
         $title = $this->title;
         $bulan = KehadiranPengajar::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->where('pengajar_id', $kelas->pengajar_id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
-        echo view('pages.admin.kelas.show', compact('kelas', 'title', 'bulan'));
+        return view('pages.admin.kelas.show', compact('kelas', 'title', 'bulan'));
     }
 
     /**
@@ -153,7 +153,7 @@ class KelasController extends Controller
         $pengajar = Pengajar::where('jenis_kelamin', $kelas->pengajar->jenis_kelamin)->get();
         $kurikulum = Kurikulum::all();
         $title = $this->title;
-        echo view('pages.admin.kelas.edit', compact('kelas', 'pengajar', 'kurikulum', 'title'));
+        return view('pages.admin.kelas.edit', compact('kelas', 'pengajar', 'kurikulum', 'title'));
     }
 
     /**

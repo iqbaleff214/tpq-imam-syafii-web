@@ -76,7 +76,7 @@ class KehadiranPengajarController extends Controller
         $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Ahad'];
         $bulan = KehadiranPengajar::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        echo view('pages.pengajar.kehadiran.index', compact('title', 'bulan', 'hari'));
+        return view('pages.pengajar.kehadiran.index', compact('title', 'bulan', 'hari'));
     }
 
     /**
@@ -116,7 +116,7 @@ class KehadiranPengajarController extends Controller
         $presensi = KehadiranPengajar::findOrFail($id);
         $title = $this->title;
 
-        echo view('pages.pengajar.kehadiran.show', compact('title', 'presensi'));
+        return view('pages.pengajar.kehadiran.show', compact('title', 'presensi'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -129,7 +129,7 @@ class KehadiranPengajarController extends Controller
         $presensi = KehadiranPengajar::findOrFail($id);
         $title = $this->title;
 
-        echo view('pages.pengajar.kehadiran.edit', compact('title', 'presensi'));
+        return view('pages.pengajar.kehadiran.edit', compact('title', 'presensi'));
     }
 
     /**

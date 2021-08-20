@@ -103,7 +103,7 @@ class SppController extends Controller
         $bulan = Spp::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
         $santri = Santri::where('status', 'Aktif')->get();
 
-        echo view('pages.admin.spp.index', compact('title', 'bulan', 'santri'));
+        return view('pages.admin.spp.index', compact('title', 'bulan', 'santri'));
     }
 
     public function collect(): RedirectResponse
@@ -135,7 +135,7 @@ class SppController extends Controller
         $santri = Santri::where('status', 'Aktif')->get();
         $bulan = KehadiranSantri::select('bulan')->groupBy('bulan')->get();
 
-        echo view('pages.admin.spp.create', compact('title', 'santri', 'bulan'));
+        return view('pages.admin.spp.create', compact('title', 'santri', 'bulan'));
     }
 
     /**
@@ -179,7 +179,7 @@ class SppController extends Controller
     {
         $title = $this->title;
 
-        echo view('pages.admin.spp.show', compact('title', 'spp'));
+        return view('pages.admin.spp.show', compact('title', 'spp'));
     }
 
     /**
@@ -194,7 +194,7 @@ class SppController extends Controller
         $santri = Santri::where('status', 'Aktif')->get();
         $bulan = KehadiranSantri::select('bulan')->groupBy('bulan')->get();
 
-        echo view('pages.admin.spp.edit', compact('title', 'santri', 'bulan', 'spp'));
+        return view('pages.admin.spp.edit', compact('title', 'santri', 'bulan', 'spp'));
     }
 
     /**

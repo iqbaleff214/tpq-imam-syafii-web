@@ -72,7 +72,7 @@ class SantriController extends Controller
                 ->make(true);
         }
 
-        echo view('pages.admin.santri.index', ['title' => $this->title]);
+        return view('pages.admin.santri.index', ['title' => $this->title]);
     }
 
     /**
@@ -84,7 +84,7 @@ class SantriController extends Controller
     {
         if (!SppOpsi::count()) return redirect()->route('admin.spp.opsi.create')->with('info', 'Isi data opsi spp terlebih dahulu!');
 
-        echo view('pages.admin.santri.create', ['title' => $this->title, 'status' => $this->status, 'hubungan' => $this->hubungan, 'opsi' => SppOpsi::all(), 'kelas' => Kelas::all()]);
+        return view('pages.admin.santri.create', ['title' => $this->title, 'status' => $this->status, 'hubungan' => $this->hubungan, 'opsi' => SppOpsi::all(), 'kelas' => Kelas::all()]);
     }
 
     /**
@@ -194,7 +194,7 @@ class SantriController extends Controller
     public function show(Santri $santri)
     {
         $bulan = KehadiranSantri::selectRaw('bulan')->where('santri_id', $santri->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
-        echo view('pages.admin.santri.show', ['title' => $this->title, 'santri' => $santri, 'bulan' => $bulan]);
+        return view('pages.admin.santri.show', ['title' => $this->title, 'santri' => $santri, 'bulan' => $bulan]);
     }
 
     public function show_hafalan(Request $request, Santri $santri)
@@ -281,7 +281,7 @@ class SantriController extends Controller
      */
     public function edit(Santri $santri)
     {
-        echo view('pages.admin.santri.edit', ['title' => $this->title, 'status' => $this->status, 'hubungan' => $this->hubungan, 'opsi' => SppOpsi::all(), 'kelas' => Kelas::all(), 'santri' => $santri]);
+        return view('pages.admin.santri.edit', ['title' => $this->title, 'status' => $this->status, 'hubungan' => $this->hubungan, 'opsi' => SppOpsi::all(), 'kelas' => Kelas::all(), 'santri' => $santri]);
     }
 
     /**

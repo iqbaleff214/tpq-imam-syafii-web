@@ -45,7 +45,7 @@ class SppOpsiController extends Controller
                 ->make(true);
         }
 
-        echo view('pages.admin.opsi_spp.index', ['title' => $this->title]);
+        return view('pages.admin.opsi_spp.index', ['title' => $this->title]);
     }
 
     /**
@@ -55,7 +55,7 @@ class SppOpsiController extends Controller
      */
     public function create()
     {
-        echo view('pages.admin.opsi_spp.create', ['title' => $this->title]);
+        return view('pages.admin.opsi_spp.create', ['title' => $this->title]);
     }
 
     /**
@@ -91,7 +91,7 @@ class SppOpsiController extends Controller
      */
     public function show($id)
     {
-        echo view('pages.admin.opsi_spp.show', ['title' => $this->title, 'opsi' => SppOpsi::findOrFail($id)]);
+        return view('pages.admin.opsi_spp.show', ['title' => $this->title, 'opsi' => SppOpsi::findOrFail($id)]);
     }
 
     /**
@@ -102,7 +102,7 @@ class SppOpsiController extends Controller
      */
     public function edit($id)
     {
-        echo view('pages.admin.opsi_spp.edit', ['title' => $this->title, 'opsi' => SppOpsi::findOrFail($id)]);
+        return view('pages.admin.opsi_spp.edit', ['title' => $this->title, 'opsi' => SppOpsi::findOrFail($id)]);
     }
 
     /**

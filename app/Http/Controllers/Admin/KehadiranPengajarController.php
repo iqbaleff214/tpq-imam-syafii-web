@@ -100,7 +100,7 @@ class KehadiranPengajarController extends Controller
         $pengajar = Pengajar::all();
         $bulan = KehadiranPengajar::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
 
-        echo view('pages.admin.kehadiran_pengajar.index', compact('title', 'bulan', 'pengajar', 'hari'));
+        return view('pages.admin.kehadiran_pengajar.index', compact('title', 'bulan', 'pengajar', 'hari'));
     }
 
     /**
@@ -113,7 +113,7 @@ class KehadiranPengajarController extends Controller
         $title = $this->title;
         $pengajar = Pengajar::all();
 
-        echo view('pages.admin.kehadiran_pengajar.create', compact('title', 'pengajar'));
+        return view('pages.admin.kehadiran_pengajar.create', compact('title', 'pengajar'));
     }
 
     /**
@@ -159,7 +159,7 @@ class KehadiranPengajarController extends Controller
         $presensi = KehadiranPengajar::findOrFail($id);
         $title = $this->title;
 
-        echo view('pages.admin.kehadiran_pengajar.show', compact('title', 'presensi'));
+        return view('pages.admin.kehadiran_pengajar.show', compact('title', 'presensi'));
     }
 
     /**
@@ -174,7 +174,7 @@ class KehadiranPengajarController extends Controller
         $title = $this->title;
         $pengajar = Pengajar::all();
 
-        echo view('pages.admin.kehadiran_pengajar.edit', compact('title', 'pengajar', 'presensi'));
+        return view('pages.admin.kehadiran_pengajar.edit', compact('title', 'pengajar', 'presensi'));
     }
 
     /**

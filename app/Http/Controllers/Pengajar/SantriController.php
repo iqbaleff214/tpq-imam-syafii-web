@@ -27,7 +27,7 @@ class SantriController extends Controller
         $kelas = Auth::user()->pengajar->kelas ?? null;
         if (!$kelas) return redirect()->route('pengajar.dashboard');
         $santri = Santri::where('kelas_id', $kelas->id)->where('status', 'Aktif')->get();
-        echo view('pages.pengajar.santri.index', compact('title', 'kelas', 'santri'));
+        return view('pages.pengajar.santri.index', compact('title', 'kelas', 'santri'));
     }
 
     /**
@@ -75,7 +75,7 @@ class SantriController extends Controller
             $hadir = $hadir->keterangan == 'Hadir';
         }
 
-        echo view('pages.pengajar.santri.show', compact('title', 'santri', 'bulan', 'ngaji', 'bacaan', 'hafalan', 'hadir', 'terisi'));
+        return view('pages.pengajar.santri.show', compact('title', 'santri', 'bulan', 'ngaji', 'bacaan', 'hafalan', 'hadir', 'terisi'));
     }
 
     /**
