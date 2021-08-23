@@ -51,6 +51,8 @@ Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.
     Route::delete('admin/{administrator}/foto', [\App\Http\Controllers\Kepala\AdministratorController::class, 'unlink'])->name('admin.unlink');
 
     /*=== PENGAJAR ===*/
+    Route::get('pengajar/import', [\App\Http\Controllers\Kepala\PengajarController::class, 'upload'])->name('pengajar.upload');
+    Route::post('pengajar/import', [\App\Http\Controllers\Kepala\PengajarController::class, 'import'])->name('pengajar.import');
     Route::resource('pengajar', \App\Http\Controllers\Kepala\PengajarController::class);
     Route::delete('pengajar/{pengajar}/foto', [\App\Http\Controllers\Kepala\PengajarController::class, 'unlink'])->name('pengajar.unlink');
 
@@ -125,10 +127,14 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/', [\App\Http\Controllers\Admin\PageController::class, 'index'])->name('dashboard');
 
     /*=== PENGAJAR ===*/
+    Route::get('pengajar/import', [\App\Http\Controllers\Admin\PengajarController::class, 'upload'])->name('pengajar.upload');
+    Route::post('pengajar/import', [\App\Http\Controllers\Admin\PengajarController::class, 'import'])->name('pengajar.import');
     Route::resource('pengajar', \App\Http\Controllers\Admin\PengajarController::class);
     Route::delete('pengajar/{pengajar}/foto', [\App\Http\Controllers\Admin\PengajarController::class, 'unlink'])->name('pengajar.unlink');
 
     /*=== SANTRI ===*/
+    Route::get('santri/import', [\App\Http\Controllers\Admin\SantriController::class, 'upload'])->name('santri.upload');
+    Route::post('santri/import', [\App\Http\Controllers\Admin\SantriController::class, 'import'])->name('santri.import');
     Route::resource('santri', \App\Http\Controllers\Admin\SantriController::class);
     Route::delete('santri/{santri}/foto', [\App\Http\Controllers\Admin\SantriController::class, 'unlink'])->name('santri.unlink');
     Route::get('hafalan/{santri}', [\App\Http\Controllers\Admin\SantriController::class, 'show_hafalan'])->name('santri.hafalan');

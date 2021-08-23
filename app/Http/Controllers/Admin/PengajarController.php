@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\PengajarImport;
 use App\Mail\AkunPengajarMail;
 use App\Models\KehadiranPengajar;
 use App\Models\Pengajar;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class PengajarController extends Controller
@@ -217,6 +219,24 @@ class PengajarController extends Controller
         } catch (\Throwable $th) {
 
             return redirect()->back()->with('error', 'Foto pengajar gagal dihapus!');
+        }
+    }
+
+    public function upload()
+    {
+        return view('pages.admin.pengajar.import', ['title' => $this->title,]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'berkas' => 'required|mimes:csv,xls,xlsx,ods|max:2048',
+        ]);
+        try {
+            Excel::import(new PengajarImport(), request()->file('berkas'));
+            return redirect()->route('admin.pengajar.index')->with('success', 'Berhasil mengimport!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal import! ' . $e->getMessage());
         }
     }
 }

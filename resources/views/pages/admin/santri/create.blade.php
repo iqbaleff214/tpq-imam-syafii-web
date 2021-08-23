@@ -332,38 +332,38 @@
 @push('script')
     <!--Select2-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            //Initialize Select2 Elements
+            $('.select2').select2();
+
+            $('#image').on('change', function () {
+                previewImage();
+            });
+
+            $('#jenis_kelamin').on('change', function () {
+                const jk = $(this).val();
+                const img = $('.img-preview');
+                if (jk == 'L') {
+                    img.attr('src', "{{ asset('images/ikhwan-santri.svg') }}");
+                } else {
+                    img.attr('src', "{{ asset('images/akhwat-santri.svg') }}");
+                }
+            });
+
+        }, false);
+
+        function previewImage() {
+            const cover = document.querySelector('.custom-file-input');
+            const coverLabel = document.querySelector('.custom-file-label');
+            const imgPreview = document.querySelector('.img-preview');
+            coverLabel.textContent = cover.files[0].name;
+            const coverFile = new FileReader();
+            coverFile.readAsDataURL(cover.files[0]);
+            coverFile.onload = function (e) {
+                imgPreview.src = e.target.result;
+            }
+        }
+    </script>
 
 @endpush
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        //Initialize Select2 Elements
-        $('.select2').select2();
-
-        $('#image').on('change', function () {
-            previewImage();
-        });
-
-        $('#jenis_kelamin').on('change', function () {
-            const jk = $(this).val();
-            const img = $('.img-preview');
-            if (jk == 'L') {
-                img.attr('src', "{{ asset('images/ikhwan-santri.svg') }}");
-            } else {
-                img.attr('src', "{{ asset('images/akhwat-santri.svg') }}");
-            }
-        });
-
-    }, false);
-
-    function previewImage() {
-        const cover = document.querySelector('.custom-file-input');
-        const coverLabel = document.querySelector('.custom-file-label');
-        const imgPreview = document.querySelector('.img-preview');
-        coverLabel.textContent = cover.files[0].name;
-        const coverFile = new FileReader();
-        coverFile.readAsDataURL(cover.files[0]);
-        coverFile.onload = function (e) {
-            imgPreview.src = e.target.result;
-        }
-    }
-</script>

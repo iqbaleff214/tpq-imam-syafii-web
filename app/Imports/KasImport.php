@@ -30,7 +30,7 @@ class KasImport implements ToModel, WithBatchInserts, WithHeadingRow
             'uraian' => $row['uraian'] ?? '-',
             'pemasukan' => $row['pemasukan'] ?? 0,
             'pengeluaran' => $row['pengeluaran'] ?? 0,
-            'keterangan' => $row['keterangan'],
+            'keterangan' => $row['keterangan'] ?? $this->data,
         ]);
     }
 

@@ -31,6 +31,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <a href="{{ route('kepala.pengajar.create') }}" class="btn bg-maroon">Pengajar Baru</a>
+                                    <a href="{{ route('kepala.pengajar.upload') }}" class="btn bg-maroon">Import</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->

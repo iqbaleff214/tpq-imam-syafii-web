@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Alkoumi\LaravelHijriDate\Hijri;
 use App\Http\Controllers\Controller;
+use App\Imports\SantriImport;
 use App\Mail\AkunSantriMail;
 use App\Mail\PenerimaanMail;
 use App\Models\Hafalan;
@@ -22,6 +23,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class SantriController extends Controller
@@ -277,7 +279,7 @@ class SantriController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Santri $santri
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
      */
     public function edit(Santri $santri)
     {
@@ -413,6 +415,25 @@ class SantriController extends Controller
         } catch (\Throwable $th) {
 
             return redirect()->back()->with('error', 'Foto santri gagal dihapus!');
+        }
+    }
+
+    public function upload()
+    {
+        $kelas = Kelas::all();
+        return view('pages.admin.santri.import', ['title' => $this->title, 'kelas' => $kelas]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'berkas' => 'required|mimes:csv,xls,xlsx,ods|max:2048',
+        ]);
+        try {
+            Excel::import(new SantriImport($request->kelas_id), request()->file('berkas'));
+            return redirect()->route('admin.santri.index')->with('success', 'Berhasil mengimport!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal import! ' . $e->getMessage());
         }
     }
 }
