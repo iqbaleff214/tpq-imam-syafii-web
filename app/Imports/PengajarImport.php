@@ -17,6 +17,7 @@ class PengajarImport implements ToCollection, WithBatchInserts, WithHeadingRow
     {
         foreach ($rows as $row) {
             if(!$row['email']) break;
+            if(User::where('email', $row['email'])->count()) continue;
             $akun = User::create([
                 'username' => $row['email'],
                 'email' => $row['email'],

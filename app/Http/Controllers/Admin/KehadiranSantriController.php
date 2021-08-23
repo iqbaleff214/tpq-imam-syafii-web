@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\KehadiranSantriImport;
 use App\Models\KehadiranSantri;
 use App\Models\Santri;
 use GeniusTS\HijriDate\Date;
@@ -12,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class KehadiranSantriController extends Controller
@@ -232,6 +234,26 @@ class KehadiranSantriController extends Controller
             return redirect()->back()->with('success', 'Data kehadiran berhasil dihapus!');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Data kehadiran gagal dihapus!');
+        }
+    }
+
+    public function upload()
+    {
+        $santri = Santri::where('status', 'Aktif')->get();
+        return view('pages.admin.kehadiran_santri.import', ['title' => $this->title, 'santri' => $santri]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'berkas' => 'required|mimes:csv,xls,xlsx,ods|max:2048',
+            'santri' => 'required'
+        ]);
+        try {
+            Excel::import(new KehadiranSantriImport($request->santri), request()->file('berkas'));
+            return redirect()->route('admin.kehadiran.santri.index')->with('success', 'Berhasil mengimport!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal import! ' . $e->getMessage());
         }
     }
 }

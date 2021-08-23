@@ -87,6 +87,10 @@
                                     <li>Silakan unduh contoh berkas di bawah sebagai acuan.</li>
                                     <li>Isi berkas tersebut sesuai dengan contoh format yang diberikan.</li>
                                     <li>Jika sudah diisi silakan unggah kembali berkas yang sudah diisi.</li>
+                                    <li>Anda dapat memilih kelas yang akan dimasuki oleh santri di kolom input di atas kolom berkas.</li>
+                                    <li>Surel atau email yang telah terdaftar akan dilewatkan saat proses import.</li>
+                                    <li>NIS yang telah terdaftar akan dilewatkan saat proses import.</li>
+                                    <li>Pastikan tidak ada duplikasi data.</li>
                                 </ul>
                                 <a href="{{ asset('docs/template-santri.xlsx') }}" target="_blank" class="btn bg-maroon btn-block mt-4">Download Template</a>
                             </div>

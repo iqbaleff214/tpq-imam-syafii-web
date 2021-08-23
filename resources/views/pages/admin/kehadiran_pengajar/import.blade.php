@@ -1,4 +1,4 @@
-@extends('layouts.kepala')
+@extends('layouts.admin')
 
 @section('body')
     <!-- Content Wrapper. Contains page content -->
@@ -8,11 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Pengajar</h1>
+                        <h1 class="m-0">Kehadiran Pengajar</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('kepala.pengajar.index') }}">Pengajar</a></li>
+                            <li class="breadcrumb-item active">Kehadiran</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.kehadiran.pengajar.index') }}">Pengajar</a></li>
                             <li class="breadcrumb-item active">Import</li>
                             <!-- <li class="breadcrumb-item active">Administrator</li> -->
                         </ol>
@@ -24,7 +25,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('kepala.pengajar.import') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('admin.kehadiran.pengajar.import') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12 col-md-6">
@@ -32,12 +33,21 @@
                         <div class="card card-solid">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('kepala.pengajar.index') }}" class="btn btn-outline-danger">
+                                    <a href="{{ route('admin.kehadiran.pengajar.index') }}" class="btn btn-outline-danger">
                                         Kembali
                                     </a>
                                 </h3>
                             </div>
                             <div class="card-body mb-3">
+                                <div class="form-group">
+                                    <label class="form-label">Nama</label>
+                                    <select name="pengajar" class="custom-select select2 @error('pengajar') is-invalid @enderror">
+                                        @foreach($pengajar as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="error invalid-feedback">{{ $errors->first('pengajar') }}</span>
+                                </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
@@ -77,10 +87,10 @@
                                     <li>Silakan unduh contoh berkas di bawah sebagai acuan.</li>
                                     <li>Isi berkas tersebut sesuai dengan contoh format yang diberikan.</li>
                                     <li>Jika sudah diisi silakan unggah kembali berkas yang sudah diisi.</li>
-                                    <li>Surel atau email yang telah terdaftar akan dilewatkan saat proses import.</li>
+                                    <li>Silakan pilih pengajar yang ingin diimport data kehadirannya.</li>
                                     <li>Pastikan tidak ada duplikasi data.</li>
                                 </ul>
-                                <a href="{{ asset('docs/template-pengajar.xlsx') }}" target="_blank" class="btn bg-maroon btn-block mt-4">Download Template</a>
+                                <a href="{{ asset('docs/template-kehadiran-pengajar.xlsx') }}" target="_blank" class="btn bg-maroon btn-block mt-4">Download Template</a>
                             </div>
                         </div>
                     </div>

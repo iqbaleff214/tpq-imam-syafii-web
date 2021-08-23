@@ -29,8 +29,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a href="{{ route('admin.kehadiran.pengajar.create') }}" class="btn bg-maroon">Presensi
-                                        Baru</a>
+                                    <a href="{{ route('admin.kehadiran.pengajar.create') }}" class="btn bg-maroon">Presensi Baru</a>
+                                    <a href="{{ route('admin.kehadiran.pengajar.upload') }}" class="btn bg-maroon">Import</a>
                                 </h3>
                                 @if($bulan->count())
                                     <div class="row">

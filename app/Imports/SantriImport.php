@@ -32,6 +32,7 @@ class SantriImport implements WithHeadingRow, WithBatchInserts, ToCollection
     {
         foreach ($rows as $row) {
             if(!$row['email']) break;
+            if(User::where('email', $row['email'])->count()) continue;
             $nis = $row['nis'];
 
             if (!$nis) {
@@ -40,6 +41,9 @@ class SantriImport implements WithHeadingRow, WithBatchInserts, ToCollection
                 $no = Santri::withTrashed()->where('nis', 'like', '%' . $newNis . '%')->count() + 1;
                 $nis = sprintf("$newNis%02d", $no);
             }
+
+            if(Santri::where('nis', $nis)->count()) continue;
+
             $akun = User::create([
                 'username' => $nis,
                 'email' => $row['email'],

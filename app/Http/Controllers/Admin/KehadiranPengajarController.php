@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\KehadiranPengajarImport;
 use App\Models\KehadiranPengajar;
 use App\Models\Pengajar;
 use Exception;
@@ -13,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class KehadiranPengajarController extends Controller
@@ -222,6 +224,26 @@ class KehadiranPengajarController extends Controller
             return redirect()->back()->with('success', 'Data kehadiran berhasil dihapus!');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Data kehadiran gagal dihapus!');
+        }
+    }
+
+    public function upload()
+    {
+        $pengajar = Pengajar::where('status', 'Aktif')->get();
+        return view('pages.admin.kehadiran_pengajar.import', ['title' => $this->title, 'pengajar' => $pengajar]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'berkas' => 'required|mimes:csv,xls,xlsx,ods|max:2048',
+            'pengajar' => 'required'
+        ]);
+        try {
+            Excel::import(new KehadiranPengajarImport($request->pengajar), request()->file('berkas'));
+            return redirect()->route('admin.kehadiran.pengajar.index')->with('success', 'Berhasil mengimport!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal import! ' . $e->getMessage());
         }
     }
 }

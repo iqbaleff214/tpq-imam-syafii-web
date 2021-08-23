@@ -179,9 +179,13 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
     Route::prefix('kehadiran')->as('kehadiran.')->group(function () {
 
         /*=== KEHADIRAN PENGAJAR ===*/
+        Route::get('pengajar/import', [\App\Http\Controllers\Admin\KehadiranPengajarController::class, 'upload'])->name('pengajar.upload');
+        Route::post('pengajar/import', [\App\Http\Controllers\Admin\KehadiranPengajarController::class, 'import'])->name('pengajar.import');
         Route::resource('pengajar', \App\Http\Controllers\Admin\KehadiranPengajarController::class);
 
         /*=== KEHADIRAN SANTRI ===*/
+        Route::get('santri/import', [\App\Http\Controllers\Admin\KehadiranSantriController::class, 'upload'])->name('santri.upload');
+        Route::post('santri/import', [\App\Http\Controllers\Admin\KehadiranSantriController::class, 'import'])->name('santri.import');
         Route::resource('santri', \App\Http\Controllers\Admin\KehadiranSantriController::class);
     });
 
