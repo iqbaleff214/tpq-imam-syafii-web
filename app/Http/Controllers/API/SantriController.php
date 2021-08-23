@@ -20,10 +20,10 @@ class SantriController extends Controller
         $nis = $request->input('nis');
 
         $kelas_id = $request->user()->pengajar->kelas->id;
-        $data = Santri::where('kelas_id', $kelas_id)->where('status', 'Aktif');
+        $data = Santri::where('kelas_id', $kelas_id)->where('status', 'Aktif')->with(['pembelajaran', 'hafalan', 'kehadiran', 'wali', 'latestBacaan', 'latestHafalan']);
 
         if ($id) {
-            $data = $data->with(['pembelajaran', 'hafalan', 'kehadiran'])->find($id);
+            $data = $data->find($id);
             if ($data) {
                 return ResponseFormatter::success($data, 'Data santri berhasil diambil!');
             } else {
