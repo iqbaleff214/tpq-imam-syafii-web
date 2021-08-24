@@ -94,7 +94,9 @@
                                 </div>
                                 <div class="content">
                                     <h3>{{ $item->nama }}</h3>
+                                    @if($item->kelas)
                                     <span>{{ 'Kelas ' . $item->kelas->nama_kelas . ' ' . $item->kelas->jenis_kelas }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -132,7 +134,9 @@
                                 </div>
                                 <div class="content">
                                     <h3>{{ $item->nama }}</h3>
-                                    <span>{{ 'Kelas ' . $item->kelas->nama_kelas . ' ' . $item->kelas->jenis_kelas }}</span>
+                                    @if($item->kelas)
+                                        <span>{{ 'Kelas ' . $item->kelas->nama_kelas . ' ' . $item->kelas->jenis_kelas }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
