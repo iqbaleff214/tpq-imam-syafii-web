@@ -67,6 +67,19 @@
                                         <span class="error invalid-feedback">{{ $errors->first('kurikulum_id') }}</span>
                                     </div>
                                 </div>
+                                @if($santri)
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Santri</label>
+                                    <div class="col-sm-8 select2-maroon">
+                                        <select name="santri[]" class="form-control select2 @error('santri') is-invalid @enderror" multiple="multiple">
+                                            @foreach($santri as $item)
+                                                <option value="{{ $item->id }}">{{ $item->nama_lengkap }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('santri') }}</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">

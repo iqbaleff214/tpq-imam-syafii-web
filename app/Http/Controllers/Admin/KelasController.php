@@ -78,8 +78,9 @@ class KelasController extends Controller
         $pengajar = Pengajar::where('jenis_kelamin', 'L')->get();
         $kurikulum = Kurikulum::all();
         $title = $this->title;
+        $santri = Santri::where('status', 'Aktif')->whereNull('kelas_id')->limit(100)->get();
 
-        return view('pages.admin.kelas.create', compact('pengajar', 'kurikulum', 'title'));
+        return view('pages.admin.kelas.create', compact('pengajar', 'kurikulum', 'title', 'santri'));
     }
 
     /**
@@ -98,12 +99,16 @@ class KelasController extends Controller
         ]);
 
         try {
-            Kelas::create([
+            $kelas = Kelas::create([
                 'nama_kelas' => $request->nama_kelas,
                 'kurikulum_id' => $request->kurikulum_id,
                 'jenis_kelas' => $request->jenis_kelas,
                 'pengajar_id' => $request->pengajar_id,
             ]);
+            if ($request->input('santri')) {
+                foreach ($request->santri as $santri_id)
+                    Santri::findOrFail($santri_id)->update(['kelas_id' => $kelas->id]);
+            }
             return redirect()->route('admin.kelas.index')->with('success', 'Data kelas berhasil ditambahkan!');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Data kelas gagal ditambahkan!');
@@ -152,8 +157,9 @@ class KelasController extends Controller
         $kelas = Kelas::findOrFail($id);
         $pengajar = Pengajar::where('jenis_kelamin', $kelas->pengajar->jenis_kelamin)->get();
         $kurikulum = Kurikulum::all();
+        $santri = Santri::where('status', 'Aktif')->whereNull('kelas_id')->limit(100)->get();
         $title = $this->title;
-        return view('pages.admin.kelas.edit', compact('kelas', 'pengajar', 'kurikulum', 'title'));
+        return view('pages.admin.kelas.edit', compact('kelas', 'pengajar', 'kurikulum', 'title', 'santri'));
     }
 
     /**
@@ -170,8 +176,13 @@ class KelasController extends Controller
             'pengajar_id' => 'required',
             'kurikulum_id' => 'required',
         ]);
-
         try {
+
+            if ($request->input('santri')) {
+                foreach ($request->santri as $santri_id)
+                    Santri::findOrFail($santri_id)->update(['kelas_id' => $id]);
+            }
+
             Kelas::findOrFail($id)->update([
                 'nama_kelas' => $request->nama_kelas,
                 'kurikulum_id' => $request->kurikulum_id,
