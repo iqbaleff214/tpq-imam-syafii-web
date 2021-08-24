@@ -45,7 +45,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         @foreach(['navy', 'indigo', 'purple', 'fuchsia', 'olive', 'teal', 'lime', 'pink', 'orange', 'danger', 'primary', 'success', 'warning', 'black', 'dark', 'gray', 'light'] as $item)
-                                            <div class="col-md-2 col-3">
+                                            <div class="col-md-2 col-6">
                                                 <div class="card">
                                                     <div
                                                         class="card-header py-1 bg-{{ $item }} text-center">{{ ucfirst($item) }}</div>
@@ -58,7 +58,7 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                        <div class="col-md-2 col-3">
+                                        <div class="col-md-2 col-6">
                                             <div class="card">
                                                 <div
                                                     class="card-header py-1 text-center text-white"
