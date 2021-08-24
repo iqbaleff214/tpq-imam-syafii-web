@@ -50,7 +50,7 @@ class Santri extends Model
 
     public function latestBacaan()
     {
-        return $this->hasOne(Pembelajaran::class, 'santri_id')->latestOfMany();
+        return $this->hasOne(Pembelajaran::class, 'santri_id')->with(['bacaan'])->latestOfMany();
     }
 
     public function hafalan()
