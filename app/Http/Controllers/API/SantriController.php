@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ApiHelpers;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\Materi;
 use App\Models\Santri;
 use Illuminate\Http\Request;
 
@@ -48,6 +49,18 @@ class SantriController extends Controller
             return ResponseFormatter::success($data->paginate($limit), 'Data santri berhasil diambil!');
         } else {
             return ResponseFormatter::error(null, 'Data santri tidak ditemukan!', 404);
+        }
+    }
+
+
+    public function materials(Request $request)
+    {
+        $data = Materi::all();
+
+        if ($data->count()) {
+            return ResponseFormatter::success($data, 'Data materi pembelajaran santri berhasil diambil!');
+        } else {
+            return ResponseFormatter::error(null, 'Data materi pembelajaran santri tidak ditemukan!', 404);
         }
     }
 }

@@ -24,6 +24,9 @@ Route::middleware('auth:sanctum')->group(function() {
     /*=== LOGOUT ===*/
     Route::post('logout', [\App\Http\Controllers\API\UserController::class, 'logout']);
 
+    /*=== MATERI ===*/
+    Route::get('materi', [\App\Http\Controllers\API\SantriController::class, 'materials']);
+
     /*=== HONOR ===*/
     Route::get('honor', [\App\Http\Controllers\API\HonorController::class, 'all']);
     Route::put('honor', [\App\Http\Controllers\API\HonorController::class, 'update']);

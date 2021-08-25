@@ -104,7 +104,7 @@ class PembelajaranController extends Controller
                 return ResponseFormatter::error(null, 'Keterangan pembelajaran tidak diisi!', 500);
             }
 
-            if (!$request->bacaan) {
+            if (!$request->materi_id) {
                 return ResponseFormatter::error(null, 'Materi pembelajaran tidak diisi!', 500);
             }
 
@@ -120,7 +120,7 @@ class PembelajaranController extends Controller
                 'pengajar_id' => $user->pengajar->id,
                 'keterangan' => ucfirst(strtolower($request->keterangan)),
                 'bulan' => Date::today()->format('F o'),
-                'bacaan' => $request->bacaan,
+                'materi_id' => $request->materi_id,
                 'nilai' => $request->nilai,
                 'mulai' => $request->mulai,
                 'selesai' => $request->selesai ?? $request->mulai,

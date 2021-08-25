@@ -104,7 +104,7 @@ class HafalanController extends Controller
                 return ResponseFormatter::error(null, 'Keterangan hafalan tidak diisi!', 500);
             }
 
-            if (!$request->hafalan) {
+            if (!$request->materi_id) {
                 return ResponseFormatter::error(null, 'Materi hafalan tidak diisi!', 500);
             }
 
@@ -116,7 +116,7 @@ class HafalanController extends Controller
                 'pengajar_id' => $user->pengajar->id,
                 'keterangan' => ucfirst(strtolower($request->keterangan)),
                 'bulan' => Date::today()->format('F o'),
-                'hafalan' => $request->hafalan,
+                'materi_id' => $request->materi_id,
                 'nilai' => $request->nilai,
                 'mulai' => $request->mulai,
                 'selesai' => $request->selesai ?? $request->mulai,
