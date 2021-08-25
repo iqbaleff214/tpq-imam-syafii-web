@@ -94,8 +94,18 @@ class UserController extends Controller
         try {
             $data = $request->post();
             $user = $request->user();
-            $profile = $this->isPengajar($user) ? $user->pengajar : $user->santri;
-            $profile->update($data);
+            if ($request->username == null) {
+                $profile = $this->isPengajar($user) ? $user->pengajar : $user->santri;
+                $profile->update($data);
+            } else {
+                if ($data['password'] == '')
+                {
+                    unset($data['password']);
+                } else {
+                    $data['password'] = password_hash($request->password, PASSWORD_DEFAULT);
+                }
+                $profile = $request->user()->update($data);
+            }
             return ResponseFormatter::success($profile, 'Berhasil mengedit profil!');
         } catch (Exception $e) {
             return ResponseFormatter::error(['error' => $e], 'Gagal mengedit profil!', 500);
@@ -106,7 +116,14 @@ class UserController extends Controller
     {
         try {
             $data = $request->post();
-            $data['password'] = password_hash($request->password, PASSWORD_DEFAULT);
+
+            if ($data['password'] == '')
+            {
+                unset($data['password']);
+            } else {
+                $data['password'] = password_hash($request->password, PASSWORD_DEFAULT);
+            }
+
             $profile = $request->user()->update($data);
             return ResponseFormatter::success($profile, 'Berhasil mengedit akun!');
         } catch (Exception $e) {

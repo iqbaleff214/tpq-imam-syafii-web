@@ -70,7 +70,6 @@ Route::middleware('auth:sanctum')->group(function() {
     /*=== PROFILE ===*/
     Route::get('user', [\App\Http\Controllers\API\UserController::class, 'get']);
     Route::post('user', [\App\Http\Controllers\API\UserController::class, 'update']);
-    Route::post('account', [\App\Http\Controllers\API\UserController::class, 'update_account']);
     Route::get('user/foto', [\App\Http\Controllers\API\UserController::class, 'photo']);
     Route::post('user/foto', [\App\Http\Controllers\API\UserController::class, 'upload']);
 });
