@@ -150,7 +150,7 @@ class PembelajaranController extends Controller
     {
         $jenis = $request->input('jenis');
 
-        $data = Materi::whereIn('jenis', ['QURAN', 'IQRO']);
+        $data = Materi::whereNotNull('jenis');
 
         if ($jenis) {
             $data = $data->where('jenis', strtoupper($jenis));
