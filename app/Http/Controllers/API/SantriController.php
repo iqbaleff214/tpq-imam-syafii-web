@@ -20,7 +20,7 @@ class SantriController extends Controller
         $nis = $request->input('nis');
 
         $kelas_id = $request->user()->pengajar->kelas->id;
-        $data = Santri::where('kelas_id', $kelas_id)->where('status', 'Aktif')->with(['kehadiran', 'wali', 'latestBacaan', 'latestHafalan']);
+        $data = Santri::where('kelas_id', $kelas_id)->where('status', 'Aktif')->with(['kehadiran', 'wali', 'latestBacaan', 'latestHafalan', 'latestKehadiran']);
 
         if ($id) {
             $data = $data->find($id);
