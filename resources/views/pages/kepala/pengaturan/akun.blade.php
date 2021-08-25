@@ -52,7 +52,7 @@
                                         <input type="email"
                                                class="form-control @error('email') is-invalid @enderror"
                                                placeholder="Surel" autocomplete="off"
-                                               value="{{ old('email', Auth::user()->email) }}" disabled>
+                                               value="{{ old('email', Auth::user()->email) }}" name="email">
                                     </div>
                                 </div>
                                 <div class="form-group row">

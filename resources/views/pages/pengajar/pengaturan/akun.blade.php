@@ -42,7 +42,7 @@
                                             <input type="email"
                                                    class="form-control @error('email') is-invalid @enderror"
                                                    placeholder="Surel" autocomplete="off"
-                                                   value="{{ old('email', Auth::user()->email) }}" disabled>
+                                                   value="{{ old('email', Auth::user()->email) }}" name="email">
                                             <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                                         </div>
                                     </div>

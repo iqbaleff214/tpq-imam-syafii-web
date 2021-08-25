@@ -142,6 +142,13 @@ class PageController extends Controller
                 'username' => $request->input('username'),
             ];
 
+            $checkEmail = Auth::user()->email != $request->email;
+
+            if ($checkEmail) {
+                $data['email'] = $request->email;
+                $data['email_verified_at'] = null;
+            }
+
             if ($request->input('password')) $data['password'] = password_hash($request->input('password'), PASSWORD_DEFAULT);
 
             Auth::user()->update($data);

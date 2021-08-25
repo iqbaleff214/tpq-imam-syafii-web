@@ -210,7 +210,7 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->as('admin.')->group(funct
 
     /*=== PROFIL ===*/
     Route::get('profil', [\App\Http\Controllers\Admin\PageController::class, 'profil'])->name('profil');
-    Route::get('akun', [\App\Http\Controllers\Admin\PageController::class, 'akun'])->name('akun')->middleware('verified');
+    Route::get('akun', [\App\Http\Controllers\Admin\PageController::class, 'akun'])->name('akun');
     Route::put('akun', [\App\Http\Controllers\Admin\PageController::class, 'update_akun'])->name('akun.update');
     Route::put('profil', [\App\Http\Controllers\Admin\PageController::class, 'update'])->name('profil.update');
     Route::delete('profil', [\App\Http\Controllers\Admin\PageController::class, 'unlink'])->name('profil.unlink');
@@ -253,7 +253,7 @@ Route::middleware(['pengajar', 'auth'])->prefix('pengajar')->as('pengajar.')->gr
     Route::get('kurikulum', [\App\Http\Controllers\Pengajar\PageController::class, 'kurikulum'])->name('kurikulum');
 
     /*=== PROFIL ===*/
-    Route::get('akun', [\App\Http\Controllers\Pengajar\PageController::class, 'akun'])->name('akun')->middleware('verified');
+    Route::get('akun', [\App\Http\Controllers\Pengajar\PageController::class, 'akun'])->name('akun');
     Route::put('akun', [\App\Http\Controllers\Pengajar\PageController::class, 'update_akun'])->name('akun.update');
     Route::get('profil', [\App\Http\Controllers\Pengajar\PageController::class, 'profil'])->name('profil');
     Route::put('profil', [\App\Http\Controllers\Pengajar\PageController::class, 'update'])->name('profil.update');
@@ -284,7 +284,7 @@ Route::middleware(['santri', 'auth'])->prefix('santri')->as('santri.')->group(fu
     Route::get('kelas', [\App\Http\Controllers\Santri\PageController::class, 'kelas'])->name('kelas');
 
     /*=== PROFIL ===*/
-    Route::get('akun', [\App\Http\Controllers\Santri\PageController::class, 'akun'])->name('akun')->middleware('verified');
+    Route::get('akun', [\App\Http\Controllers\Santri\PageController::class, 'akun'])->name('akun');
     Route::put('akun', [\App\Http\Controllers\Santri\PageController::class, 'update_akun'])->name('akun.update');
     Route::get('profil', [\App\Http\Controllers\Santri\PageController::class, 'profil'])->name('profil');
     Route::put('profil', [\App\Http\Controllers\Santri\PageController::class, 'update'])->name('profil.update');
