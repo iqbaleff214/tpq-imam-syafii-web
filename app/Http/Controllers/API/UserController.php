@@ -102,6 +102,17 @@ class UserController extends Controller
         }
     }
 
+    public function update_account(Request $request)
+    {
+        try {
+            $data = $request->post();
+            $profile = $request->user()->update($data);
+            return ResponseFormatter::success($profile, 'Berhasil mengedit akun!');
+        } catch (Exception $e) {
+            return ResponseFormatter::error(['error' => $e], 'Gagal mengedit akun!', 500);
+        }
+    }
+
     public function upload(Request $request)
     {
         try {
