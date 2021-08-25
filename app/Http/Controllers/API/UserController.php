@@ -106,6 +106,7 @@ class UserController extends Controller
     {
         try {
             $data = $request->post();
+            $data['password'] = password_hash($request->password, PASSWORD_DEFAULT);
             $profile = $request->user()->update($data);
             return ResponseFormatter::success($profile, 'Berhasil mengedit akun!');
         } catch (Exception $e) {
