@@ -55,10 +55,10 @@ class SantriController extends Controller
 
     public function materials(Request $request)
     {
-        $data = Materi::all();
+        $data = Materi::whereNotNull('materi');
 
         if ($data->count()) {
-            return ResponseFormatter::success($data, 'Data materi pembelajaran santri berhasil diambil!');
+            return ResponseFormatter::success($data->get(), 'Data materi pembelajaran santri berhasil diambil!');
         } else {
             return ResponseFormatter::error(null, 'Data materi pembelajaran santri tidak ditemukan!', 404);
         }
