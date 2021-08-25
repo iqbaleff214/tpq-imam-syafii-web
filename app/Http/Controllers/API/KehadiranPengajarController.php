@@ -32,7 +32,7 @@ class KehadiranPengajarController extends Controller
         $keterangan = $request->input('keterangan');
         $bulan = $request->input('bulan');
 
-        $data = $user->pengajar->kehadiran();
+        $data = $user->pengajar->kehadiran()->orderBy('created_at', 'desc');
 
         if ($id) {
             $data = $data->find($id);

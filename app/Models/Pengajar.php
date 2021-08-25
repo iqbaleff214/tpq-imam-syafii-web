@@ -28,6 +28,11 @@ class Pengajar extends Model
         return $this->hasMany(KehadiranPengajar::class);
     }
 
+    public function latest_kehadiran()
+    {
+        return $this->hasOne(KehadiranPengajar::class, 'pengajar_id')->latestOfMany();
+    }
+
     public function honor()
     {
         return $this->hasMany(Honor::class);

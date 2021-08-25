@@ -43,6 +43,11 @@ class Santri extends Model
         return $this->hasMany(KehadiranSantri::class);
     }
 
+    public function latest_kehadiran()
+    {
+        return $this->hasOne(KehadiranSantri::class, 'santri_id')->latestOfMany();
+    }
+
     public function pembelajaran()
     {
         return $this->hasMany(Pembelajaran::class);
