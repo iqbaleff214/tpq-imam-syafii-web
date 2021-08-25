@@ -18,7 +18,7 @@ class PengumumanController extends Controller
         $limit = $request->input('limit');
         $q = $request->input('q');
 
-        $data = Pengumuman::with(['penulis']);
+        $data = Pengumuman::with(['penulis'])->orderByDesc('created_at');
 
         if ($id) {
             $data = $data->find($id);
