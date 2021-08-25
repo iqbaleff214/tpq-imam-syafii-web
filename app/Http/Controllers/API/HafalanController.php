@@ -32,7 +32,7 @@ class HafalanController extends Controller
             return ResponseFormatter::error(null, 'Tidak ada santri yang dipilih!', 404);
         }
 
-        $data = Hafalan::where('santri_id', $santri_id)->with(['hafalan']);
+        $data = Hafalan::where('santri_id', $santri_id)->with(['hafalan'])->orderByDesc('created_at');
 
         if ($id) {
             $data = $data->find($id);
