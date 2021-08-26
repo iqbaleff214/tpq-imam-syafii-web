@@ -27,8 +27,8 @@ class PageController extends Controller
 
         $title = 'Beranda';
         $presensi = KehadiranPengajar::where('pengajar_id', Auth::user()->pengajar->id)->whereDate('created_at', Carbon::today());
-        $ngaji = $presensi->where('keterangan', 'Hadir')->first();
         $presensi = $presensi->first();
+        $ngaji = KehadiranPengajar::where('pengajar_id', Auth::user()->pengajar->id)->whereDate('created_at', Carbon::today())->where('keterangan', 'Hadir')->first();
         $presensi_bulan = KehadiranPengajar::selectRaw('bulan, MAX(created_at) as max, MIN(created_at) as min')->where('pengajar_id', Auth::user()->pengajar->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->limit(3)->get();
 
         if ($request->ajax()) {
