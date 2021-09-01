@@ -108,7 +108,7 @@ class SantriController extends Controller
             'jumlah_saudara' => 'nullable|numeric',
 
             'username' => 'nullable|unique:users,username',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email:dns|unique:users,email',
             'password' => 'required|confirmed',
 
             'nama_wali' => 'required',

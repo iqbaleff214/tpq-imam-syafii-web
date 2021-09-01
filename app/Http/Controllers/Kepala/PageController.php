@@ -171,7 +171,7 @@ class PageController extends Controller
     {
         $request->validate([
             'username' => ['required', Rule::unique('users')->ignore(Auth::user()->id)],
-            'email' => ['required', 'email', Rule::unique('users')->ignore(Auth::user()->id)],
+            'email' => ['required', 'email:dns', Rule::unique('users')->ignore(Auth::user()->id)],
             'password_lama' => 'required',
             'password' => 'nullable|confirmed',
         ]);

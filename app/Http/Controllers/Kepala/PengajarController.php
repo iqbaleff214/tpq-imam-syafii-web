@@ -77,7 +77,7 @@ class PengajarController extends Controller
             'alamat' => 'required',
 
             'username' => 'unique:users,username',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email:dns|unique:users,email',
             'password' => 'required|confirmed',
             'foto' => 'image|max:2048'
         ]);

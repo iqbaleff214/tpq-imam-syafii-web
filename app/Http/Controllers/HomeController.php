@@ -205,7 +205,7 @@ class HomeController extends Controller
             'nama_wali' => 'required',
             'no_telp' => 'required|max:15',
             'spp_opsi_id' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email:dns|unique:users,email',
             'password' => 'required|confirmed',
         ]);
         if ($validator->fails()) return redirect()->back()->with('nis', $request->nis)->withInput()->withErrors($validator);
