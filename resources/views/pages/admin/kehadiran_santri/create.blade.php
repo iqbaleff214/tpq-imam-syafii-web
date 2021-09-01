@@ -42,7 +42,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Tanggal</label>
                                     <div class="col-sm-10">
-                                        <input type="date" class="form-control @error('created_at') is-invalid @enderror"
+                                        <input type="date"  max="{{ date('Y-m-d') }}" class="form-control @error('created_at') is-invalid @enderror"
                                                name="created_at" value="{{ old('created_at', date('Y-m-d')) }}">
                                                <span class="error invalid-feedback">{{ $errors->first('created_at') }}</span>
                                     </div>

@@ -92,7 +92,7 @@
                                     <li>NIS yang telah terdaftar akan dilewatkan saat proses import.</li>
                                     <li>Pastikan tidak ada duplikasi data.</li>
                                 </ul>
-                                <a href="{{ asset('docs/template-santri.xlsx') }}" target="_blank" class="btn bg-maroon btn-block mt-4">Download Template</a>
+                                <a href="{{ asset('docs/template-santri.xlsx') }}" download class="btn bg-maroon btn-block mt-4">Download Template</a>
                             </div>
                         </div>
                     </div>

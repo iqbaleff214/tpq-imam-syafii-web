@@ -82,7 +82,7 @@
                                     <li>Isi berkas tersebut sesuai dengan contoh format yang diberikan.</li>
                                     <li>Jika sudah diisi silakan unggah kembali berkas yang sudah diisi.</li>
                                 </ul>
-                                <a href="{{ asset('docs/template-kas.xlsx') }}" target="_blank" class="btn bg-maroon btn-block mt-4">Download Template</a>
+                                <a href="{{ asset('docs/template-kas.xlsx') }}" download class="btn bg-maroon btn-block mt-4">Download Template</a>
                             </div>
                         </div>
                     </div>

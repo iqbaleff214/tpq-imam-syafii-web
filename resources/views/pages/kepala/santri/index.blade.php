@@ -35,8 +35,6 @@
                                         <th style="width: 25px">No</th>
                                         <th style="width: 50px">NIS</th>
                                         <th>Nama</th>
-                                        <th style="width: 85px">Panggilan</th>
-                                        <th style="width: 50px">Umur</th>
                                         <th style="width: 75px">JK</th>
                                         <th style="width: 75px">Kelas</th>
                                         <th style="width: 50px;">Status</th>
@@ -96,8 +94,6 @@
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'nis', name: 'nis' },
                     { data: 'nama_lengkap', name: 'nama_lengkap' },
-                    { data: 'nama_panggilan', name: 'nama_panggilan' },
-                    { data: 'umur', name: 'umur' },
                     { data: 'jenis_kelamin', name: 'jenis_kelamin' },
                     { data: 'kelas', name: 'jelas' },
                     { data: 'status', name: 'status' },

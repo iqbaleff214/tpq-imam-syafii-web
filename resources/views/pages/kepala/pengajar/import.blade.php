@@ -80,7 +80,7 @@
                                     <li>Surel atau email yang telah terdaftar akan dilewatkan saat proses import.</li>
                                     <li>Pastikan tidak ada duplikasi data.</li>
                                 </ul>
-                                <a href="{{ asset('docs/template-pengajar.xlsx') }}" target="_blank" class="btn bg-maroon btn-block mt-4">Download Template</a>
+                                <a href="{{ asset('docs/template-pengajar.xlsx') }}" download class="btn bg-maroon btn-block mt-4">Download Template</a>
                             </div>
                         </div>
                     </div>

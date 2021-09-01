@@ -168,7 +168,7 @@
                                             <small class="is-invalid-text">{{ $errors->first('tempat_lahir') }}</small>
                                         </div>
                                         <div class="col-lg-6 col-12 mb-3">
-                                            <input type="date" name="tanggal_lahir"
+                                            <input type="date"  max="{{ date('Y-m-d') }}" name="tanggal_lahir"
                                                    class="@error('tanggal_lahir') is-invalid @enderror"
                                                    placeholder="Tanggal Lahir" value="{{ old('tanggal_lahir') }}" {{ session('nis') ? 'readonly' : '' }}/>
                                             <small class="is-invalid-text">{{ $errors->first('tanggal_lahir') }}</small>

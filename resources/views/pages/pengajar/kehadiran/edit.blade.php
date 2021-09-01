@@ -37,7 +37,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Tanggal</label>
                                         <div class="col-sm-10">
-                                            <input type="date"
+                                            <input type="date"  max="{{ date('Y-m-d') }}"
                                                    disabled
                                                    class="form-control @error('created_at') is-invalid @enderror"
                                                    value="{{ old('created_at', $presensi->created_at->isoFormat('Y-MM-DD')) }}">

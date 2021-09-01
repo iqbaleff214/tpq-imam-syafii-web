@@ -77,7 +77,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir', date('Y-m-d', strtotime($santri->tanggal_lahir))) }}">
+                                        <input type="date"  max="{{ date('Y-m-d') }}" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir', date('Y-m-d', strtotime($santri->tanggal_lahir))) }}">
                                         <span class="error invalid-feedback">{{ $errors->first('tanggal_lahir') }}</span>
                                     </div>
                                 </div>

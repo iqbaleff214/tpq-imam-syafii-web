@@ -112,7 +112,9 @@
     <script>
         $(function () {
             ClassicEditor
-                .create(document.querySelector('#konten'))
+                .create(document.querySelector('#konten'), {
+                    toolbar: [ 'bold', 'italic', 'link', 'undo', 'redo']
+                })
                 .catch(error => {
                     console.error(error);
                 });

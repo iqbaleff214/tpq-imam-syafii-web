@@ -90,7 +90,7 @@
                                     <li>Silakan pilih santri yang ingin diimport data kehadirannya.</li>
                                     <li>Pastikan tidak ada duplikasi data.</li>
                                 </ul>
-                                <a href="{{ asset('docs/template-kehadiran-santri.xlsx') }}" target="_blank" class="btn bg-maroon btn-block mt-4">Download Template</a>
+                                <a href="{{ asset('docs/template-kehadiran-santri.xlsx') }}" download class="btn bg-maroon btn-block mt-4">Download Template</a>
                             </div>
                         </div>
                     </div>

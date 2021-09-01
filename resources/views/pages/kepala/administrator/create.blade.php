@@ -66,7 +66,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
+                                <input type="date"  max="{{ date('Y-m-d') }}" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
                                 <span class="error invalid-feedback">{{ $errors->first('tanggal_lahir') }}</span>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                 <!-- /.card -->
             </div>
             <div class="col-12 col-md-4">
-                <div class="card card-solid">
+                <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
                             Akun
@@ -120,29 +120,36 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Username</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control @error('username') is-invalid @enderror" placeholder="Pengguna" name="username" autocomplete="off" value="{{ old('username') }}">
+                                <input type="text" class="form-control @error('username') is-invalid @enderror"
+                                       placeholder="Pengguna (Opsional)" name="username" autocomplete="off"
+                                       value="{{ old('username') }}">
                                 <span class="error invalid-feedback">{{ $errors->first('username') }}</span>
+                                <div class="form-text font-weight-lighter text-sm">Sama dengan email jika kosong.</div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8">
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Surel" name="email" autocomplete="off" value="{{ old('email') }}">
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                       placeholder="Surel" name="email" autocomplete="off"
+                                       value="{{ old('email') }}">
                                 <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Kata Sandi</label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Kata Sandi" name="password" autocomplete="off">
+                                <input type="password"
+                                       class="form-control @error('password') is-invalid @enderror"
+                                       placeholder="Kata Sandi" name="password" autocomplete="off">
                                 <span class="error invalid-feedback">{{ $errors->first('password') }}</span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Konfirmasi</label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" placeholder="Konfirmasi Kata Sandi" name="password_confirmation">
-                                <span class="error invalid-feedback">{{ $errors->first('password') }}</span>
+                                <input type="password" class="form-control" placeholder="Konfirmasi Kata Sandi"
+                                       name="password_confirmation">
                             </div>
                         </div>
                     </div>
