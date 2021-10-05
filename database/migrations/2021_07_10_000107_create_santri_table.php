@@ -17,7 +17,7 @@ class CreateSantriTable extends Migration
             $table->id();
             $table->char('nis', 21)->unique();
             $table->string('nama_lengkap', 50);
-            $table->string('nama_panggilan', 15);
+            $table->string('nama_panggilan', 50);
             $table->string('tempat_lahir', 50);
             $table->date('tanggal_lahir');
             $table->enum('jenis_kelamin', ['L', 'P']);
