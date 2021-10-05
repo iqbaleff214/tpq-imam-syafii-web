@@ -1,0 +1,51 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "TPQ Imam Syafi'i Banjarmasin",
+        "description": "TPQ Imam Syafi'i Banjarmasin",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://tpqmis.com/api"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "get": {
+                "description": "For Login",
+                "responses": {
+                    "200": {
+                        "description": "Success login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "number"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "username": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

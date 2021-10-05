@@ -17,6 +17,7 @@ use App\Models\SppOpsi;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -191,9 +192,9 @@ class SantriController extends Controller
      * Display the specified resource.
      *
      * @param Santri $santri
-     * @return Response
+     * @return Renderable
      */
-    public function show(Santri $santri)
+    public function show(Santri $santri): Renderable
     {
         $bulan = KehadiranSantri::selectRaw('bulan')->where('santri_id', $santri->id)->orderByRaw('MAX(created_at)')->groupBy('bulan')->get();
         return view('pages.admin.santri.show', ['title' => $this->title, 'santri' => $santri, 'bulan' => $bulan]);
@@ -279,7 +280,7 @@ class SantriController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Santri $santri
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
+     * @return Renderable
      */
     public function edit(Santri $santri)
     {

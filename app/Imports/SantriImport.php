@@ -6,6 +6,7 @@ use Alkoumi\LaravelHijriDate\Hijri;
 use App\Models\Santri;
 use App\Models\SantriWali;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -34,6 +35,7 @@ class SantriImport implements WithHeadingRow, WithBatchInserts, ToCollection
             if(!$row['email']) break;
             if(User::where('email', $row['email'])->count()) continue;
             $nis = $row['nis'];
+            $nis = str_replace('-', '', $nis);
 
             if (!$nis) {
                 $newNis = $row['jenis_kelamin'] == 'L' ? 'I' : 'A';
@@ -47,7 +49,7 @@ class SantriImport implements WithHeadingRow, WithBatchInserts, ToCollection
             $akun = User::create([
                 'username' => $nis,
                 'email' => $row['email'],
-                'password' => bcrypt($row['email']),
+                'password' => bcrypt($nis),
                 'peran' => 'Santri',
             ]);
 
@@ -55,12 +57,12 @@ class SantriImport implements WithHeadingRow, WithBatchInserts, ToCollection
                 'nis' => $nis,
                 'nama_lengkap' => $row['nama_lengkap'],
                 'nama_panggilan' => $row['nama_panggilan'] ?? $row['nama_lengkap'],
-                'tempat_lahir' => $row['tempat_lahir'],
-                'tanggal_lahir' => Date::excelToDateTimeObject($row['tanggal_lahir']),
-                'jenis_kelamin' => strtoupper($row['jenis_kelamin']),
+                'tempat_lahir' => $row['tempat_lahir'] ?? '',
+                'tanggal_lahir' => Date::excelToDateTimeObject($row['tanggal_lahir']) ?? Carbon::now(),
+                'jenis_kelamin' => strtoupper($row['jenis_kelamin'] ?? 'L'),
                 'anak_ke' => $row['anak_ke'] ?? 1,
                 'jumlah_saudara' => $row['jumlah_saudara'] ?? 1,
-                'alamat' => $row['alamat'],
+                'alamat' => $row['alamat'] ?? '',
                 'status' => 'Aktif',
                 'foto' => null,
                 'user_id' => $akun->id,

@@ -27,11 +27,11 @@ class PengajarImport implements ToCollection, WithBatchInserts, WithHeadingRow
 
             Pengajar::create([
                 'nama' => $row['nama'],
-                'tempat_lahir' => $row['tempat_lahir'],
+                'tempat_lahir' => $row['tempat_lahir'] ?? '',
                 'tanggal_lahir' => Date::excelToDateTimeObject($row['tanggal_lahir']),
-                'jenis_kelamin' => strtoupper($row['jenis_kelamin']),
-                'alamat' => $row['alamat'],
-                'no_telp' => $row['nomor_telepon'],
+                'jenis_kelamin' => strtoupper($row['jenis_kelamin'] ?? 'L'),
+                'alamat' => $row['alamat'] ?? '',
+                'no_telp' => $row['nomor_telepon'] ?? '',
                 'user_id' => $akun->id,
             ]);
         }
