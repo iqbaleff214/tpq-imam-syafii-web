@@ -32,7 +32,7 @@ class SantriImport implements WithHeadingRow, WithBatchInserts, ToCollection
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            if(!$row['email']) break;
+            if(!$row['nama_lengkap']) break;
             if(User::where('email', $row['email'])->count()) continue;
             $nis = $row['nis'];
             $nis = str_replace('-', '', $nis);
