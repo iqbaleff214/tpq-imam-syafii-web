@@ -75,9 +75,9 @@ class SantriImport implements WithHeadingRow, WithBatchInserts, ToCollection
             ]);
 
             SantriWali::create([
-                'nama_wali' => $row['nama_ayah'],
+                'nama_wali' => $row['nama_ayah'] ?? 'Fulan',
                 'hubungan' => 'Ayah',
-                'no_telp' => $row['nomor_telepon'],
+                'no_telp' => $row['nomor_telepon'] ?? '0',
                 'santri_id' => $santri->id
             ]);
 
