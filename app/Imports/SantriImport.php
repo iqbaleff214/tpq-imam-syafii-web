@@ -46,6 +46,10 @@ class SantriImport implements WithHeadingRow, WithBatchInserts, ToCollection
 
             if(Santri::where('nis', $nis)->count()) continue;
 
+            if (!$row['email']) {
+                $row['email'] = strtolower($nis) . '@tpqmis.com';
+            }
+
             $akun = User::create([
                 'username' => $nis,
                 'email' => $row['email'],
