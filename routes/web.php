@@ -33,7 +33,7 @@ Route::post('/hubungi-kami', [\App\Http\Controllers\HomeController::class, 'stor
 
 /*=== AUTH ===*/
 Auth::routes([
-    'verify' => true,
+    'verify' => false,
     'register' => false
 ]);
 
@@ -41,7 +41,7 @@ Auth::routes([
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /*=== ROLE: KEPALA (OK) ===*/
-Route::middleware(['kepala', 'auth', 'verified'])->prefix('kepala')->as('kepala.')->group(function () {
+Route::middleware(['kepala', 'auth'])->prefix('kepala')->as('kepala.')->group(function () {
 
     /*=== DASHBOARD ===*/
     Route::get('/', [\App\Http\Controllers\Kepala\PageController::class, 'index'])->name('dashboard');
