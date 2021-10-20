@@ -143,7 +143,7 @@
                         </div>
                         <div class="button">
                             <a href="{{ route('login') }}" class="btn white-bg mouse-dir">
-                                Masuk <span class="dir-part"></span>
+                                @guest Masuk @else {{auth()->user()->username}} @endguest <span class="dir-part"></span>
                             </a>
                         </div>
                     </nav>
