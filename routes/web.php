@@ -30,11 +30,15 @@ Route::get('/struktur', [\App\Http\Controllers\HomeController::class, 'struktur'
 Route::get('/hubungi-kami', [\App\Http\Controllers\HomeController::class, 'hubungi'])->name('hubungi');
 Route::post('/hubungi-kami', [\App\Http\Controllers\HomeController::class, 'store_hubungi'])->name('hubungi.store');
 
+Route::get('/login', function () {
+    return redirect()->away('http://sistem.tpqmis.com/login');
+});
 
 /*=== AUTH ===*/
 Auth::routes([
     'verify' => false,
-    'register' => false
+    'register' => false,
+    'login' => false
 ]);
 
 /*=== ROLE ROUTING ===*/
