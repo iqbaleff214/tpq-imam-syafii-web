@@ -54,7 +54,7 @@ Pastikan proyek ini sudah terbuka di command line Anda. Untuk memastikan direkto
 pwd
 ```
 
-Untuk menginstall dependensi backend, gunakan perintah berikut:
+Untuk menginstall dependensi laravel, gunakan perintah berikut:
 ```shell
 composer setup
 ```
@@ -62,9 +62,7 @@ composer setup
 Perintah di atas cukup dijalankan __satu kali__ saja!
 
 ### Cara Menjalankan
-Anda harus membuka dua buah command line untuk menjalankan proyek ini. Masing-masing digunakan untuk bagian backend dan frontend.
-
-Untuk menjalankan server backend, gunakan perintah berikut:
+Untuk menjalankan server laravel, gunakan perintah berikut:
 ```shell
 php artisan serve
 ```
