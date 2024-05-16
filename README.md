@@ -28,7 +28,7 @@ Pelaksanaan kegiatan secara daring menyebabkan banyak  data yang harus dikelola 
 
 ### Prasyarat
 
-- Anda memerlukan [PHP](https://www.php.net/downloads) untuk menjalankannya, dengan versi yang terinstal minimal **PHP 7.3**. Pastikan Anda juga dapat mengakses PHP melalui command line dengan menambahkannya ke [environment variable path](https://rgrahardi.medium.com/pengaturan-path-php-dan-composer-di-environment-variables-windows-10-e1e22a637618).
+- Anda memerlukan [PHP](https://www.php.net/downloads) untuk menjalankannya, dengan versi yang terinstal adalah **PHP 7.3**. Pastikan Anda juga dapat mengakses PHP melalui command line dengan menambahkannya ke [environment variable path](https://rgrahardi.medium.com/pengaturan-path-php-dan-composer-di-environment-variables-windows-10-e1e22a637618).
 - Pastikan [Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos) juga terinstal dan dapat diakses melalui command line.
 - Pastikan Anda juga telah menginstall [MySQL](https://dev.mysql.com/downloads/mysql/).
 - Direkomendasikan untuk menginstall [Git](https://git-scm.com/downloads) untuk manajemen kode yang lebih baik.
