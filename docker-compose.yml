@@ -1,56 +1,62 @@
 services:
-
-    ####################################################################################################
-    # PHP
-    ####################################################################################################
-    php:
-        build: .docker/php
-        image: tpqmis
-        ports:
-            - 5173:5173
-        volumes:
-            - .:/var/www:cached
-
-    # queue:
-    #     image: tpqmis
-    #     restart: always
-    #     depends_on:
-    #         - php
-    #     volumes:
-    #         - .:/var/www
-    #     command: php artisan queue:work
-
-    ####################################################################################################
-    # Nginx
-    ####################################################################################################
-    nginx:
-        image: nginx
-        restart: always
-        ports:
-            - 80:80
-        volumes:
-            - .:/var/www
-            - .docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-            - .docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-        depends_on:
-            - php
-
-    ####################################################################################################
-    # DATABASE (MySQL)
-    ####################################################################################################
-    db:
-        image: mysql:8.1
-        restart: always
-        ports:
-            - 3306:3306
-        volumes:
-            - .docker/db/data:/var/lib/mysql
-            - .docker/logs:/var/log/mysql
-            - .docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-            - .docker/db/sql:/docker-entrypoint-initdb.d
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: tpqmis
-            MYSQL_USER: tpqmis
-            MYSQL_PASSWORD: tpqmis
-
+  web:
+    image: tpq
+    build:
+      context: .
+      dockerfile: ./.docker/php/Dockerfile
+    volumes:
+      - app_data:/var/www
+    depends_on:
+      - db
+    env_file:
+      - .env.docker
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["php-fpm"]
+    networks:
+      - appnet
+  queue:
+    image: tpq
+    build:
+      context: .
+      dockerfile: ./.docker/php/Dockerfile
+    restart: always
+    depends_on:
+      - db
+      - web
+    command: php artisan queue:work
+    env_file:
+      - .env.docker
+    networks:
+      - appnet
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - app_data:/var/www:ro
+      - .docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - .docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web
+    networks:
+      - appnet
+  db:
+    image: mysql:8.1
+    restart: always
+    volumes:
+      - .docker/db/data:/var/lib/mysql
+      - .docker/logs:/var/log/mysql
+      - .docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - .docker/db/sql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tpq
+      MYSQL_USER: tpq
+      MYSQL_PASSWORD: tpq
+    networks:
+      - appnet
+volumes:
+  app_data:
+networks:
+  appnet:
